@@ -16,5 +16,5 @@
 11/14 ~ 12/08: 최종 발표 준비.
 <br/>
 ## 3. 데이터 셋 구축
-<https://forms.gle/4Da2Lvkz6UBcEf2E8>
+<https://forms.gle/4Da2Lvkz6UBcEf2E8>   
 해당 설문조사지를 통해 유저의 취향과 관광지 간의 연결성을 찾는다.

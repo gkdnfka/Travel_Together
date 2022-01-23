@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/MainButton"
+        android:title="메인"
+        android:icon = "@drawable/main_icon"
+        android:checked="true"
+        android:textColor="#252222"
+        android:enabled="true"
+        >
+    </item>
+
+    <item
+        android:id="@+id/RecommendButton"
+        android:title="여행지 추천"
+        android:checked="true"
+        android:icon = "@drawable/recommend_icon"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+
+    <item
+        android:id="@+id/CommunityButton"
+        android:title="커뮤니티"
+        android:checked="true"
+        android:icon = "@drawable/community_icon"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+
+    <item
+        android:id="@+id/PathButton"
+        android:title="최단 경로"
+        android:checked="true"
+        android:icon = "@drawable/path_icon"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+
+    <item
+        android:id="@+id/TestSearch"
+        android:title="여행지 검색 테스트"
+        android:checked="true"
+        android:icon = "@drawable/path_icon"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+</menu>

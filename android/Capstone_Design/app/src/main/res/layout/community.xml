@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/post_RadioGroup"
+        android:layout_width="338dp"
+        android:layout_height="29dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.169">
+
+        <RadioButton
+            android:id="@+id/radioButton_post_name"
+            android:layout_width="113dp"
+            android:layout_height="26dp"
+            android:text="제목"
+            tools:layout_editor_absoluteX="29dp"
+            tools:layout_editor_absoluteY="68dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton_post_man"
+            android:layout_width="113dp"
+            android:layout_height="26dp"
+            android:text="게시자"
+            tools:layout_editor_absoluteX="29dp"
+            tools:layout_editor_absoluteY="68dp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/search_post_Button"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:background="#FFFFFF"
+        android:text="검색"
+        app:backgroundTint="#433434"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <EditText
+        android:id="@+id/search_post_Edit"
+        android:layout_width="262dp"
+        android:layout_height="46dp"
+        android:background="#D8CDCD"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.255"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081" />
+
+
+    <ListView
+        android:id="@+id/postListView"
+        android:layout_width="335dp"
+        android:layout_height="457dp"
+        android:background="#F3F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.671"></ListView>
+
+    <Button
+        android:id="@+id/Refresh_community"
+        android:layout_width="42dp"
+        android:layout_height="40dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

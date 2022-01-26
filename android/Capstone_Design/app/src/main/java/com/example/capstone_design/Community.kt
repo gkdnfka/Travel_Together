@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +33,8 @@ class Community : Fragment()
         var tmp = inflater.inflate(R.layout.community, container, false)
         val listView = tmp.findViewById<ListView>(R.id.postListView)
         val rebutton = tmp.findViewById<Button>(R.id.Refresh_community)
+        val post_button = tmp.findViewById<Button>(R.id.post_write)
+        val mActivity = activity as Activity
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://192.168.219.105:8080/")
@@ -57,6 +61,9 @@ class Community : Fragment()
                     }
                 }
             })
+        }
+        post_button.setOnClickListener {
+            mActivity.changeFragment(2)
         }
         return tmp
     }

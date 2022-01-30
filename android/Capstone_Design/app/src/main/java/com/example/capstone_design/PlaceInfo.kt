@@ -3,6 +3,8 @@ package com.example.capstone_design
 import com.google.gson.annotations.SerializedName
 
 data class PlaceInfo(
+    @SerializedName("testnum")
+    var number : String,
     @SerializedName("testname")
     var name : String,
     @SerializedName("testaddr")

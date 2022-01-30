@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/post_detail_content_button"
+        android:title="본문"
+        android:checked="true"
+        android:textColor="#252222"
+        android:enabled="true"
+        >
+    </item>
+
+    <item
+        android:id="@+id/post_detail_course_button"
+        android:title="경로"
+        android:checked="true"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+
+    <item
+        android:id="@+id/post_detail_comment_button"
+        android:title="댓글"
+        android:checked="true"
+        android:textColor="#252222"
+        android:enabled="true">
+    </item>
+
+</menu>

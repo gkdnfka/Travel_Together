@@ -25,11 +25,16 @@ var server = http.createServer(function(request,response){
     console.log('첫번째 문자 : ' + parsedQuery["func"])
     response.writeHead(200, {'Content-Type':'html/text'});
 
+    // @솔빈, 2022-01-25 화
+    // 장소를 검색하기 위한 쿼리 파싱
+    // func : 수행할 쿼리의 종류 (SearchPlace -> 장소 검색 쿼리, SearchPost -> 게시글 검색 쿼리 등등.. )
+    // type : 수행할 쿼리의 타입 (ByAddr -> 주소로 검색하기, ByName -> 이름으로 검색하기, ByIds -> 아이디로 검색하기 )
 
-    if(parsedQuery["func"] == "SearchPlace"){ // 장소를 검색하기 위한 쿼리 파싱
+    if(parsedQuery["func"] == "SearchPlace"){ 
         var testQuery = ""
         if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM test WHERE testname = '%" + parsedQuery["str"] + "%'";
-        else testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByAddr") testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM test WHERE " + parsedQuery["str"];
 
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
@@ -37,6 +42,7 @@ var server = http.createServer(function(request,response){
                 console.log(err);
             }
             console.log(results)
+
             result = JSON.stringify(results)
             response.end(result)
             console.log("쿼리문 결과1 : " + result)

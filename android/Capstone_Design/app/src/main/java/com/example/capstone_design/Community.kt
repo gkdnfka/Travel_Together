@@ -63,6 +63,7 @@ class Community : Fragment()
             })
         }
         post_button.setOnClickListener {
+            mActivity.deleteFragment()
             mActivity.changeFragment(2)
         }
         return tmp

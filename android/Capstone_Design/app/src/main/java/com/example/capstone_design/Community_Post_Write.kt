@@ -33,6 +33,7 @@ class Community_Post_Write : Fragment()
             .build()
         val service = retrofit.create(PostWriteInfo::class.java)
         val mActivity = activity as Activity
+
         post_main.setOnClickListener {
             mActivity.changeFragment(3)
         }
@@ -70,6 +71,7 @@ class Community_Post_Write_Main : Fragment() {
         var post_main_title = tmp_main.findViewById<EditText>(R.id.post_write_main_title)
         var post_main_content = tmp_main.findViewById<EditText>(R.id.post_write_main_content)
         val mActivity = activity as Activity
+
         // 2022-02-20 정지원 작업
         // edittext에 리스너를 달아서 문자 변경시에 즉각 반영되게 변경
         post_main_title.addTextChangedListener {
@@ -81,11 +83,28 @@ class Community_Post_Write_Main : Fragment() {
         return tmp_main
     }
 }
-class Community_Post_Write_Plan : Fragment()
-{
+class Community_Post_Write_Plan : Fragment(){
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         var tmp_plan = inflater.inflate(R.layout.post_write_plan, container, false)
+        var planlist : MutableList<PlanInfo> = ArrayList()
+        var plan_day = 1
+        val plan_list_adapter = Post_Plan_Adapter(tmp_plan.context,planlist)
+        var plan_add_button = tmp_plan.findViewById<Button>(R.id.post_write_plan_add)
         var post_plan_list = tmp_plan.findViewById<ListView>(R.id.post_write_plan_ListView)
+        val mActivity = activity as Activity
+        post_plan_list.adapter = plan_list_adapter
+        plan_add_button.setOnClickListener {
+            planlist.add(PlanInfo(plan_day.toString()+"일차",""))
+            plan_list_adapter.notifyDataSetChanged()
+            plan_day += 1
+        }
+        return tmp_plan
+    }
+}
+class Community_Post_Write_Plan_Detail : Fragment(){
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
+        var tmp_plan = inflater.inflate(R.layout.post_write_plan_detail, container, false)
+
         return tmp_plan
     }
 }

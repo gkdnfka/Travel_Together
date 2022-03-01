@@ -19,15 +19,15 @@ Data: Python, Anaconda3, TensorFlow, TensorFlow Lite
 11/03: 차별점 구상.   
 11/11: 발표 준비. 아이디어 구체화 및 개발 방향 잡기.   
 11/14 ~ 12/08: 최종 발표 준비.
-12/20~12/22: 설문조사 항목 완성 및 배포  
-12/22~22/01/01: 실제 개발 전 API/DB/Data/Sever 플랫폼 및 개발 도구 선정  
+12/20 ~ 12/22: 설문조사 항목 완성 및 배포  
+12/22 ~ 22/01/01: 실제 개발 전 API/DB/Data/Sever 플랫폼 및 개발 도구 선정  
 AWS/UI Tool/Google Maps
 <br/>
 ### 2.2 개발과정
-01/02~01/16: 관광지 API데이터 DB에 저장/모델 Input data(tensor) 규격 확정/DB Table 구축/Google Maps API 적용/node.js 사용해 통신서버 구축  
-01/19~01/30: 데이터 정형화 완료/App - DB 통신 확인/게시판 구현/App 내 화면 전환을 Fragment(hide/show)를 통해 개발  
-02/06~02/19: 데이터 모델 튜닝/TensorFlow Lite(TFLite) 모델로 변환/여행지 간 경로 추적 알고리즘 적용
-02/19~02/26: TFLite 테스트/댓글 기능 구현/스케쥴 관리 구현
+01/02 ~ 01/16: 관광지 API데이터 DB에 저장/모델 Input data(tensor) 규격 확정/DB Table 구축/Google Maps API 적용/node.js 사용해 통신서버 구축  
+01/19 ~ 01/30: 데이터 정형화 완료/App - DB 통신 확인/게시판 구현/App 내 화면 전환을 Fragment(hide/show)를 통해 개발  
+02/06 ~ 02/19: 데이터 모델 튜닝/TensorFlow Lite(TFLite) 모델로 변환/여행지 간 경로 추적 알고리즘 적용
+02/19 ~ 02/26: TFLite 테스트/댓글 기능 구현/스케쥴 관리 구현
 ## 3. 데이터 셋 구축
 <https://forms.gle/4Da2Lvkz6UBcEf2E8>   
 해당 설문조사지를 통해 유저의 취향과 관광지 간의 연결성을 찾으려고 합니다.  

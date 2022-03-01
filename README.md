@@ -35,7 +35,7 @@ AWS/UI Tool/Google Maps
 Data Directory의 data_visualization 파일의 경우 설문조사 결과를 구글에서 지원해주는   
 기본적인 분류가 아닌 프로젝트에서 필요한 분류로 재 편성해 이를 간단히 시각화 했습니다.  <br/>
 우선 구글에서 기본적으로 지원해주는 각 항목에 대한 시각화 내용 중,   
-![survey_parti_ages](./markdown_images/survey_ages.png)
+![survey_parti_ages](./markdown_images/survey_ages.png)  
 이와 같이 설문 표본 집단이 대부분 20대로 구성되어 나이라는 요소는 범주를 설정하는데 있어 유의미한 지표가 되지 않겠다고 판단했습니다.  
 하지만 기본 지원되는 내용 중에 상위 항목의 선택에 따른 선택지의   
 비율을 나타내 주지는 않아 "성별"이라는 요소가 판단할 요소가 되는 지에 대한 구체적인 자료가 필요했습니다.  

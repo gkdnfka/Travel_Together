@@ -12,7 +12,6 @@ const conn = {  // mysql 접속 설정
 
 var connection = mysql.createConnection(conn); // DB 커넥션 생성
 connection.connect();
-console.log(connection);
 
 var server = http.createServer(function(request,response){
     var tmp_parsed = decodeURI(request.url);
@@ -27,7 +26,8 @@ var server = http.createServer(function(request,response){
     if(parsedQuery["func"] == "SearchPlace"){ // 장소를 검색하기 위한 쿼리 파싱
         var testQuery = ""
         if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM test WHERE testname = '%" + parsedQuery["str"] + "%'";
-        else testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByAddr") testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM test WHERE " + parsedQuery["str"];
 
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
@@ -57,6 +57,7 @@ var server = http.createServer(function(request,response){
             console.log("쿼리문 결과 : " + result)
         }); 
     }
+
     if(parsedQuery["func"] == "PostWrite"){
         var testQuery = "";
         var userdata = parsedQuery["userdata"].split(']');
@@ -80,6 +81,158 @@ var server = http.createServer(function(request,response){
             console.log("쿼리문 결과 : " + result);
         });
     }
+
+
+
+    // @솔빈 2022-03-03 목 
+    // 로그인을 위한 로직
+    if(parsedQuery["func"] == "Login"){ 
+        var testQuery = "SELECT * FROM USER_DB WHERE USER_NICKNAME = '" + parsedQuery['id'] + "' and USER_PASS = '" + parsedQuery['password'] + "'"
+        var result;
+        var ret = {
+            "number" : "-1",
+            "name" : "",
+            "code" : ""
+        };
+
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+
+            if(results.length == 1) {
+                ret.number = "1";
+                ret.code = results[0]["USER_CODE"];
+                ret.name = results[0]["USER_NAME"];
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
+    // @솔빈 2022-03-03 목 
+    // 회원가입을 위한 로직
+    if(parsedQuery["func"] == "Join"){ 
+        var testQuery = "SELECT * FROM USER_DB WHERE USER_NICKNAME = '" + parsedQuery['id'] + "'"
+        var result;
+        var flag = 1;
+        var ret = {
+            "number" : "1"
+        };
+
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+                ret.number = "-2"
+            }
+            if(results.length >= 1) ret.number = "-1", flag = 0
+            
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("아이디 조회 결과 : " + ret);
+        }); 
+
+        if(flag){
+            var testQuery = "INSERT INTO USER_DB VALUES (0, '" + parsedQuery['name'] + "' , '" + parsedQuery['id'] + "' , '" 
+            + parsedQuery['password'] + "' , '" + parsedQuery['address'] + "' , '" + parsedQuery['gender'] + "')"
+
+            connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+                if (err) {
+                    console.log(err);
+                    ret.number = "-2"
+                }
+   
+                ret = JSON.stringify(ret);
+                response.end(ret);
+                console.log("회원가입 결과 : " + ret);
+            }); 
+        }
+
+
+    }
+
+    // @솔빈 2022-03-03 목 
+    // 댓글을 불러오기 위한 로직
+    if(parsedQuery["func"] == "SearchComment"){ 
+        var testQuery = "SELECT * FROM COMMENT_DB WHERE NOTICEBOARD_NUM = '" + parsedQuery['number'] + "'"
+        var result;
+
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
+    // @솔빈 2022-03-03 목 
+    // 댓글 수정을 위한 로직
+    if(parsedQuery["func"] == "EditComment"){ 
+        var testQuery = "UPDATE COMMENT_DB SET CONTENT = '" + parsedQuery['Content'] + "' , DATES = '" + parsedQuery['Dates'] + "' WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
+        var ret = {
+            "number" : "1"
+        };
+
+        var result;
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+                ret.number = "-1"
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
+    
+
+    // @솔빈 2022-03-03 목 
+    // 댓글 작성을 위한 로직
+    if(parsedQuery["func"] == "WriteComment"){ 
+        var testQuery = "INSERT INTO COMMENT_DB VALUES (0, " + parsedQuery['NoticeNum'] + " , " + parsedQuery['UserCode'] + " , '" 
+                                                             + parsedQuery['UserName'] + "' , '" + parsedQuery['Dates'] + "' , '" + parsedQuery['Content'] + "')"
+        var result;
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+
+            if(results.length == 1) {
+                ret.number = "1";
+                ret.code = results[0]["USER_CODE"];
+                ret.name = results[0]["USER_NAME"];
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
+    // @솔빈 2022-03-03 목 
+    // 댓글 삭제를 위한 로직
+    if(parsedQuery["func"] == "DeleteComment"){ 
+        var testQuery = "DELETE FROM COMMENT_DB WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
+        console.log("여기까지")
+        var result;
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
 });
 
 server.listen(8080, function(){

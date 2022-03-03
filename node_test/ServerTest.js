@@ -3,7 +3,11 @@ var url = require('url');
 var querystring = require('querystring'); 
 const mysql = require('mysql');  // mysql 모듈 로드
 const conn = {  // mysql 접속 설정
-
+    host: '13.124.93.31',
+    port: '3306',
+    user: 'ID',
+    password: '1234',
+    database: 'CapDB'
 };
 
 var connection = mysql.createConnection(conn); // DB 커넥션 생성
@@ -53,7 +57,8 @@ var server = http.createServer(function(request,response){
             console.log("쿼리문 결과 : " + result)
         }); 
     }
-
+    // @정지원 2022-02-22 화
+    // 게시글 작성을 위한 로직
     if(parsedQuery["func"] == "PostWrite"){
         var testQuery = "";
         var userdata = parsedQuery["userdata"].split(']');

@@ -38,18 +38,21 @@ android {
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def retrofit_version = "2.9.0"
-
-    //http 통신을 위한 라이브러리
+    // @솔빈
+    // http 통신을 위한 라이브러리
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    //원형 이미지를 위한 라이브로리
+    // @솔빈
+    // 원형 이미지를 위한 라이브로리
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    //@솔빈
+    // @솔빈
     // 안드로이드 스튜디오 - 구글 MAP api를 연동하기 위한 의존성 추가
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    // @솔빈
+    // bottomSheet 을 위한 의존성 추가
     
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'

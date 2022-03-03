@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,8 +23,8 @@ interface GetPostInfo {
 
 // @솔빈 2022-01-26 수
 // 어답터와 통신하기 위한 인터페이스
-interface ChangeFragment{
-    fun changeFragment(fragmentName : String, element : PostInfo)
+interface SetSeletedPostInfo{
+    fun setSelectedPostInfo(fragmentName : String, element : PostInfo)
 }
 
 
@@ -41,10 +38,10 @@ class Community : Fragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
+
         var view = inflater.inflate(R.layout.community, container, false)
         val listView = view.findViewById<ListView>(R.id.postListView)
-        val rebutton = view.findViewById<Button>(R.id.Refresh_community)
-
+        val rebutton = view.findViewById<ImageView>(R.id.Refresh_community)
 
         rebutton.setOnClickListener {
             val funcName = "SearchPost"
@@ -67,9 +64,10 @@ class Community : Fragment()
                     var returndata = response.body()
                     if(returndata != null){
                         // @솔빈 : 리스너 인터페이스를 구현하여 객체로 만들고, 어답터의 인자로 넘겨준다.
-                        var Implemented = object : ChangeFragment {
-                            override fun changeFragment(fragmentName: String, element: PostInfo) {
-                                (activity as Activity)!!.ChangeFragmentInActivity(fragmentName, element)
+                        var Implemented = object : SetSeletedPostInfo {
+                            override fun setSelectedPostInfo(fragmentName: String, element: PostInfo) {
+                                (activity as Activity)!!.SetSelectedPostInfo(element)
+                                (activity as Activity)!!.ChangeFragment(fragmentName, CommunityPostDetail(), R.id.MainFrameLayout)
                             }
                         }
                         val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented)

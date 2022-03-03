@@ -3,6 +3,8 @@ package com.example.capstone_design
 import com.google.gson.annotations.SerializedName
 
 data class PostInfo(
+    @SerializedName("NOTICEBOARD_NUM")
+    var number : String,
     @SerializedName("USER_NAME")
     var username : String,
     @SerializedName("RATE")
@@ -13,4 +15,6 @@ data class PostInfo(
     var course : String,
     @SerializedName("CONTENT")
     var content : String,
+    @SerializedName("NOTICEBOARD_TITLE")
+    var title : String,
 )

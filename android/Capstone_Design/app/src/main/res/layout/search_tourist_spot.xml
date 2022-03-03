@@ -39,10 +39,10 @@
         android:id="@+id/Search_Tourist_Spot_Edit"
         android:layout_width="262dp"
         android:layout_height="46dp"
-        android:background="#D8CDCD"
+        android:background="#F1F1F1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
@@ -56,7 +56,7 @@
         android:layout_height="45dp"
         android:background="#FFFFFF"
         android:text="검색"
-        app:backgroundTint="#433434"
+        app:backgroundTint="#5C5858"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
@@ -64,17 +64,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.051" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Search_Tourist_Spot_ListView"
         android:layout_width="335dp"
         android:layout_height="457dp"
-        android:background="#F3F3F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.562"></ListView>
+        app:layout_constraintVertical_bias="0.562"></androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

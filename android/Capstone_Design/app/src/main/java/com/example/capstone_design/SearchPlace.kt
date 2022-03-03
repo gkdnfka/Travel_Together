@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +28,7 @@ class SearchPlace : Fragment()
         var button = tmp.findViewById<Button>(R.id.Search_Tourist_Spot_Button)
         val chkbox = tmp.findViewById<RadioGroup>(R.id.RadioGroup)
         val edit = tmp.findViewById<EditText>(R.id.Search_Tourist_Spot_Edit)
-        var listView = tmp.findViewById<ListView>(R.id.Search_Tourist_Spot_ListView)
+        var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
 
         button.setOnClickListener{
             val funcName = "SearchPlace"
@@ -44,7 +46,13 @@ class SearchPlace : Fragment()
                     Log.d("성공", "입출력 성공")
                     var returndata = response.body()
                     if(returndata != null){
-                        val SearchAdapter = SearchPlaceAdaptor(tmp.context, returndata!!)
+                        val SearchAdapter = SearchPlaceAdaptorR(returndata!!, (activity as Activity))
+
+                        var manager = LinearLayoutManager((activity as Activity), LinearLayoutManager.VERTICAL, false)
+                        var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
+                        listView.apply {
+                            layoutManager = manager
+                        }
                         listView.adapter = SearchAdapter
                     }
                 }

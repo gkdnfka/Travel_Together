@@ -41,7 +41,7 @@
         android:layout_height="45dp"
         android:background="#FFFFFF"
         android:text="검색"
-        app:backgroundTint="#433434"
+        app:backgroundTint="#5C5858"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
@@ -53,10 +53,9 @@
         android:id="@+id/search_post_Edit"
         android:layout_width="262dp"
         android:layout_height="46dp"
-        android:background="#D8CDCD"
+        android:background="#F1F1F1"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.255"
@@ -67,9 +66,9 @@
 
     <ListView
         android:id="@+id/postListView"
-        android:layout_width="335dp"
-        android:layout_height="457dp"
-        android:background="#F3F3F3"
+        android:layout_width="336dp"
+        android:layout_height="423dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.46"
@@ -77,16 +76,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.613"></ListView>
 
-    <Button
+    <ImageView
         android:id="@+id/Refresh_community"
         android:layout_width="42dp"
         android:layout_height="40dp"
-        android:text="Button"
+        android:src="@drawable/reload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.008" />
+        app:layout_constraintVertical_bias="0.002" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
@@ -39,6 +40,7 @@ class SearchPlace_Post : Fragment()
         var place_list: ArrayList<PlaceInfo> = ArrayList()
         val mActivity = activity as Activity
         var SearchAdapter = SearchPlaceAdaptor_Post(place_list, tmp.context)
+        listView.layoutManager = LinearLayoutManager(tmp.context)
         button.setOnClickListener {
             val funcName = "SearchPlace"
             var typeName = ""
@@ -77,15 +79,15 @@ class SearchPlace_Post : Fragment()
                         mActivity.place_list.add(select_place)
                         mActivity.postplanlist[mActivity.day - 1].place_list = mActivity.place_list
                         var CurrentCourse = ""
-                        for (i in 0..mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
-                            CurrentCourse += mActivity.postplanlist[mActivity.day - 1].place_list[i].name
-                            if (i == mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
+                        for (j in 0..mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
+                            CurrentCourse += mActivity.postplanlist[mActivity.day - 1].place_list[j].name
+                            if (j == mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
                                 continue
                             }
                             CurrentCourse += " -> "
                         }
                         mActivity.postplanlist[mActivity.day - 1].course = CurrentCourse
-                        mActivity.changeFragment(5)
+                        mActivity.changeFragment(9)
                     })
                     .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
                         Toast.makeText(tmp.context, "취소했습니다", Toast.LENGTH_SHORT).show()

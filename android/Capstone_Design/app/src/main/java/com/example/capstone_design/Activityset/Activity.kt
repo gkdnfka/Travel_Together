@@ -151,14 +151,14 @@ class Activity : AppCompatActivity() {
 
             }
             6 ->{
-                ReplaceFragment("PostWrite",Community_Post_Write(),R.id.MainFrameLayout)
+                ReplaceFragment("PostWrite", Community_Post_Write(),R.id.MainFrameLayout)
             }
             7 ->{
-                ReplaceFragment("PostWriteMain",Community_Post_Write_Main(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("PostWriteMain", Community_Post_Write_Main(),R.id.Post_Write_FrameLayout)
 
             }
             8 ->{
-                ReplaceFragment("PostWritePlan",Community_Post_Write_Plan(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("PostWritePlan", Community_Post_Write_Plan(),R.id.Post_Write_FrameLayout)
             }
             9 ->{
                 ReplaceFragment("PostWritePlanDetail",Community_Post_Write_Plan_Detail(),R.id.Post_Write_FrameLayout)

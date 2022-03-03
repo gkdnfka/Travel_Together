@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.R
 
-class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor_Post.ViewHolder>() {
+class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor_Post.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflatedView = LayoutInflater.from(contexts).inflate(R.layout.tourist_spot_item_post, parent, false)
-        return ViewHolder(inflatedView)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.tourist_spot_item_post, null)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

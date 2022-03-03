@@ -10,7 +10,6 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Adapterset.CommunityAdaptor
-import com.example.capstone_design.CommunityPostDetail
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Interfaceset.GetPostInfo
 import com.example.capstone_design.Interfaceset.SetSeletedPostInfo

@@ -5,21 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-<<<<<<< HEAD
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-=======
->>>>>>> write_UI
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> write_UI
 class Activity : AppCompatActivity() {
     // @솔빈 2022-1-29 토
     // SelectedPostInfo : 프래그먼트 화면 전환시(게시글 자세히 보기), 넘겨 받아야할 게시글 정보를 담는 변수
@@ -30,33 +21,45 @@ class Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-<<<<<<< HEAD
         // 로그인 정보 불러오기
         InitLoginInfo()
 
         ChangeFragment("Main", Main(), R.id.MainFrameLayout)
 
-=======
-        supportFragmentManager.beginTransaction().replace(R.id.MainFrameLayout,Main()).commit()
->>>>>>> write_UI
-        var bottom : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        supportFragmentManager.beginTransaction().replace(R.id.MainFrameLayout, Main()).commit()
+
+        var bottom: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottom.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.MainButton -> { ChangeFragment("Main", Main(), R.id.MainFrameLayout) }
-                R.id.RecommendButton->{ ChangeFragment("Recommend", Recommend(), R.id.MainFrameLayout)}
-                R.id.CommunityButton-> { ChangeFragment("Community", Community(), R.id.MainFrameLayout)}
-                R.id.PathButton-> { ChangeFragment("FindPath", FindPath(), R.id.MainFrameLayout)}
-                R.id.TestSearch-> { ChangeFragment("SearchPlace", SearchPlace(), R.id.MainFrameLayout)}
+            when (item.itemId) {
+                R.id.MainButton -> {
+                    ChangeFragment("Main", Main(), R.id.MainFrameLayout)
+                }
+                R.id.RecommendButton -> {
+                    ChangeFragment("Recommend", Recommend(), R.id.MainFrameLayout)
+                }
+                R.id.CommunityButton -> {
+                    ChangeFragment("Community", Community(), R.id.MainFrameLayout)
+                }
+                R.id.PathButton -> {
+                    ChangeFragment("FindPath", FindPath(), R.id.MainFrameLayout)
+                }
+                R.id.TestSearch -> {
+                    ChangeFragment("SearchPlace", SearchPlace(), R.id.MainFrameLayout)
+                }
             }
             true
         }
     }
-
-<<<<<<< HEAD
+    // 변수 현황 (2022-03-03) 업데이트시 작업자 날짜 기록
     var USER_ID = ""
     var USER_PASSWORD = ""
     var USER_NAME = ""
     var USER_CODE = ""
+    var postName = ""
+    var postContent = ""
+    var day = 1
+    var postplanlist: MutableList<PlanInfo> = ArrayList()
+    var place_list : MutableList<PlaceInfo> = ArrayList()
 
 
     // @솔빈 2022-02-25 금
@@ -87,7 +90,7 @@ class Activity : AppCompatActivity() {
     fun AddSelectedPlace(newElement : PlaceInfo) : Int{
         var flag = 1
         for (i in 0 until SelectedPlaceList.size){
-            if(SelectedPlaceList[i].number == newElement.number){
+            if(SelectedPlaceList[i].num == newElement.num){
                 SelectedPlaceList.removeAt(i)
                 flag = 0
                 return 0
@@ -115,20 +118,15 @@ class Activity : AppCompatActivity() {
 
     // @솔빈 2022-02-08 (화)
     // SelectedPalceLise를 초기화 하는 함수
-    fun ResetSelectedPlace(){
+    fun ResetSelectedPlace() {
         SelectedPlaceList.clear()
-=======
+    }
     // 2022-02-20 정지원 작업:  community_post_write의 edittext를 위한 변수명 추가
     // 2022-02-22 정지원 작업:  place를 전달하기위한 place_data 변수를 추가
-    var USER_ID = "wldnjs3690"
-    var USER_NAME = "정지원"
-    var USER_CODE = 2
-    var postName = ""
-    var postContent = ""
-    var day = 1
-    var postplanlist: MutableList<PlanInfo> = ArrayList()
-    var place_list : MutableList<PlaceInfo> = ArrayList()
-    // 2022-02-20 정지원 작업1번 버튼 = community main // 2번버튼 = post_write // 3번 버튼 = post_write_main // 4번 버튼 = post_write_plan
+
+    // 2022-02-20 정지원 작업
+    // 1번 버튼 = community main // 2번버튼 = post_write // 3번 버튼 = post_write_main // 4번 버튼 = post_write_plan
+    // 5번 버튼 = post_write_detail // 6번 버튼 = searchplace // 7번 버튼 커뮤니티
     fun changeFragment(index: Int){
         when(index){
             1 -> {
@@ -164,6 +162,5 @@ class Activity : AppCompatActivity() {
         postName = ""
         postContent = ""
         postplanlist = ArrayList()
->>>>>>> write_UI
     }
 }

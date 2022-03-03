@@ -57,13 +57,9 @@
         android:layout_height="45dp"
         android:background="#FFFFFF"
         android:text="검색"
-<<<<<<< HEAD
-        app:backgroundTint="#5C5858"
         app:layout_constraintBottom_toBottomOf="parent"
-=======
         app:backgroundTint="#433434"
         app:layout_constraintBottom_toTopOf="@+id/RadioGroup"
->>>>>>> write_UI
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Search_Tourist_Spot_Edit"
         app:layout_constraintTop_toTopOf="parent" />
@@ -76,13 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.562"></androidx.recyclerview.widget.RecyclerView>
-=======
-        app:layout_constraintTop_toBottomOf="@+id/RadioGroup"
-        app:layout_constraintVertical_bias="0.146"></ListView>
->>>>>>> write_UI
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -463,7 +463,7 @@ class CommunityPostDetail : Fragment()
                         for (q in 0 until maxPlaceLength){
                             if(courseList[i][q] == "") break
                             for (j in 0 until returndata.size){
-                                if(returndata[j].number == courseList[i][q]){
+                                if(returndata[j].num == courseList[i][q]){
                                     placeinfoList[i].add(returndata[j])
                                 }
                             }

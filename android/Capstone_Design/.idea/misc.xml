@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/capstone_design/First.kt" />
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-=======
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
@@ -19,10 +9,21 @@
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/community.xml" value="0.22" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/detail_item_list.xml" value="0.20018115942028986" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/firstpage.xml" value="0.2109375" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/join_page.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/login_and_join.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/login_page.xml" value="0.2125" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/main.xml" value="0.2109375" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path_result.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path_result_place_item.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path_select_place_item.xml" value="0.2125" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/plan_item.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_comment_comment_item.xml" value="0.2125" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_comment_item.xml" value="0.1" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_content_item.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_course_item.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_course_place_item.xml" value="0.2125" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_fragment.xml" value="0.2125" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_item.xml" value="0.22" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write.xml" value="0.22" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_main.xml" value="0.2109375" />
@@ -34,7 +35,6 @@
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/tourist_spot_item.xml" value="0.20625" />
       </map>
     </option>
->>>>>>> write_UI
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

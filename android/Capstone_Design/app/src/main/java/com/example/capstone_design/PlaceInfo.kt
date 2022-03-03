@@ -4,11 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PlaceInfo(
     @SerializedName("testnum")
-<<<<<<< HEAD
-    var number : String,
-=======
     var num : String,
->>>>>>> write_UI
     @SerializedName("testname")
     var name : String,
     @SerializedName("testaddr")

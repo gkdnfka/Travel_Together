@@ -20,7 +20,7 @@ class SearchPlaceAdaptorR(private val items: ArrayList<PlaceInfo>, context : Con
         holder.nametext.text = items[position].name
         holder.addresstext.text = items[position].address
         holder.btn.setOnClickListener {
-            addFavorite("FavoritePlaceList", items[position].number)
+            addFavorite("FavoritePlaceList", items[position].num)
         }
     }
 
@@ -30,4 +30,13 @@ class SearchPlaceAdaptorR(private val items: ArrayList<PlaceInfo>, context : Con
         var addresstext: TextView = view.findViewById<TextView>(R.id.PlaceAddrText)
         var btn : ImageView = view.findViewById<ImageView>(R.id.search_tourist_spot_item_favorite)
     }
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+    // (!3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: Post_Plan_Adapter.OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+    // (!4) setItemClickListener로 설정한 함수 실행
+    private lateinit var itemClickListener : Post_Plan_Adapter.OnItemClickListener
 }

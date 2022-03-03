@@ -57,7 +57,7 @@ class SearchPlace : Fragment() {
                         var returndata = response.body()
                         if (returndata != null) {
                             val SearchAdapter =
-                                SearchPlaceAdaptorR(returndata!!, (activity as Activity))
+                                SearchPlaceAdaptor(returndata!!, (activity as Activity))
 
                             var manager = LinearLayoutManager(
                                 (activity as Activity),
@@ -71,7 +71,7 @@ class SearchPlace : Fragment() {
                             }
                             place_list = response.body()!!
                             if (place_list != null) {
-                                val SearchAdapter = SearchPlaceAdaptorR(place_list, tmp.context)
+                                val SearchAdapter = SearchPlaceAdaptor(place_list, tmp.context)
                                 listView.adapter = SearchAdapter
                             }
                         }

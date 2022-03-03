@@ -8,15 +8,15 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import de.hdodenhof.circleimageview.CircleImageView
 
-class SearchPlaceAdaptorR(private val items: ArrayList<PlaceInfo>, context : Context) : RecyclerView.Adapter<SearchPlaceAdaptorR.ViewHolder>() {
+class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchPlaceAdaptorR.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchPlaceAdaptor.ViewHolder {
         val inflatedView = LayoutInflater.from(contexts).inflate(R.layout.tourist_spot_item, parent, false)
         return ViewHolder(inflatedView)
     }
 
-    override fun onBindViewHolder(holder: SearchPlaceAdaptorR.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchPlaceAdaptor.ViewHolder, position: Int) {
         holder.nametext.text = items[position].name
         holder.addresstext.text = items[position].address
         holder.btn.setOnClickListener {

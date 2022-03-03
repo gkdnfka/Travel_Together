@@ -149,7 +149,7 @@ class Activity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.Post_Write_FrameLayout, Community_Post_Write_Plan_Detail()).commit()
             }
             6 ->{
-                supportFragmentManager.beginTransaction().replace(R.id.Post_Write_FrameLayout, SearchPlace()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.Post_Write_FrameLayout, SearchPlace_Post()).commit()
             }
             7 ->{
                 supportFragmentManager.beginTransaction().replace(R.id.MainFrameLayout,Community()).commit()

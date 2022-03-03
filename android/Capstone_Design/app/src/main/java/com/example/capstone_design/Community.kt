@@ -37,7 +37,7 @@ class Community : Fragment()
         val mActivity = activity as Activity
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.219.105:8080/")
+            .baseUrl("http://192.168.219.101:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -63,7 +63,7 @@ class Community : Fragment()
             })
         }
         post_button.setOnClickListener {
-            mActivity.deleteFragment()
+            mActivity.reset_value()
             mActivity.changeFragment(2)
         }
         return tmp

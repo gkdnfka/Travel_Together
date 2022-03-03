@@ -3,6 +3,8 @@ package com.example.capstone_design
 import com.google.gson.annotations.SerializedName
 
 data class PlaceInfo(
+    @SerializedName("testnum")
+    var num : String,
     @SerializedName("testname")
     var name : String,
     @SerializedName("testaddr")
@@ -10,5 +12,7 @@ data class PlaceInfo(
     @SerializedName("testx")
     var PosX : String,
     @SerializedName("testy")
-    var PosY : String
+    var PosY : String,
+    @SerializedName("testdepart")
+    var depart : String
 )

@@ -66,8 +66,10 @@ var server = http.createServer(function(request,response){
         var post_title = postmain[0];
         var post_content = postmain[1];
         var post_date = new Date().toISOString().split('T');
+        var course = parsedQuery["coursedata"];
+        console.log(post_date[1])
         if(parsedQuery["type"] == "default") testQuery = "INSERT INTO NOTICEBOARD_DB (USER_CODE,USER_NAME,RATE,DATES,COURSE,CONTENT,NOTICEBOARD_TITLE) VALUES (?,?,?,?,?,?,?)";
-        var params = [user_code,user_name,'0.0',post_date[0],'1',post_content,post_title];
+        var params = [user_code,user_name,'0.0',post_date[0],course,post_content,post_title];
         connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
             console.log(err);
             if (err) {

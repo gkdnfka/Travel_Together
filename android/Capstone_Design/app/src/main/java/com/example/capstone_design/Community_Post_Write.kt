@@ -1,24 +1,29 @@
 package com.example.capstone_design
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+interface update_list_interface{
+    fun UpdateList()
+}
 class Community_Post_Write : Fragment()
 {
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -48,10 +53,32 @@ class Community_Post_Write : Fragment()
             var User_ID = mActivity.USER_ID
             var User_NAME = mActivity.USER_NAME
             var User_CODE = mActivity.USER_CODE
+            var Course_insert : String = ""
+            // 2022-02-21 정지원 작업
+            // course 데이터도 for문 돌려서 하나의 string으로 만들어줌(Course_insert가 서버에 들어가는 Course)
+            for(i:Int in 0 .. mActivity.postplanlist.size - 1)
+            {
+                for(j:Int in 0..mActivity.postplanlist[i].place_list.size - 1)
+                {
+                    Course_insert += mActivity.postplanlist[i].place_list[j].num
+                    if(j == mActivity.postplanlist[i].place_list.size - 1)
+                    {
+                        continue
+                    }
+                    Course_insert += ","
+                }
+                if(i == mActivity.postplanlist.size - 1)
+                {
+                    continue
+                }
+                Course_insert += "/"
+            }
             // 2022-02-20 정지원 작업
             // postmain 부분은 str_title + str_content로 묶어서 데이터 전송
             // userdata 부분은 User_ID + User_NAME + User_CODE 로 묶어서 데이터 전송 이때 서버단계에서 ']'로 스플릿해서 사용
-            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME).enqueue(object:Callback<ArrayList<PostInfo>> {
+            // 2022-02-21 정지원 작업
+            // Course_insert 삽입을 추가했음
+            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME,Course_insert).enqueue(object:Callback<ArrayList<PostInfo>> {
                 override fun onFailure(call : Call<ArrayList<PostInfo>>, t : Throwable){
                     Log.d("실패", t.toString())
                 }
@@ -59,52 +86,17 @@ class Community_Post_Write : Fragment()
                     Log.d("성공", "입출력 성공")
                 }
             })
+            mActivity.changeFragment(7)
         }
         return tmp
     }
 
 
 }
-class Community_Post_Write_Main : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
-        var tmp_main = inflater.inflate(R.layout.post_write_main, container, false)
-        var post_main_title = tmp_main.findViewById<EditText>(R.id.post_write_main_title)
-        var post_main_content = tmp_main.findViewById<EditText>(R.id.post_write_main_content)
-        val mActivity = activity as Activity
 
-        // 2022-02-20 정지원 작업
-        // edittext에 리스너를 달아서 문자 변경시에 즉각 반영되게 변경
-        post_main_title.addTextChangedListener {
-            mActivity.postName = post_main_title.text.toString()
-        }
-        post_main_content.addTextChangedListener{
-            mActivity.postContent = post_main_content.text.toString()
-        }
-        return tmp_main
-    }
-}
-class Community_Post_Write_Plan : Fragment(){
-    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
-        var tmp_plan = inflater.inflate(R.layout.post_write_plan, container, false)
-        var planlist : MutableList<PlanInfo> = ArrayList()
-        var plan_day = 1
-        val plan_list_adapter = Post_Plan_Adapter(tmp_plan.context,planlist)
-        var plan_add_button = tmp_plan.findViewById<Button>(R.id.post_write_plan_add)
-        var post_plan_list = tmp_plan.findViewById<ListView>(R.id.post_write_plan_ListView)
-        val mActivity = activity as Activity
-        post_plan_list.adapter = plan_list_adapter
-        plan_add_button.setOnClickListener {
-            planlist.add(PlanInfo(plan_day.toString()+"일차",""))
-            plan_list_adapter.notifyDataSetChanged()
-            plan_day += 1
-        }
-        return tmp_plan
-    }
-}
-class Community_Post_Write_Plan_Detail : Fragment(){
-    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
-        var tmp_plan = inflater.inflate(R.layout.post_write_plan_detail, container, false)
 
-        return tmp_plan
-    }
-}
+
+
+
+
+

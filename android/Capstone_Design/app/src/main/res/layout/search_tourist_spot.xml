@@ -9,13 +9,14 @@
         android:id="@+id/RadioGroup"
         android:layout_width="338dp"
         android:layout_height="29dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129">
+        app:layout_constraintTop_toBottomOf="@+id/Search_Tourist_Spot_Edit"
+        app:layout_constraintVertical_bias="0.0">
 
         <RadioButton
             android:id="@+id/radioButton_name"
@@ -45,10 +46,10 @@
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintHorizontal_bias="0.107"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <Button
         android:id="@+id/Search_Tourist_Spot_Button"
@@ -56,13 +57,16 @@
         android:layout_height="45dp"
         android:background="#FFFFFF"
         android:text="검색"
+<<<<<<< HEAD
         app:backgroundTint="#5C5858"
         app:layout_constraintBottom_toBottomOf="parent"
+=======
+        app:backgroundTint="#433434"
+        app:layout_constraintBottom_toTopOf="@+id/RadioGroup"
+>>>>>>> write_UI
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintStart_toEndOf="@+id/Search_Tourist_Spot_Edit"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Search_Tourist_Spot_ListView"
@@ -70,10 +74,15 @@
         android:layout_height="457dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.562"></androidx.recyclerview.widget.RecyclerView>
+=======
+        app:layout_constraintTop_toBottomOf="@+id/RadioGroup"
+        app:layout_constraintVertical_bias="0.146"></ListView>
+>>>>>>> write_UI
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

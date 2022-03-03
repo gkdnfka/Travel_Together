@@ -32,9 +32,13 @@ class CommunityAdaptor(
         val view: View = LayoutInflater.from(context).inflate(R.layout.post_item, null)
         val Name = view.findViewById<TextView>(R.id.post_item_username)
         val content = view.findViewById<TextView>(R.id.post_item_content_preview)
+<<<<<<< HEAD
         val title =  view.findViewById<TextView>(R.id.post_item_title)
 
         val element = PostList[p0]
+=======
+        val element = PlaceList[p0]
+>>>>>>> write_UI
         Name.text = element.username
         content.text = element.content
         title.text = element.title

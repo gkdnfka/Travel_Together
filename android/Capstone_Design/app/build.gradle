@@ -45,6 +45,7 @@ dependencies {
     // @솔빈
     // 원형 이미지를 위한 라이브로리
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+<<<<<<< HEAD
 
     // @솔빈
     // 안드로이드 스튜디오 - 구글 MAP api를 연동하기 위한 의존성 추가
@@ -54,6 +55,9 @@ dependencies {
     // @솔빈
     // bottomSheet 을 위한 의존성 추가
     
+=======
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+>>>>>>> write_UI
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

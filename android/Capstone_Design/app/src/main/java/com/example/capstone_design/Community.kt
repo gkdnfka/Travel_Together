@@ -5,8 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
 import android.widget.*
+=======
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+>>>>>>> write_UI
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,8 +39,21 @@ interface SetSeletedPostInfo{
 
 class Community : Fragment()
 {
+<<<<<<< HEAD
     val retrofit = Retrofit.Builder()
             .baseUrl("http://192.168.219.105:8080/")
+=======
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
+        var tmp = inflater.inflate(R.layout.community, container, false)
+        val listView = tmp.findViewById<ListView>(R.id.postListView)
+        val rebutton = tmp.findViewById<Button>(R.id.Refresh_community)
+        val post_button = tmp.findViewById<Button>(R.id.post_write)
+        val mActivity = activity as Activity
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.219.101:8080/")
+>>>>>>> write_UI
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     val service = retrofit.create(GetPostInfo::class.java)
@@ -76,8 +98,16 @@ class Community : Fragment()
                 }
             })
         }
+<<<<<<< HEAD
         rebutton.performClick()
         return view
+=======
+        post_button.setOnClickListener {
+            mActivity.reset_value()
+            mActivity.changeFragment(2)
+        }
+        return tmp
+>>>>>>> write_UI
     }
 }
 

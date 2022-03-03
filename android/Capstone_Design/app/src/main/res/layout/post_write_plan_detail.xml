@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="335dp"
+    android:layout_height="600dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_write_plan_detail_list"
+        android:layout_width="217dp"
+        android:layout_height="329dp"
+        android:background="#F3F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_write_plan_detail_day"
+        app:layout_constraintVertical_bias="0.082"></androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/post_write_plan_detail_day"
+        android:layout_width="278dp"
+        android:layout_height="87dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.007" />
+
+    <Button
+        android:id="@+id/post_write_plan_detail_search"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:text="여행지 검색"
+        app:backgroundTint="#433434"
+        app:layout_constraintBottom_toTopOf="@+id/post_write_plan_detail_complete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintStart_toEndOf="@+id/post_write_plan_detail_list"
+        app:layout_constraintTop_toBottomOf="@+id/post_write_plan_detail_day"
+        app:layout_constraintVertical_bias="0.65" />
+
+    <Button
+        android:id="@+id/post_write_plan_detail_complete"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:text="완료"
+        app:backgroundTint="#433434"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintStart_toEndOf="@+id/post_write_plan_detail_list"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.407" />
+
+    <Button
+        android:id="@+id/post_write_plan_detail_delete"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:text="삭제"
+        app:backgroundTint="#433434"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintStart_toEndOf="@+id/post_write_plan_detail_list"
+        app:layout_constraintTop_toBottomOf="@+id/post_write_plan_detail_complete"
+        app:layout_constraintVertical_bias="0.108" />
+</androidx.constraintlayout.widget.ConstraintLayout>

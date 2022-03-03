@@ -39,8 +39,9 @@ class SearchPlace_Post : Fragment()
         var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
         var place_list: ArrayList<PlaceInfo> = ArrayList()
         val mActivity = activity as Activity
-        var SearchAdapter = SearchPlaceAdaptor_Post(place_list, tmp.context)
+
         listView.layoutManager = LinearLayoutManager(tmp.context)
+
         button.setOnClickListener {
             val funcName = "SearchPlace"
             var typeName = ""
@@ -61,41 +62,41 @@ class SearchPlace_Post : Fragment()
                     Log.d("성공", "입출력 성공")
                     place_list = response.body()!!
                     if (place_list != null) {
-                        SearchAdapter = SearchPlaceAdaptor_Post(place_list, tmp.context)
-                        listView.adapter = SearchAdapter
+                        var SearchAdapter_Post = SearchPlaceAdaptor_Post(place_list, tmp.context)
+                        listView.adapter = SearchAdapter_Post
+                        SearchAdapter_Post.setItemClickListener(object : SearchPlaceAdaptor_Post.OnItemClickListener {
+                            override fun onClick(v: View, position: Int) {
+                                val builder = AlertDialog.Builder(tmp.context)
+                                var select_place = place_list[position]
+                                builder.setTitle(place_list[position].component2())
+                                    .setMessage("선택하시겠습니까?")
+                                    .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
 
+                                        mActivity.place_list.add(select_place)
+                                        mActivity.postplanlist[mActivity.day - 1].place_list = mActivity.place_list
+                                        var CurrentCourse = ""
+                                        for (j in 0..mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
+                                            CurrentCourse += mActivity.postplanlist[mActivity.day - 1].place_list[j].name
+                                            if (j == mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
+                                                continue
+                                            }
+                                            CurrentCourse += " -> "
+                                        }
+                                        mActivity.postplanlist[mActivity.day - 1].course = CurrentCourse
+                                        mActivity.changeFragment(9)
+                                    })
+                                    .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
+                                        Toast.makeText(tmp.context, "취소했습니다", Toast.LENGTH_SHORT).show()
+                                    })
+
+                                builder.show()
+                            }
+                        })
                     }
                 }
             })
         }
-        SearchAdapter.setItemClickListener(object : SearchPlaceAdaptor_Post.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                val builder = AlertDialog.Builder(tmp.context)
-                var select_place = place_list[position]
-                builder.setTitle(place_list[position].component2())
-                    .setMessage("선택하시겠습니까?")
-                    .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
 
-                        mActivity.place_list.add(select_place)
-                        mActivity.postplanlist[mActivity.day - 1].place_list = mActivity.place_list
-                        var CurrentCourse = ""
-                        for (j in 0..mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
-                            CurrentCourse += mActivity.postplanlist[mActivity.day - 1].place_list[j].name
-                            if (j == mActivity.postplanlist[mActivity.day - 1].place_list.size - 1) {
-                                continue
-                            }
-                            CurrentCourse += " -> "
-                        }
-                        mActivity.postplanlist[mActivity.day - 1].course = CurrentCourse
-                        mActivity.changeFragment(9)
-                    })
-                    .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
-                        Toast.makeText(tmp.context, "취소했습니다", Toast.LENGTH_SHORT).show()
-                    })
-
-                builder.show()
-            }
-        })
         return tmp
     }
 }

@@ -10,8 +10,9 @@ import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.R
 
 class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor_Post.ViewHolder>() {
-    override fun getItemCount(): Int = items.size
-    var contexts = context
+    override fun getItemCount(): Int {
+        return items.size
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.tourist_spot_item_post, null)
         return ViewHolder(view)
@@ -24,12 +25,13 @@ class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val conte
             itemClickListener.onClick(it, position)
         }
     }
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private var view: View = v
-        var nametext: TextView = view.findViewById<TextView>(R.id.PlaceNameText)
-        var addresstext: TextView = view.findViewById<TextView>(R.id.PlaceAddrText)
+        var nametext: TextView = itemView.findViewById<TextView>(R.id.PlaceNameText)
+        var addresstext: TextView = itemView.findViewById<TextView>(R.id.PlaceAddrText)
+
     }
+
     interface OnItemClickListener {
         fun onClick(v: View, position: Int)
     }

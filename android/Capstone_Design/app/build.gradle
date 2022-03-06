@@ -50,7 +50,10 @@ dependencies {
     // 안드로이드 스튜디오 - 구글 MAP api를 연동하기 위한 의존성 추가
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
-
+    // @지원
+    // UI개선을 위한 오픈소스
+    implementation 'com.nightonke:boommenu:2.1.1'
+    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
     // @솔빈
     // bottomSheet 을 위한 의존성 추가
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

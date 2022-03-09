@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     // 회원가입, 로그인 기능을 위해 레트로핏 선언
     val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.123.112:8080/")
+            .baseUrl("http://192.168.123.109:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     val serviceForLogin = retrofit.create(SendLoginInfo::class.java)

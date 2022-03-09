@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.36" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/button_pressed.xml" value="0.15" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/ic_launcher_background.xml" value="0.36" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/activity_main.xml" value="0.1921875" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/button_pressed.xml" value="0.175" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/community.xml" value="0.22" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/detail_item_list.xml" value="0.20018115942028986" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/firstpage.xml" value="0.2109375" />
@@ -27,16 +29,19 @@
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_fragment.xml" value="0.2125" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_item.xml" value="0.22" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write.xml" value="0.22" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_detail_item.xml" value="0.2667572463768116" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_main.xml" value="0.2109375" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan_course.xml" value="0.22916666666666666" />
-        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan_detail.xml" value="0.25" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan_detail.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/recommend.xml" value="0.2109375" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/search_tourist_spot.xml" value="0.25" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/test.xml" value="0.1585144927536232" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/testui.xml" value="0.15896739130434784" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/tourist_spot_item.xml" value="0.20625" />
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/layout/tourist_spot_item_post.xml" value="0.1" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2375" />
+        <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2375" />
       </map>
     </option>
   </component>

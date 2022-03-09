@@ -1,5 +1,6 @@
 package com.example.capstone_design.Fragmentset
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.capstone_design.R
 import com.nightonke.boommenu.BoomButtons.HamButton
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener
 import com.nightonke.boommenu.BoomMenuButton
+import com.nightonke.boommenu.Util
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,19 +35,23 @@ class Community_Post_Write : Fragment()
             .build()
         val service = retrofit.create(PostWriteInfo::class.java)
         val mActivity = activity as Activity
+        mActivity.changeFragment(7)
+
+
         for(i in 0..bmb.piecePlaceEnum.pieceNumber()){
             if(i == 0)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
                     mActivity.changeFragment(7)
-                }).normalText("본문내용추가")
+                }).normalText("본문내용추가").normalImageRes(R.drawable.content_write)
+                    .imagePadding(Rect(30,30,30,30)).textSize(17)
                 bmb.addBuilder(builder)
             }
             if(i == 1)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
                     mActivity.changeFragment(8)
-                }).normalText("여행계획추가")
+                }).normalText("여행계획추가").normalImageRes(R.drawable.content_route).imagePadding(Rect(30,30,30,30)).textSize(17)
                 bmb.addBuilder(builder)
             }
             if(i == 2)
@@ -92,7 +98,7 @@ class Community_Post_Write : Fragment()
                         }
                     })
                     mActivity.changeFragment(3)
-                }).normalText("게시글업로드")
+                }).normalText("게시글업로드").normalImageRes(R.drawable.content_upload).imagePadding(Rect(30,30,30,30)).textSize(17)
                 bmb.addBuilder(builder)
             }
         }

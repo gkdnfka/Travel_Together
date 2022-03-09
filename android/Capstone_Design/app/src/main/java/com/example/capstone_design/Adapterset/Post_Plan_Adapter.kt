@@ -15,8 +15,6 @@ class Post_Plan_Adapter(val context: Context, val planList: MutableList<PlanInfo
     RecyclerView.Adapter<Post_Plan_Adapter.ViewHolder>(){
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        val day: TextView = itemView.findViewById(R.id.plan_item_day)
-        val course: TextView = itemView.findViewById(R.id.plan_item_course)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,8 +27,7 @@ class Post_Plan_Adapter(val context: Context, val planList: MutableList<PlanInfo
     }
     // (3) View에 내용 입력
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.day.text = planList[position].day.toString() + "일차"
-        holder.course.text = planList[position].course
+
         // (!1) 리스트 내 항목 클릭 시 onClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
@@ -45,7 +42,7 @@ class Post_Plan_Adapter(val context: Context, val planList: MutableList<PlanInfo
         this.itemClickListener = onItemClickListener
     }
     // (!4) setItemClickListener로 설정한 함수 실행
-    private lateinit var itemClickListener : OnItemClickListener
+    private lateinit var itemClickListener :   OnItemClickListener
     // (4) 레이아웃 내 View 연결
 
 

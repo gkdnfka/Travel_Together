@@ -177,5 +177,6 @@ class Activity : AppCompatActivity() {
         postName = ""
         postContent = ""
         postplanlist = ArrayList()
+        place_list = ArrayList()
     }
 }

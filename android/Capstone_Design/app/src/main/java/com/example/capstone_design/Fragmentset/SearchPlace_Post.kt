@@ -28,7 +28,7 @@ class SearchPlace_Post : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var tmp = inflater.inflate(R.layout.search_tourist_spot, container, false)
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.123.109:8080/")
+            .baseUrl("http://192.168.123.108:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

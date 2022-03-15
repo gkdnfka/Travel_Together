@@ -11,6 +11,9 @@ import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Fragmentset.*
 import com.example.capstone_design.Util.FavoriteAddManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 class Activity : AppCompatActivity() {
     // @솔빈 2022-1-29 토
     // SelectedPostInfo : 프래그먼트 화면 전환시(게시글 자세히 보기), 넘겨 받아야할 게시글 정보를 담는 변수
@@ -179,4 +182,12 @@ class Activity : AppCompatActivity() {
         postplanlist = ArrayList()
         place_list = ArrayList()
     }
+
+    // @솔빈 2022-03-14 (월)
+    // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
+    var retrofit   = Retrofit.Builder()
+        .baseUrl("http://192.168.219.105:8080/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
 }

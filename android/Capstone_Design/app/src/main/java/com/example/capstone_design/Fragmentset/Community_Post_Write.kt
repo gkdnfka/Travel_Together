@@ -29,12 +29,10 @@ class Community_Post_Write : Fragment()
         var tmp = inflater.inflate(R.layout.post_write, container, false)
         // 2022-03-06 오픈 UI를 이용해 버튼 새로운 버튼 생성
         var bmb = tmp.findViewById<BoomMenuButton>(R.id.bmb)
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.92.175.220/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(PostWriteInfo::class.java)
         val mActivity = activity as Activity
+        val retrofit = mActivity.retrofit
+        val service = retrofit.create(PostWriteInfo::class.java)
+
         mActivity.changeFragment(7)
 
         // 2022-03-07 정지원 작업

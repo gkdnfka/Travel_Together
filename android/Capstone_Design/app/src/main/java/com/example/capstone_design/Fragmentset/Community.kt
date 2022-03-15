@@ -53,10 +53,7 @@ class Community : Fragment()
         val removeText = view.findViewById<ImageButton>(R.id.communitySearchRemove)
         val post_type = view.findViewById<ToggleButton>(R.id.CommunityPostType)
         val mActivity = activity as Activity
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.219.101:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = mActivity.retrofit
         val service = retrofit.create(GetPostInfo::class.java)
         // 2022-03-12 정지원 작업
         // 검색창의 포커스가 벗어나는 경우 remove 버튼을 비활성화, 포커스가 잡히는 경우 활성화

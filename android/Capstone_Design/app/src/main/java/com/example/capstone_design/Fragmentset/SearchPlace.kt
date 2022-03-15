@@ -26,10 +26,8 @@ class SearchPlace : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var tmp = inflater.inflate(R.layout.search_tourist_spot, container, false)
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.219.101:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        var mActivity = (activity as Activity)
+        val retrofit = mActivity.retrofit
 
         val service = retrofit.create(GetPlaceInfo::class.java)
         var button = tmp.findViewById<Button>(R.id.Search_Tourist_Spot_Button)
@@ -38,7 +36,7 @@ class SearchPlace : Fragment() {
 
         var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
         var place_list: ArrayList<PlaceInfo> = ArrayList()
-        val mActivity = activity as Activity
+
         button.setOnClickListener {
             val funcName = "SearchPlace"
             var typeName = ""

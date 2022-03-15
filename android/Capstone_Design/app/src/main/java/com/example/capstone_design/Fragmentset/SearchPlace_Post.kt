@@ -27,10 +27,8 @@ class SearchPlace_Post : Fragment()
 {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var tmp = inflater.inflate(R.layout.search_tourist_spot, container, false)
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.123.108:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val mActivity = activity as Activity
+        val retrofit = mActivity.retrofit
 
         val service = retrofit.create(GetPlaceInfo::class.java)
         var button = tmp.findViewById<Button>(R.id.Search_Tourist_Spot_Button)
@@ -38,7 +36,7 @@ class SearchPlace_Post : Fragment()
         val edit = tmp.findViewById<EditText>(R.id.Search_Tourist_Spot_Edit)
         var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
         var place_list: ArrayList<PlaceInfo> = ArrayList()
-        val mActivity = activity as Activity
+
 
         listView.layoutManager = LinearLayoutManager(tmp.context)
 

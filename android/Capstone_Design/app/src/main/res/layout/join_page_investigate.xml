@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        >
+        <ImageView
+            android:layout_marginLeft="50dp"
+            android:id="@+id/join_page_investigate_back_btn"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/left_arrow" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/join_page_investigate_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="어떤 여행지를 선호하시나요?"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.117" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "휴양지"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Leisure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+            
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Leisure_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "액티비티"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Activity_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "쇼핑"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Shoping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Shoping_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "역사적 장소"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Culture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Culture_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "자연 경관"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Attraction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+            
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Attraction_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "전시물 관람"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+                
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_exhibition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_exhibition_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text = "공연"
+                android:textColor="@color/black"
+                android:textSize="19dp"
+                >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/join_page_investigate_seekbar_Parade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:thumb="@drawable/seekbar_thumb"
+                android:progressDrawable="@drawable/seekbar_bar"
+                android:max="5"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                />
+
+            <TextView
+                android:id = "@+id/join_page_investigate_seekbar_Parade_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "1점"
+                >
+            </TextView>
+        </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="15dp"
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/join_page_investigate_join_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="#BEE9B4"
+
+            android:text="회원가입"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.831" />
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -44,7 +44,8 @@ var server = http.createServer(function(request,response){
     if(parsedQuery["func"] == "SearchPost"){ // 게시글을 불러오기 위한 쿼리 파싱
         var testQuery = ""
         if(parsedQuery["type"] == "default") testQuery = "SELECT * FROM NOTICEBOARD_DB";
-        else testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
+        else if (parsedQuery["type"] == "ByPostName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_TITLE like '%" + parsedQuery["content"] + "%'";
+        else if (parsedQuery["type"] == "ByUserName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE USER_NAME like '%" + parsedQuery["content"] + "%'";
 
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행

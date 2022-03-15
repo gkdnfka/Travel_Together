@@ -37,7 +37,9 @@ class Community_Post_Write : Fragment()
         val mActivity = activity as Activity
         mActivity.changeFragment(7)
 
-
+        // 2022-03-07 정지원 작업
+        // boomMenu버튼으로 통합하여 기능관리
+        // normalText에 이름넣으면 메뉴의 이름 바뀌고 normalImageRes를 통하여 아이콘 이미지 수정가능
         for(i in 0..bmb.piecePlaceEnum.pieceNumber()){
             if(i == 0)
             {

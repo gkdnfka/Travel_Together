@@ -1,4 +1,5 @@
 package com.example.capstone_design.Activityset
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,8 +19,13 @@ class Activity : AppCompatActivity() {
     // @솔빈 2022-1-29 토
     // SelectedPostInfo : 프래그먼트 화면 전환시(게시글 자세히 보기), 넘겨 받아야할 게시글 정보를 담는 변수
     // SelectedPlaceList : 최단 경로 찾기에서 사용되는, 선택한 여행지들을 담는 리스트
+    // SelectedBitmap : 선택된 여행지의 이미지를 담고 있는 비트맵 객체
+    // SelectedPlace  : 선택된 여행지에 대한 정보를 담고있는 객체
+    lateinit var SelectedBitmap : Bitmap
+    lateinit var SelectedPlace : PlaceInfo
     lateinit var SelectedPostInfo : PostInfo
     var SelectedPlaceList = ArrayList<PlaceInfo>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,6 +137,7 @@ class Activity : AppCompatActivity() {
     // 1번 버튼 = Main화면 // 2번버튼 = Recommend화면 // 3번 버튼 = Community화면 // 4번 버튼 = FindPath화면
     // 5번 버튼 = SearchPlace화면 // 6번 버튼 = PostWrite화면 // 7번 버튼 = PostWriteMain 화면 // 8번 버튼 = PostWritePlan 화면
     // 9번 버튼 = PostWriteDetail화면 // 10번 버튼 = SearchPlace_Post화면 // 11번 버튼 = 게시글 세부 화면
+    // 12번 버튼 = PlaceDetailFragment 화면
     fun changeFragment(index: Int){
         when(index){
             1 -> {
@@ -171,6 +178,9 @@ class Activity : AppCompatActivity() {
             }
             11->{
                 ReplaceFragment("CommunityPostDetail",CommunityPostDetail(),R.id.MainFrameLayout)
+            }
+            12->{
+                ReplaceFragment("PlaceDetailFragment",Place_Detail_Fragment(),R.id.MainFrameLayout)
             }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가

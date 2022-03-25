@@ -18,6 +18,7 @@ import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Fragmentset.*
+import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -64,6 +65,7 @@ class CommunityPostDetail : Fragment()
         childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, Main()).commit()
         var bottom : BottomNavigationView = view.findViewById(R.id.post_detail_fragment_menu)
         var BackButton = view.findViewById<ImageView>(R.id.post_detail_exit)
+
 
         bottom.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
@@ -140,6 +142,7 @@ class CommunityPostDetail : Fragment()
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)
 
         for (i in 0 until daycount){
+            placeinfoList.add(ArrayList<PlaceInfo>())
             var strForQuery = ""
             var j = 0
 
@@ -163,8 +166,9 @@ class CommunityPostDetail : Fragment()
                     // mysql 쿼리문의 결과로, 여행지의 순서에 상관없이 여행지의 고유번호에 따라 오름차순으로 결과가 반환되므로
                     // 2중 포문을 통해 여행지 고유번호 순서에 맞게 데이터를 넣어주는 동작을 수행함.
                     if(returndata != null){
-                        placeinfoList.add(ArrayList<PlaceInfo>())
 
+                        Log.d("테스트 출력", returndata.toString())
+                        Log.d("테스트 출력2", placeinfoList.toString())
                         for (q in 0 until maxPlaceLength){
                             if(courseList[i][q] == "") break
                             for (j in 0 until returndata.size){

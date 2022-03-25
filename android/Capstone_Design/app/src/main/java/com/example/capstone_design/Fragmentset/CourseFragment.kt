@@ -1,5 +1,6 @@
 package com.example.capstone_design.Fragmentset
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,9 @@ import com.example.capstone_design.Adapterset.CommunityPostDetailDayAdaptor
 import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
 import com.example.capstone_design.Adapterset.changeDay
 import com.example.capstone_design.Dataset.PlaceInfo
+import com.example.capstone_design.Dataset.PostInfo
+import com.example.capstone_design.Interfaceset.ChangeFragment
+import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
 import com.example.capstone_design.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,8 +33,11 @@ class CourseFragment(placeinfoList : ArrayList<ArrayList<PlaceInfo>>, dayCount :
     var placeinfoList = placeinfoList
     var selectedDay : Int = 0
     var dayCount = dayCount
-
     lateinit var myGooglemap: GoogleMap
+
+    interface ChangeFragAndInitSelectedPlace{
+        fun changeFragAndInitSelectedPlace(index : Int, placeinfo : PlaceInfo, bitmap : Bitmap)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -39,8 +46,19 @@ class CourseFragment(placeinfoList : ArrayList<ArrayList<PlaceInfo>>, dayCount :
         mView.onCreate(savedInstanceState)
         mView.getMapAsync(this)
 
+
+        // @솔빈 2022-03-22 화: 프래그먼트 전환을 위한 인터페이스를 구현하여 객체로 만들고, 어답터의 인자로 넘겨준다.
+        //                      여행지 세부 정보 페이지로의 전환을 위해 필요하다.
+        var FragmentChangeListener = object : ChangeFragAndInitSelectedPlace {
+            override fun changeFragAndInitSelectedPlace(index : Int, placeinfo: PlaceInfo, bitmap: Bitmap) {
+                (activity as Activity).SelectedPlace = placeinfo
+                (activity as Activity).SelectedBitmap = bitmap
+                (activity as Activity)!!.changeFragment(index)
+            }
+        }
+
         var courseRecycle = view.findViewById<RecyclerView>(R.id.post_detail_course_place_RecyclerView)
-        courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(placeinfoList[selectedDay], (activity as Activity))
+        courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(placeinfoList[selectedDay], (activity as Activity), FragmentChangeListener)
 
         // @솔빈 2022-1-25 (화)
         // dayArray -> 날짜 배열
@@ -51,7 +69,7 @@ class CourseFragment(placeinfoList : ArrayList<ArrayList<PlaceInfo>>, dayCount :
         var Implemented = object : changeDay {
             override fun changeday(day: Int) {
                 selectedDay = day
-                courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(placeinfoList[selectedDay], (activity as Activity))
+                courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(placeinfoList[selectedDay], (activity as Activity), FragmentChangeListener)
                 updateGooglemap()
             }
         }

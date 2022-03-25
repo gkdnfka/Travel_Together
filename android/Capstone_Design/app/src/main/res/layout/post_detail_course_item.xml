@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/post_detail_course_map"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="334dp"
-        android:layout_height="155dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117"></com.google.android.gms.maps.MapView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        app:cardCornerRadius="15dp"
+        >
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/post_detail_course_map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="355dp"
+            android:layout_height="175dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.117"></com.google.android.gms.maps.MapView>
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_detail_course_day_RecyclerView"
-        android:layout_width="364dp"
-        android:layout_height="54dp"
+        android:layout_width="355dp"
+        android:layout_height="37dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
@@ -31,8 +43,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_detail_course_place_RecyclerView"
-        android:layout_width="385dp"
-        android:layout_height="210dp"
+        android:layout_width="355dp"
+        android:layout_height="300dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,4 +56,4 @@
         app:layout_constraintVertical_bias="0.669" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

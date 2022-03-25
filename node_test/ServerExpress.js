@@ -286,9 +286,16 @@ app.post('/upload', upload.single('upload'), (req, res) => {
 });
 
 app.post('/load*', upload.single('load'), (req, res) => {
-    var path = "uploads/"+ req.body.number + "_Profile.jpg"
-    fs.readFile(path, function(err, data) {
-        console.log(path);
+    var type = req.body.type
+    var number = req.body.number
+
+    console.log(req.method)
+    var filepath = type + "/" + number
+    if(type == "ProfileImages") filepath += '_Profile.jpeg'
+    else if(type == "PlaceImages") filepath += '.jpeg'
+
+    fs.readFile(filepath, function(err, data) {
+        console.log(filepath);
         console.log(data);
         res.end(JSON.stringify(data));
     });

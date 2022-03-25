@@ -14,5 +14,11 @@ data class PlaceInfo(
     @SerializedName("testy")
     var PosY : String,
     @SerializedName("testdepart")
-    var depart : String
+    var depart : String,
+    @SerializedName("testphone")
+    var phonenumber : String,
+    @SerializedName("testwebsite")
+    var website : String,
+    @SerializedName("testopenhour")
+    var openhour : String
 )

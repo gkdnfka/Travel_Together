@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Dataset.ImageInfo
+import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.Interfaceset.UploadImage
 import com.example.capstone_design.R
@@ -41,9 +42,7 @@ class SettingFragment : Fragment()
         var number: String
     )
 
-    data class sendingImg(
-        var number: String
-    )
+
 
 
     lateinit var profileImage : ImageView
@@ -102,7 +101,7 @@ class SettingFragment : Fragment()
         }
 
         loadbtn.setOnClickListener {
-            var tmp = sendingImg((activity as Activity).USER_CODE.toString())
+            var tmp = ImageInfoForLoad((activity as Activity).USER_CODE.toString(), "ProfileImages")
             service_for_load.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
                 override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
                     Log.d("ImgLoading", "이미지 출력 성공")

@@ -17,7 +17,6 @@ class Main : Fragment()
 
         var tv = view.findViewById<TextView>(R.id.main_test_text)
         tv.text = FavoriteAddManager.prefs.getString("NAME", "") + " 님, 안녕하세요"
-
         return view
     }
 }

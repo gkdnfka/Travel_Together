@@ -38,7 +38,7 @@ app.get('*', (request, response) => {
 
     if(parsedQuery["func"] == "SearchPlace"){ // 장소를 검색하기 위한 쿼리 파싱
         var testQuery = ""
-        if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM test WHERE testname = '%" + parsedQuery["str"] + "%'";
+        if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM test WHERE testname like '%" + parsedQuery["str"] + "%'";
         else if(parsedQuery["type"] == "ByAddr") testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
         else if(parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM test WHERE " + parsedQuery["str"];
 

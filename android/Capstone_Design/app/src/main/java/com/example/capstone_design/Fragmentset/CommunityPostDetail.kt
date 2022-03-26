@@ -1,4 +1,6 @@
 package com.example.capstone_design
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,35 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+
 import com.example.capstone_design.Activityset.Activity
-import com.example.capstone_design.Adapterset.CommunityPostDetailCommentAdaptor
-import com.example.capstone_design.Adapterset.CommunityPostDetailDayAdaptor
-import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
-import com.example.capstone_design.Adapterset.changeDay
-import com.example.capstone_design.Dataset.CommentInfo
+import com.example.capstone_design.Dataset.BringPostInfo
+import com.example.capstone_design.Interfaceset.BringPost
+
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Fragmentset.*
-import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
+
+import com.example.capstone_design.databinding.AlertdialogEdittextBinding
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.annotations.SerializedName
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import java.text.SimpleDateFormat
 
 
 
@@ -65,7 +55,8 @@ class CommunityPostDetail : Fragment()
         childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, Main()).commit()
         var bottom : BottomNavigationView = view.findViewById(R.id.post_detail_fragment_menu)
         var BackButton = view.findViewById<ImageView>(R.id.post_detail_exit)
-
+        var AddButton = view.findViewById<ImageView>(R.id.post_detail_content_add)
+        val service = (activity as Activity).retrofit.create(BringPost::class.java)
 
         bottom.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
@@ -78,6 +69,42 @@ class CommunityPostDetail : Fragment()
 
         BackButton.setOnClickListener {
             (activity as Activity).changeFragment(3)
+        }
+        AddButton.setOnClickListener{
+            val builder = AlertDialog.Builder(view.context)
+            builder.setTitle("여행경로 가져오기")
+                .setMessage("해당 여행 경로를 가져오시겠습니까?")
+                .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+                    val builder = AlertDialog.Builder(view.context)
+                    val builderView = inflater.inflate(R.layout.alertdialog_edittext,null)
+
+                    val editText = builderView.findViewById<EditText>(R.id.BringPostedit)
+                    builder.setTitle("포스트 이름을 입력해주세요")
+                        .setView(builderView)
+                        .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                            var funcName = "BringPostPut"
+                            var typeName = "default"
+                            val PostName = editText.text.toString()
+                            service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE,course).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                                override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                    Log.d("실패", t.toString())
+                                }
+                                override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                    Log.d("성공", "입출력 성공")
+                                    Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        })
+                        .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                        })
+                    builder.show()
+                })
+                .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
+                    Toast.makeText(view.context, "취소했습니다", Toast.LENGTH_SHORT).show()
+                })
+            builder.show()
         }
         return view
     }

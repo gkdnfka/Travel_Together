@@ -57,8 +57,8 @@ app.get('*', (request, response) => {
     if(parsedQuery["func"] == "SearchPost"){ // 게시글을 불러오기 위한 쿼리 파싱
         var testQuery = ""
         if(parsedQuery["type"] == "default") testQuery = "SELECT * FROM NOTICEBOARD_DB";
-        else testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
-
+        else if (parsedQuery["type"] == "ByPostName") testQuery = testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_TITLE like '%" + parsedQuery["content"] + "%'"; 
+        else if (parsedQuery["type"] == "ByUserName") testQuery = testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE USER_NAME like '%" + parsedQuery["content"] + "%'"; 
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {
@@ -96,8 +96,41 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + result);
         });
     }
-
-
+     // @정지원 2022-03-26 토 
+    // 게시글 가져오기(저장)을 위한 로직
+    if(parsedQuery["func"] == "BringPostPut"){
+        var testQuery = "";
+        var postname = parsedQuery["postname"]
+        var usercode = parsedQuery["usercode"]
+        var course = parsedQuery["coursedata"];
+        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO UserTravel_DB (POST_NAME,USER_CODE,COURSE,COURSE_COMPLETE) VALUES (?,?,?,?)";
+        var params = [postname,usercode,course,""];
+        connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
+            console.log(err);
+            if (err) {
+                console.log(err);
+            }
+            console.log(results);
+            result = JSON.stringify(results);
+            console.log("쿼리문 결과 : " + result);
+        });
+    }
+        // @정지원 2022-03-26 토 
+    // 게시글 가져오기(불러오기)을 위한 로직
+    if(parsedQuery["func"] == "BringPostGet"){
+        var testQuery = "";
+        if(parsedQuery["type"] == "default") testQuery = "SELECT * FROM  UserTravel_DB Where USER_CODE like'%" + parsedQuery["usercode"] + "%'";
+        var result;
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+            console.log(results)
+            result = JSON.stringify(results)
+            response.end(result)
+            console.log("쿼리문 결과 : " + result)
+        }); 
+    }
     // @솔빈 2022-03-03 목 
     // 로그인을 위한 로직
     if(parsedQuery["func"] == "Login"){ 

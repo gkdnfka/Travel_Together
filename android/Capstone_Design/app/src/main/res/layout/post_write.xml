@@ -6,28 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="14">
+    >
 
     <FrameLayout
         android:id="@+id/Post_Write_FrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="12"
-        app:layout_constraintVertical_bias="0.095"></FrameLayout>
+        android:layout_height="match_parent"
 
-    <com.nightonke.boommenu.BoomMenuButton
-        android:id="@+id/bmb"
-        android:layout_weight="2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_below="@+id/Post_Write_FrameLayout"
-        android:layout_alignRight="@+id/Post_Write_FrameLayout"
-        android:layout_gravity="right"
-        android:layout_marginTop="2dp"
-        android:elevation="20dp"
-        android:visibility="visible"
-        app:bmb_buttonEnum="ham"
-        app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
-        app:bmb_normalColor="#AFCB3D"
-        app:bmb_piecePlaceEnum="piecePlace_ham_3" />
+        app:layout_constraintVertical_bias="0.095">
+        <com.nightonke.boommenu.BoomMenuButton
+            android:id="@+id/bmb"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginTop="2dp"
+            android:elevation="20dp"
+            android:visibility="visible"
+            app:bmb_buttonEnum="ham"
+            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
+            app:bmb_normalColor="#AFCB3D"
+            app:bmb_piecePlaceEnum="piecePlace_ham_3" />
+    </FrameLayout>
+
+
 </LinearLayout>

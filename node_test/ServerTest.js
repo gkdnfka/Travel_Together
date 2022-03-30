@@ -14,8 +14,10 @@ var connection = mysql.createConnection(conn); // DB 커넥션 생성
 connection.connect();
 
 var server = http.createServer(function(request,response){
+    console.log(request.url)
     var tmp_parsed = decodeURI(request.url);
     var parsedUrl = url.parse(tmp_parsed);
+    console.log(request.method)
     var parsedQuery = querystring.parse(parsedUrl.path,'/', '=');
     
     console.log(parsedQuery)
@@ -57,6 +59,7 @@ var server = http.createServer(function(request,response){
             console.log("쿼리문 결과 : " + result)
         }); 
     }
+
     // @정지원 2022-02-22 화
     // 게시글 작성을 위한 로직
     if(parsedQuery["func"] == "PostWrite"){
@@ -82,7 +85,6 @@ var server = http.createServer(function(request,response){
             console.log("쿼리문 결과 : " + result);
         });
     }
-
 
 
     // @솔빈 2022-03-03 목 
@@ -205,12 +207,6 @@ var server = http.createServer(function(request,response){
                 console.log(err);
             }
 
-            if(results.length == 1) {
-                ret.number = "1";
-                ret.code = results[0]["USER_CODE"];
-                ret.name = results[0]["USER_NAME"];
-            }
-
             ret = JSON.stringify(ret);
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
@@ -234,6 +230,13 @@ var server = http.createServer(function(request,response){
         }); 
     }
 
+    if(request.method == "POST"){
+        console.log(request)
+        var ret = {
+            "number" : "1"
+        };
+        response.end(ret);
+    }
 });
 
 server.listen(8080, function(){

@@ -102,7 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="title"
-                        android:gravity="center|left"
+                        android:gravity="top|left"
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_marginLeft="5dp"

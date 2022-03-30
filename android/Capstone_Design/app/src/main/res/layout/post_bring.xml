@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="나의 여행 경로"
+        android:textSize="30dp"
+        android:textColor="#bee9c4"
+        android:layout_weight="1"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_bring_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="20dp"
+        android:layout_weight="9"
+        android:background="#BEE9B4"></androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>

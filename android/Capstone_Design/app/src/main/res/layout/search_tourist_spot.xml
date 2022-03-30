@@ -1,78 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardCornerRadius="15dp"
+        android:background="@color/main_default"
+        app:cardPreventCornerOverlap="false"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardElevation="5dp"
+        android:layout_gravity="center"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="match_parent">
+            <ToggleButton
+                android:id="@+id/Search_Tourist_Spot_Toggle"
+                android:layout_width="0dp"
+                android:layout_weight="1.7"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:layout_height="35dp"
+                android:background="@drawable/toggle_background"
+                android:textOff="이름"
+                android:textOn="주소"
+                android:textSize="14dp"
 
-    <RadioGroup
-        android:id="@+id/RadioGroup"
-        android:layout_width="338dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Search_Tourist_Spot_Edit"
-        app:layout_constraintVertical_bias="0.0">
+                android:textStyle="bold" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="7.5"
+                android:layout_margin="5dp"
+                android:singleLine="true"
+                android:ems="10"
+                android:background="@null"
+                android:hint="여기서 검색"
+                android:id="@+id/Search_Tourist_Spot_Edit"
+                android:textSize="14dp"
+                android:imeOptions="actionSearch"
+                android:layout_height="match_parent"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="5dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/cross_icon"
+                android:background="#FFFFFF"
+                android:visibility="invisible"
+                android:id="@+id/SearchRemove"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/radioButton_name"
-            android:layout_width="113dp"
-            android:layout_height="26dp"
-            android:text="이름 검색"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="68dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton_address"
-            android:layout_width="113dp"
-            android:layout_height="26dp"
-            android:text="주소 검색"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="68dp" />
+    </androidx.cardview.widget.CardView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+        <com.dinuscxj.refresh.RecyclerRefreshLayout
+            android:id="@+id/postListRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Search_Tourist_Spot_ListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></androidx.recyclerview.widget.RecyclerView>
+        </com.dinuscxj.refresh.RecyclerRefreshLayout>
+    </FrameLayout>
 
-    </RadioGroup>
 
-    <EditText
-        android:id="@+id/Search_Tourist_Spot_Edit"
-        android:layout_width="262dp"
-        android:layout_height="46dp"
-        android:background="#F1F1F1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
 
-    <Button
-        android:id="@+id/Search_Tourist_Spot_Button"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        android:background="#FFFFFF"
-        android:text="검색"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundTint="#433434"
-        app:layout_constraintBottom_toTopOf="@+id/RadioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Search_Tourist_Spot_Edit"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Search_Tourist_Spot_ListView"
-        android:layout_width="335dp"
-        android:layout_height="457dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
-        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/RadioGroup"
-        app:layout_constraintVertical_bias="0.159"></androidx.recyclerview.widget.RecyclerView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

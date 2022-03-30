@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
+import com.example.capstone_design.Adapterset.Post_Plan_Adapter_Update
 import com.example.capstone_design.Util.ItemTouchHelperCallback
 import com.example.capstone_design.Adapterset.Post_Plan_Detail_Adapter
 import com.example.capstone_design.Adapterset.Post_Plan_Detail_Adapter_Update
@@ -46,6 +47,7 @@ class Community_Post_Write_Plan_Detail : Fragment(), update_list_interface {
         val callback = SwipeHelperCallback(detail_list_adapter).apply{
             setClamp(resources.displayMetrics.widthPixels.toFloat() / 4)
         }
+        // touchHelper 선언
         val touchHelper =  ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(detail_list)
 
@@ -54,8 +56,17 @@ class Community_Post_Write_Plan_Detail : Fragment(), update_list_interface {
             callback.removePreviousClamp(detail_list)
             false
         }
+
         detail_list.adapter = detail_list_adapter
         detail_list.layoutManager = LinearLayoutManager(tmp_plan.context)
+        // adapater에 있는 인터페이스 상속받아 선언하는 부분
+        detail_list_adapter.setItemClickListener(object: Post_Plan_Detail_Adapter_Update.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                // remove 동작시 이전에 선택했던 뷰와 현재 뷰에 대한 swipe 고정 해제
+                callback.removeCurrentClamp(detail_list)
+                callback.removePreviousClamp(detail_list)
+            }
+        })
         detail_day.text = mActivity.day.toString() + "일차 여행계획"
         // 여행지 검색 기능
         detail_search.setOnClickListener {

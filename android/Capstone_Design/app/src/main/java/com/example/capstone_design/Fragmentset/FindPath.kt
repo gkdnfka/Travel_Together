@@ -29,18 +29,15 @@ class FindPath : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         var view = inflater.inflate(R.layout.path, container, false)
-        (activity as Activity).SelectedPlaceList.clear()
+        var mActivity = activity as Activity
+        mActivity.SelectedPlaceList.clear()
+        val retrofit = mActivity.retrofit
+        val service = retrofit.create(GetPlaceInfo::class.java)
 
 
         // @솔빈 2022-2-05 토
         // parseFavorite 함수를 통해 ArrayList<string> 형태로 파싱된 여행지 리스트를 반환받아 placeNumberList 에 저장한다.
         var placeNumberList = parseFavorite("FavoritePlaceList")
-
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.219.105:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val service = retrofit.create(GetPlaceInfo::class.java)
 
         var strForQuery = ""
         for(i in 0 until placeNumberList.size){

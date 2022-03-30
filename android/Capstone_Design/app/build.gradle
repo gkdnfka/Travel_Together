@@ -60,6 +60,8 @@ dependencies {
     implementation 'com.nightonke:boommenu:2.1.1'
     implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
     implementation 'co.dift.ui.swipetoaction:library:1.1'
+    implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
+
     // @솔빈
     // bottomSheet 을 위한 의존성 추가
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

@@ -1,106 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardCornerRadius="15dp"
+        android:background="@color/main_default"
+        app:cardPreventCornerOverlap="false"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardElevation="5dp"
+        android:layout_gravity="center"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="match_parent">
+            <ToggleButton
+                android:id="@+id/CommunityPostType"
+                android:layout_width="0dp"
+                android:layout_weight="1.7"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:layout_height="35dp"
+                android:background="@drawable/toggle_background"
+                android:textOff="게시자"
+                android:textOn="제목"
+                android:textSize="14dp"
 
-    <RadioGroup
-        android:id="@+id/post_RadioGroup"
-        android:layout_width="223dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginRight="110dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169">
+                android:textStyle="bold" />
+           <EditText
+               android:layout_width="0dp"
+               android:layout_weight="7.5"
+               android:layout_margin="5dp"
+               android:singleLine="true"
+               android:ems="10"
+               android:background="@null"
+               android:hint="여기서 검색"
+               android:id="@+id/communitySearch"
+               android:textSize="14dp"
+               android:imeOptions="actionSearch"
+               android:layout_height="match_parent"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="5dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/cross_icon"
+                android:background="#FFFFFF"
+                android:visibility="invisible"
+                android:id="@+id/communitySearchRemove"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/radioButton_post_name"
-            android:layout_width="113dp"
-            android:layout_height="26dp"
-            android:text="제목"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="68dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton_post_man"
-            android:layout_width="113dp"
+    </androidx.cardview.widget.CardView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9">
+        <com.dinuscxj.refresh.RecyclerRefreshLayout
+            android:id="@+id/postListRefresh"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="게시자"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="68dp" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/search_post_Button"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        android:background="#FFFFFF"
-        android:text="검색"
-        app:backgroundTint="#5C5858"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081" />
-
-    <EditText
-        android:id="@+id/search_post_Edit"
-        android:layout_width="262dp"
-        android:layout_height="46dp"
-        android:background="#F1F1F1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.255"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081" />
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></androidx.recyclerview.widget.RecyclerView>
+        </com.dinuscxj.refresh.RecyclerRefreshLayout>
+        <com.nightonke.boommenu.BoomMenuButton
+            android:id="@+id/communityTool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:layout_gravity="right|bottom"
+            app:bmb_buttonEnum="ham"
+            app:bmb_buttonPlaceEnum="buttonPlace_ham_2"
+            app:bmb_normalColor="#AFCB3D"
+            app:bmb_piecePlaceEnum="piecePlace_ham_2"/>
+    </FrameLayout>
 
 
-    <ListView
-        android:id="@+id/postListView"
-        android:layout_width="336dp"
-        android:layout_height="423dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.613"></ListView>
 
-    <ImageView
-        android:id="@+id/Refresh_community"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        android:src="@drawable/reload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002" />
 
-    <Button
-        android:id="@+id/post_write"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="게시글작성"
-        app:backgroundTint="#2E0C0C"
-        app:layout_constraintBottom_toTopOf="@+id/postListView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toEndOf="@+id/post_RadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/search_post_Button"
-        app:layout_constraintVertical_bias="0.257" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

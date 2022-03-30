@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GetPostInfo {
-    @GET("func={func}/type={type}/")
-    fun getpostinfo(@Path("func") func : String, @Path("type") type : String): Call<ArrayList<PostInfo>>
+    @GET("func={func}/type={type}/content={content}")
+    fun getpostinfo(@Path("func") func : String, @Path("type") type : String, @Path("content") content: String): Call<ArrayList<PostInfo>>
 }

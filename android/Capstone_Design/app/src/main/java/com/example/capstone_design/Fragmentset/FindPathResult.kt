@@ -285,15 +285,12 @@ class FindPathResultAdaptor(private val items: ArrayList<PlaceInfo>, context : C
 
     override fun onBindViewHolder(holder: FindPathResultAdaptor.ViewHolder, position: Int) {
         holder.nametext.text = items[position].name
-        holder.addresstext.text = items[position].address
         holder.numbertext.text = (position+1).toString()
-        Toast.makeText(contexts, items[position].name + " 입니다!", Toast.LENGTH_SHORT).show()
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
         var nametext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_name)
-        var addresstext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_address)
         var numbertext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_number)
     }
 }

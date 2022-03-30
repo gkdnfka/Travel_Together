@@ -17,7 +17,7 @@ class SwipeHelperCallback(private val recyclerViewAdapter : Post_Plan_Detail_Ada
     private var previousPosition: Int? = null   // 이전에 선택했던 recycler view의 position
     private var currentDx = 0f                  // 현재 x 값
     private var clamp = 0f                      // 고정시킬 크기
-
+    private var isMoved = false
     // 이동 방향 결정하기
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         // 드래그 방향 : 위, 아래 인식
@@ -33,14 +33,16 @@ class SwipeHelperCallback(private val recyclerViewAdapter : Post_Plan_Detail_Ada
         target: RecyclerView.ViewHolder
     ): Boolean {
         // 리사이클러뷰에서 현재 선택된 데이터와 드래그한 위치에 있는 데이터를 교환
-        val fromPos: Int = viewHolder.adapterPosition
-        val toPos: Int = target.adapterPosition
+        var fromPos: Int = viewHolder.adapterPosition
+        var toPos: Int = target.adapterPosition
         recyclerViewAdapter.swapData(fromPos, toPos)
+        isMoved = true
         return true
     }
 
     // 스와이프 일어날 때 동작
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
         // 스와와이프 끝까지 하면 해당 데이터 삭제하기 -> 스와이프 후 <삭제> 버튼 눌러야 삭제 되도록 변경
         // recyclerViewAdapter.removeData(viewHolder.layoutPosition)
     }
@@ -58,9 +60,10 @@ class SwipeHelperCallback(private val recyclerViewAdapter : Post_Plan_Detail_Ada
 
     // ItemTouchHelper가 ViewHolder를 스와이프 되었거나 드래그 되었을 때 호출
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        viewHolder?.let {
-            currentPosition = viewHolder.adapterPosition    // 현재 드래그 또는 스와이프 중인 view 의 position 기억하기
-            getDefaultUIUtil().onSelected(getView(it))
+        super.onSelectedChanged(viewHolder, actionState)
+        if (isMoved) {
+            isMoved = false
+            recyclerViewAdapter.afterDragAndDrop()
         }
     }
 
@@ -162,6 +165,14 @@ class SwipeHelperCallback(private val recyclerViewAdapter : Post_Plan_Detail_Ada
             previousPosition = null
         }
 
+    }
+    fun removeCurrentClamp(recyclerView: RecyclerView){
+        currentPosition?.let{
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(it) ?: return
+            getView(viewHolder).animate().x(0f).setDuration(100L).start()
+            setTag(viewHolder, false)
+            currentPosition = null
+        }
     }
 
 }

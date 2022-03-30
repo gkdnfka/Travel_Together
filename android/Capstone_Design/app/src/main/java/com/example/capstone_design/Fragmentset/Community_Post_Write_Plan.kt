@@ -46,10 +46,12 @@ class Community_Post_Write_Plan : Fragment(), remove_list_interface {
             plan_list_adapter.notifyDataSetChanged()
             mActivity.postplanlist = planlist
         }
+        // 다른 뷰 선택시 이전의 swipe 고정 해제
         post_plan_list.setOnTouchListener { _, _ ->
             callback.removePreviousClamp(post_plan_list)
             false
         }
+        // remove 동작시 현재 뷰에 대한 swipe 고정 해제
         plan_list_adapter.setItemClickListener(object:Post_Plan_Adapter_Update.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
                 callback.removeCurrentClamp(post_plan_list)
@@ -57,7 +59,7 @@ class Community_Post_Write_Plan : Fragment(), remove_list_interface {
         })
         return tmp_plan
     }
-
+    // 리스트를 삭제하면서 day를 조절해야되기에 어뎁터에 삽입할 인터페이스 함수
     override fun RemoveList(position : Int) {
         val mActivity = activity as Activity
         val start = position + 1
@@ -66,6 +68,7 @@ class Community_Post_Write_Plan : Fragment(), remove_list_interface {
         }
         mActivity.postplanlist.removeAt(position)
     }
+    // 수정버튼 클릭시 클릭한 뷰에 해당하는 plan의 데이터를 넘겨주기 위한 인터페이스 함수
     override fun changeDetail(planList: MutableList<PlanInfo>,position:Int) {
         val mActivity = activity as Activity
         mActivity.day = planList[position].component1()

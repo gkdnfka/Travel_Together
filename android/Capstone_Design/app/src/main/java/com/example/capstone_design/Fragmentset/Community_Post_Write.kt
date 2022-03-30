@@ -29,15 +29,15 @@ class Community_Post_Write : Fragment()
         var tmp = inflater.inflate(R.layout.post_write, container, false)
         // 2022-03-06 오픈 UI를 이용해 버튼 새로운 버튼 생성
         var bmb = tmp.findViewById<BoomMenuButton>(R.id.bmb)
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.219.101:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(PostWriteInfo::class.java)
         val mActivity = activity as Activity
+        val retrofit = mActivity.retrofit
+        val service = retrofit.create(PostWriteInfo::class.java)
+
         mActivity.changeFragment(7)
 
-
+        // 2022-03-07 정지원 작업
+        // boomMenu버튼으로 통합하여 기능관리
+        // normalText에 이름넣으면 메뉴의 이름 바뀌고 normalImageRes를 통하여 아이콘 이미지 수정가능
         for(i in 0..bmb.piecePlaceEnum.pieceNumber()){
             if(i == 0)
             {

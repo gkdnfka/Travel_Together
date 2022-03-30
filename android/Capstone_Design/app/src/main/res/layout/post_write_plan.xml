@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     android:weightSum="10"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="여행경로 수정"
+        android:textSize="30dp"
+        android:textColor="#bee9c4"
+        android:layout_weight="1"
+        />
     <ImageButton
-        android:layout_marginTop="30dp"
+
         android:id="@+id/post_write_plan_add"
         android:layout_width="70dp"
         android:layout_height="0dp"
@@ -23,7 +34,7 @@
         android:background="#BEE9B4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
+        android:layout_weight="8"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="20dp"
         app:layout_constraintVertical_bias="0.036"></androidx.recyclerview.widget.RecyclerView>

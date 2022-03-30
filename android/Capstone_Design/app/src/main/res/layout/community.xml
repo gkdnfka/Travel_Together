@@ -58,13 +58,13 @@
                 android:id="@+id/communitySearchRemove"
                 android:scaleType="centerInside"/>
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
+
         <com.dinuscxj.refresh.RecyclerRefreshLayout
             android:id="@+id/postListRefresh"
             android:layout_width="match_parent"
@@ -76,6 +76,7 @@
                 android:layout_height="match_parent"
                 ></androidx.recyclerview.widget.RecyclerView>
         </com.dinuscxj.refresh.RecyclerRefreshLayout>
+
         <com.nightonke.boommenu.BoomMenuButton
             android:id="@+id/communityTool"
             android:layout_width="wrap_content"

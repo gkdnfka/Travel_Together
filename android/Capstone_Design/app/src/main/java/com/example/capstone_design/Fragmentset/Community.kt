@@ -55,6 +55,11 @@ class Community : Fragment()
         val mActivity = activity as Activity
         val retrofit = mActivity.retrofit
         val service = retrofit.create(GetPostInfo::class.java)
+
+
+        mActivity.SelectedDayInPostDetail = 0
+        mActivity.SelectedTabInPostDetail = 2
+
         // 2022-03-12 정지원 작업
         // 검색창의 포커스가 벗어나는 경우 remove 버튼을 비활성화, 포커스가 잡히는 경우 활성화
         SearchText.setOnFocusChangeListener(object : View.OnFocusChangeListener{
@@ -82,6 +87,7 @@ class Community : Fragment()
                     // @솔빈 : 리스너 인터페이스를 구현하여 객체로 만들고, 어답터의 인자로 넘겨준다.
                     var Implemented = object : SetSeletedPostInfo {
                         override fun setSelectedPostInfo(fragmentName: String, element: PostInfo) {
+                            (activity as Activity)!!.SelectedPostDone = 0
                             (activity as Activity)!!.SetSelectedPostInfo(element)
                             (activity as Activity)!!.changeFragment(11)
                         }
@@ -129,6 +135,7 @@ class Community : Fragment()
                             // @솔빈 : 리스너 인터페이스를 구현하여 객체로 만들고, 어답터의 인자로 넘겨준다.
                             var Implemented = object : SetSeletedPostInfo {
                                 override fun setSelectedPostInfo(fragmentName: String, element: PostInfo) {
+                                    (activity as Activity)!!.SelectedPostDone = 0
                                     (activity as Activity)!!.SetSelectedPostInfo(element)
                                     (activity as Activity)!!.changeFragment(11)
                                 }
@@ -167,6 +174,7 @@ class Community : Fragment()
                         // @솔빈 : 리스너 인터페이스를 구현하여 객체로 만들고, 어답터의 인자로 넘겨준다.
                         var Implemented = object : SetSeletedPostInfo {
                             override fun setSelectedPostInfo(fragmentName: String, element: PostInfo) {
+                                (activity as Activity)!!.SelectedPostDone = 0
                                 (activity as Activity)!!.SetSelectedPostInfo(element)
                                 (activity as Activity)!!.changeFragment(11)
                             }

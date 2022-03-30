@@ -3,6 +3,8 @@ package com.example.capstone_design.Adapterset
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +12,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Dataset.CommentInfo
+import com.example.capstone_design.Dataset.ImageInfo
+import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Fragmentset.CommentModifyInterface
+import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.PublicRetrofit
+import de.hdodenhof.circleimageview.CircleImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CommunityPostDetailCommentAdaptor(private val items: ArrayList<CommentInfo>, context : Context, userCode : String, commentModifyInterface : CommentModifyInterface) : RecyclerView.Adapter<CommunityPostDetailCommentAdaptor.ViewHolder>() {
@@ -29,6 +39,23 @@ class CommunityPostDetailCommentAdaptor(private val items: ArrayList<CommentInfo
         holder.nametext.text = items[position].name
         holder.contenttext.text = items[position].content
         holder.datetext.text = items[position].dates
+
+        var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
+        var tmp = ImageInfoForLoad(items[position].user_number, "ProfileImages")
+        service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
+            override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
+                Log.d("ImgLoadingObj", "이미지 출력 성공")
+                var returndata = response.body()
+                var byteArry = returndata?.data
+                var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
+                holder.img.setImageBitmap(tbitmap)
+            }
+            override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
+                Log.d("ImgLoadingObj", "이미지 출력 실패")
+                t.printStackTrace()
+            }
+        })
+
 
         // 자기 자신의 댓글이 아닐 경우, 수정 및 삭제 불가능 하도록
         if(items[position].user_number != muserCode)
@@ -62,5 +89,6 @@ class CommunityPostDetailCommentAdaptor(private val items: ArrayList<CommentInfo
         var contenttext : TextView = view.findViewById<TextView>(R.id.post_detail_comment_comment_item_content)
         var morebtn : ImageView = view.findViewById<ImageView>(R.id.post_detail_comment_comment_item_more)
         var datetext = view.findViewById<TextView>(R.id.post_detail_comment_comment_item_date)
+        var img = view.findViewById<CircleImageView>(R.id.post_detail_comment_comment_item_image)
     }
 }

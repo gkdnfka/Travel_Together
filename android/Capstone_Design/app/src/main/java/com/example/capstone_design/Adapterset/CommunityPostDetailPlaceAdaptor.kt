@@ -3,12 +3,14 @@ package com.example.capstone_design.Adapterset
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,7 @@ import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Fragmentset.CourseFragment
 import com.example.capstone_design.Interfaceset.ChangeFragment
 import com.example.capstone_design.Interfaceset.LoadImage
+import com.example.capstone_design.Interfaceset.changeDay
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.PublicRetrofit
 import de.hdodenhof.circleimageview.CircleImageView
@@ -25,7 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, val fragmentChangeListener : CourseFragment.ChangeFragAndInitSelectedPlace) : RecyclerView.Adapter<CommunityPostDetailPlaceAdaptor.ViewHolder>() {
+class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, val ChangeListener : CourseFragment.InterfaceForCourseRecycler) : RecyclerView.Adapter<CommunityPostDetailPlaceAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityPostDetailPlaceAdaptor.ViewHolder {
@@ -48,13 +51,17 @@ class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, c
             }
             override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
                 Log.d("ImgLoadingObj", "이미지 출력 실패")
+                mbitmap = BitmapFactory.decodeResource(contexts.getResources(), R.drawable.image);
                 t.printStackTrace()
             }
         })
 
-        holder.moreinfo.setOnClickListener{
+        holder.itemView.setOnClickListener {
+            ChangeListener.moveCamerato(items[position].PosY.toDouble(), items[position].PosX.toDouble(), position)
+        }
 
-            fragmentChangeListener.changeFragAndInitSelectedPlace(12, items[position], mbitmap)
+        holder.moreinfo.setOnClickListener{
+            ChangeListener.changeFragAndInitSelectedPlace(12, items[position], mbitmap)
         }
 
         holder.nametext.text = items[position].name
@@ -75,12 +82,16 @@ class CommunityPostDetailDayAdaptor(private val items: ArrayList<Int>, context :
     override fun getItemCount(): Int = items.size
     var contexts = context
     var changeDay = changeDay
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityPostDetailDayAdaptor.ViewHolder {
         val inflatedView = LayoutInflater.from(contexts).inflate(R.layout.post_detail_course_day_item, parent, false)
         return ViewHolder(inflatedView)
     }
 
     override fun onBindViewHolder(holder: CommunityPostDetailDayAdaptor.ViewHolder, position: Int) {
+        Log.d("아이템 변화 시작", position.toString() + " 아이템 채우는 중...")
+        if(changeDay.getSelectedDay() != position) holder.backview.setBackgroundColor(Color.WHITE)
+        else holder.backview.setBackgroundColor(Color.parseColor("#FF000000"))
 
         holder.daytext.setText(items[position].toString() + " 일차")
         holder.daytext.setOnClickListener {
@@ -92,9 +103,7 @@ class CommunityPostDetailDayAdaptor(private val items: ArrayList<Int>, context :
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
         var daytext: TextView = view.findViewById<TextView>(R.id.post_detail_day_textview)
+        var backview = view.findViewById<LinearLayout>(R.id.post_detail_back)
     }
 }
 
-interface changeDay{
-    fun changeday(day : Int)
-}

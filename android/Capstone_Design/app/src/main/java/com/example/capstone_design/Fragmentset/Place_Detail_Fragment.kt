@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.R
 
@@ -28,9 +29,14 @@ class Place_Detail_Fragment : Fragment()
         var placeWeb = view.findViewById<TextView>(R.id.place_detail_fragment_website)
         var openHourLinear = view.findViewById<LinearLayout>(R.id.place_detail_fragment_open_hour_linear_layout)
         var openHourInfoString = mActivity.SelectedPlace.openhour
+        var backbutton = view.findViewById<ImageView>(R.id.place_detail_back_button)
 
+        backbutton.setOnClickListener {
+            mActivity.onBackPressed()
+            //mActivity.changeFragment(11)
+        }
 
-        placeImage.setImageBitmap(mActivity.SelectedBitmap)
+        if(mActivity.SelectedBitmap != null) placeImage.setImageBitmap(mActivity.SelectedBitmap)
         placeName.setText(mActivity.SelectedPlace.name)
         placeAddr.setText(mActivity.SelectedPlace.address)
         placePhone.setText(mActivity.SelectedPlace.phonenumber)

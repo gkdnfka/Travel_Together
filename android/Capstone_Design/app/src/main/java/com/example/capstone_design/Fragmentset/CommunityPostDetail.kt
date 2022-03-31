@@ -11,16 +11,15 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 
 import com.example.capstone_design.Activityset.Activity
-<<<<<<< HEAD
+
 import com.example.capstone_design.Adapterset.CommunityPostDetailCommentAdaptor
 import com.example.capstone_design.Adapterset.CommunityPostDetailDayAdaptor
 import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
 import com.example.capstone_design.Dataset.CommentInfo
-=======
+
 import com.example.capstone_design.Dataset.BringPostInfo
 import com.example.capstone_design.Interfaceset.BringPost
 
->>>>>>> d97273e67dc706ca3ea47e1547841d7706d21455
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.PostInfo

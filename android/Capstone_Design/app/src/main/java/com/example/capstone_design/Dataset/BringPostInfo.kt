@@ -3,6 +3,8 @@ package com.example.capstone_design.Dataset
 import com.google.gson.annotations.SerializedName
 
 data class BringPostInfo(
+    @SerializedName("seq")
+    var seq : String,
     @SerializedName("POST_NAME")
     var postname : String,
     @SerializedName("USER_CODE")

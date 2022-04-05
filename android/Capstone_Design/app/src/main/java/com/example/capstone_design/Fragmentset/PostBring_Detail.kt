@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -30,6 +31,8 @@ class PostBringDetail : Fragment() {
         val view = inflater.inflate(R.layout.post_bring_detail,container,false)
         val mActivity = activity as Activity
         travelInfo = mActivity.SelectedBringPostInfo
+        dayIndex = mActivity.SelectedBringPostInfo.dayindex.toInt()
+        courseIndex = mActivity.SelectedBringPostInfo.courseindex.toInt()
         divideCourse()
         searchPlaceData()
         // 메인스레드와 서버통신을 위해 생성한 스레드의 동기를 맞추기위해 메인스레드를 sleep 통해 잠시 정지시켜준다.
@@ -39,7 +42,25 @@ class PostBringDetail : Fragment() {
             e.printStackTrace()
         }
         val detailPlaceName = view.findViewById<TextView>(R.id.bringDetailPlaceName)
-        detailPlaceName.text = coursePlaceList[dayIndex][courseIndex].name
+        val detailButton = view.findViewById<Button>(R.id.bringDetailButton)
+        detailPlaceName.text = (dayIndex+1).toString() + "일차 " + coursePlaceList[dayIndex][courseIndex].name
+        detailButton.setOnClickListener {
+            if(courseList[dayIndex][courseIndex + 1] == ""){
+                if(courseList[dayIndex+1][0] == "")
+                {
+                    detailPlaceName.text = "여행끝"
+                }
+                else{
+                    dayIndex += 1
+                    courseIndex = 0
+                    detailPlaceName.text = (dayIndex+1).toString() + "일차 " + coursePlaceList[dayIndex][courseIndex].name
+                }
+            }
+            else{
+                courseIndex += 1
+                detailPlaceName.text =(dayIndex+1).toString() + "일차 " + coursePlaceList[dayIndex][courseIndex].name
+            }
+        }
 
 
 

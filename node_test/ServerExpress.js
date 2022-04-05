@@ -103,8 +103,8 @@ app.get('*', (request, response) => {
         var postname = parsedQuery["postname"]
         var usercode = parsedQuery["usercode"]
         var course = parsedQuery["coursedata"];
-        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO UserTravel_DB (POST_NAME,USER_CODE,COURSE,COURSE_COMPLETE) VALUES (?,?,?,?)";
-        var params = [postname,usercode,course,""];
+        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO UserTravel_DB (POST_NAME,USER_CODE,COURSE,DAY_INDEX,COURSE_INDEX) VALUES (?,?,?,?,?)";
+        var params = [postname,usercode,course,0,0];
         connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
             console.log(err);
             if (err) {

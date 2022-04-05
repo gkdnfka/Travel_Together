@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Kimwooram/Desktop/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_fragment.xml" value="0.1" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/button_pressed.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22291666666666668" />
@@ -17,10 +18,15 @@
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/join_page_investigate.xml" value="0.25407608695652173" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/login_and_join.xml" value="0.25407608695652173" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/login_page.xml" value="0.25407608695652173" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/main.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/marker.xml" value="0.25407608695652173" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path.xml" value="0.2658514492753623" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path_result_place_item.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/plan_item.xml" value="0.2046875" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_bring.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_bring_item.xml" value="0.1" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_bring_detail.xml" value="0.25" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_bring_item.xml" value="0.33" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_comment_comment_item.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_comment_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_content_item.xml" value="0.33" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_course_day_item.xml" value="0.36614583333333334" />
@@ -32,6 +38,7 @@
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_main.xml" value="0.2046875" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan.xml" value="0.2046875" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_plan_detail.xml" value="0.35190217391304346" />
+        <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/recommend.xml" value="0.2046875" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/search_tourist_spot.xml" value="0.23097826086956522" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/setting_fragment.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/layout/tourist_spot_item.xml" value="0.23097826086956522" />

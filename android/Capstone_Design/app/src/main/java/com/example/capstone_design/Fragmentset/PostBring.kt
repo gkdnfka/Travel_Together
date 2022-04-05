@@ -40,7 +40,7 @@ class PostBring : Fragment() {
         var view = inflater.inflate(R.layout.post_bring, container, false)
         val mActivity = activity as Activity
         val retrofit = mActivity.retrofit
-        val BringList = view.findViewById<RecyclerView>(R.id.post_bring_list)
+        val bringList = view.findViewById<RecyclerView>(R.id.post_bring_list)
         val service = retrofit.create(BringPost::class.java)
         service.bringPost(funcName,typeName,"",mActivity.USER_CODE,"").enqueue(object : Callback<ArrayList<BringPostInfo>>{
             override fun onFailure(call: Call<ArrayList<BringPostInfo>>, t: Throwable) {
@@ -60,12 +60,12 @@ class PostBring : Fragment() {
                             element: BringPostInfo
                         ) {
                             mActivity.SetSelectedBringPost(element)
-                            mActivity.changeFragment(2)
+                            mActivity.changeFragment(13)
                         }
                     }
-                    val postbringadapter = PostBringAdapter(view.context,returndata!!,Implemented)
-                    BringList.adapter = postbringadapter
-                    BringList.layoutManager = LinearLayoutManager(view.context)
+                    val bringAdapter = PostBringAdapter(view.context,returndata!!,Implemented)
+                    bringList.adapter = bringAdapter
+                    bringList.layoutManager = LinearLayoutManager(view.context)
                 }
             }
         })

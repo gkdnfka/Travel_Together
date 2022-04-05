@@ -9,6 +9,8 @@ data class BringPostInfo(
     var usercode : String,
     @SerializedName("COURSE")
     var course : String,
-    @SerializedName("COURSE_COMPLETE")
-    var courseComplete : String
+    @SerializedName("DAY_INDEX")
+    var dayindex : String,
+    @SerializedName("COURSE_INDEX")
+    var courseindex : String
 )

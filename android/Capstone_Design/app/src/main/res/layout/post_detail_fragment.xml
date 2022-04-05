@@ -43,6 +43,7 @@
         android:id="@+id/post_detail_fragment_menu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+<<<<<<< HEAD
         android:layout_gravity="bottom"
 
         app:itemIconTint="@color/black"
@@ -51,6 +52,10 @@
         android:background="@android:color/transparent"
         app:itemTextColor="#100F0F"
         app:menu="@menu/menu_post_detail" />
+=======
+        android:layout_gravity="bottom"/>
+
+>>>>>>> d23dce664767074f49192aea177bd20069be8915
 
     <FrameLayout
         android:id="@+id/post_detail_FrameLayout"

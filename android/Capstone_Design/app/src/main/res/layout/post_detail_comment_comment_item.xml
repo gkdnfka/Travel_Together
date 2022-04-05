@@ -1,91 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="210dp">
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="7"
-        android:gravity="center"
+        android:layout_marginBottom="2dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/post_detail_comment_comment_item_image"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-
-            android:src="@drawable/first"
+            android:layout_margin="10dp"
             >
-        </de.hdodenhof.circleimageview.CircleImageView>
-        <TextView
-            android:id="@+id/post_detail_comment_comment_item_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text = "이름"
-            >
-        </TextView>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/post_detail_comment_comment_item_date"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:text="2022-02-28"
-            android:textAlignment="viewEnd"
-            >
-        </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="7"
+                android:gravity="center"
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/post_detail_comment_comment_item_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="8"
 
+                    android:src="@drawable/user"
+                    >
+                </de.hdodenhof.circleimageview.CircleImageView>
+                <TextView
+                    android:id="@+id/post_detail_comment_comment_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:text = "이름"
+                    >
+                </TextView>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/post_detail_comment_comment_item_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:enabled="false"
-            android:background="@null"
-            android:text="텍스트">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/post_detail_comment_comment_item_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
 
-        </EditText>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0"
-            android:gravity="top"
-        >
-
-        <ImageView
-            android:id="@+id/post_detail_comment_comment_item_more"
-            android:layout_width="20dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/more"></ImageView>
+                    android:layout_marginLeft="35dp"
+                    android:text="2022-02-28"
+                    android:textAlignment="viewStart"
+                    >
+                </TextView>
 
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/post_detail_comment_comment_item_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:enabled="false"
+                    android:background="@null"
+                    android:text="텍스트">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0"
+                android:gravity="top"
+                >
+
+                <ImageView
+                    android:id="@+id/post_detail_comment_comment_item_more"
+                    android:layout_width="20dp"
+                    android:layout_height="52dp"
+
+                    android:src="@drawable/more"></ImageView>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

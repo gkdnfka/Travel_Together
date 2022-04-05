@@ -1,4 +1,5 @@
 package com.example.capstone_design
+import android.content.ClipData
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -10,6 +11,12 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 
 import com.example.capstone_design.Activityset.Activity
+
+import com.example.capstone_design.Adapterset.CommunityPostDetailCommentAdaptor
+import com.example.capstone_design.Adapterset.CommunityPostDetailDayAdaptor
+import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
+import com.example.capstone_design.Dataset.CommentInfo
+
 import com.example.capstone_design.Dataset.BringPostInfo
 import com.example.capstone_design.Interfaceset.BringPost
 
@@ -38,32 +45,49 @@ class CommunityPostDetail : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         var view = inflater.inflate(R.layout.post_detail_fragment, container, false)
-        selectedPostInfo = (activity as Activity).SelectedPostInfo
+        var mActivity = (activity as Activity)
+        selectedPostInfo = mActivity.SelectedPostInfo
+
 
         // @솔빈 2022-01-29 (토)
         // 1. parseCourseList() -> 경로 문자열을 파싱해서 2차원 여행지 리스트(courseList[일차][여행지]로 변환
         // 2. loadPosList()     -> courseList[일차][여행지]의 원소인 여행지 번호를 통해 DB 에서 좌표값 불러와서 placeinfo 클래스를 원소로 가지는 placeinfoList[일차][여행지] 초기화.
-
-        parseCourseList()
-        loadPosList()
-
+        if(mActivity.SelectedPostDone == 0){
+            parseCourseList()
+            loadPosList()
+            mActivity.SelectedPostDone = 1
+        }
 
         // @솔빈 2022-02-05 (토)
         // 문제점 발생할 여지?
         // * 레트로핏을 활용한 http 통신 방식은 비동기 방식인데,
         //   미처 http 응답을 받기 전에 인자로 placeinfoList 가 넘어가는 동작이 수행되면, null이 되지 않을까?
-        childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, Main()).commit()
+        var selectedTab = mActivity.SelectedTabInPostDetail
+        Log.d("Tab 값 = ", selectedTab.toString())
+        if(selectedTab == 1) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CommentFragment((activity as Activity))).commit()
+        else if(selectedTab == 3) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit()
+        else childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit()
+
         var bottom : BottomNavigationView = view.findViewById(R.id.post_detail_fragment_menu)
         var BackButton = view.findViewById<ImageView>(R.id.post_detail_exit)
+
         var AddButton = view.findViewById<ImageView>(R.id.post_detail_content_add)
         val service = (activity as Activity).retrofit.create(BringPost::class.java)
 
         bottom.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
-                R.id.post_detail_comment_button ->{ childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CommentFragment((activity as Activity))).commit() }
-                R.id.post_detail_content_button-> { childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit() }
-                R.id.post_detail_course_button-> { childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(placeinfoList, daycount)).commit() }
+                R.id.post_detail_comment_button -> {
+                    mActivity.SelectedTabInPostDetail = 1
+                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CommentFragment((activity as Activity))).commit()
+                }
+                R.id.post_detail_content_button-> {
+                    mActivity.SelectedTabInPostDetail = 2
+                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit() }
+                R.id.post_detail_course_button-> {
+                    mActivity.SelectedTabInPostDetail = 3
+                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit() }
             }
+            Log.d("Tab 값 = ", mActivity.SelectedTabInPostDetail.toString())
             true
         }
 
@@ -119,8 +143,6 @@ class CommunityPostDetail : Fragment()
     private var course : String = ""
     private val maxDayLength = 20
     private val maxPlaceLength = 50
-    lateinit var courseList : Array<Array<String>>
-    var placeinfoList = ArrayList<ArrayList<PlaceInfo>>()
     var daycount : Int = 0
 
     // @솔빈  2022-01-29 (토)
@@ -132,8 +154,9 @@ class CommunityPostDetail : Fragment()
     // -> 2일차에 1번 -> 2번 -> 3번 -> 4번 -> 5번 순으로 여행지 방문
 
     private fun parseCourseList() {
+        var mActivity = (activity as Activity)
         course = selectedPostInfo.course
-        courseList = Array(maxDayLength, { Array(maxPlaceLength, {""}) })
+        mActivity.SelectedPostPlaceList = Array(maxDayLength, { Array(maxPlaceLength, {""}) })
 
         var tmpStr = ""
         var courseCount = 0
@@ -143,7 +166,7 @@ class CommunityPostDetail : Fragment()
         for (i in 0 until course.length){
             if(course[i] != '/' && course[i] != ',') tmpStr += course[i]
             else{
-                courseList[daycount][courseCount] = tmpStr
+                mActivity.SelectedPostPlaceList[daycount][courseCount] = tmpStr
                 courseCount += 1
                 tmpStr = ""
                 if(course[i] == '/') {
@@ -153,7 +176,7 @@ class CommunityPostDetail : Fragment()
             }
 
             if(i == course.length-1){
-                courseList[daycount][courseCount] = tmpStr
+                mActivity.SelectedPostPlaceList[daycount][courseCount] = tmpStr
                 daycount += 1
             }
         }
@@ -165,17 +188,18 @@ class CommunityPostDetail : Fragment()
     // DB에 쿼리문을 날려서 각각의 여행지의 좌표를 불러오고, placeinfoList에 저장한다.
 
     private fun loadPosList(){
-        placeinfoList = ArrayList<ArrayList<PlaceInfo>>()
+        var mActivity = (activity as Activity)
+        mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)
 
         for (i in 0 until daycount){
-            placeinfoList.add(ArrayList<PlaceInfo>())
+            mActivity.SelectedPostPlaceInfoList.add(ArrayList<PlaceInfo>())
             var strForQuery = ""
             var j = 0
 
-            while(courseList[i][j] != ""){
-                strForQuery +=  "testnum = " + courseList[i][j]
-                if(j+1 < maxPlaceLength && courseList[i][j+1] != "" ) strForQuery += " OR "
+            while(mActivity.SelectedPostPlaceList[i][j] != ""){
+                strForQuery +=  "testnum = " + mActivity.SelectedPostPlaceList[i][j]
+                if(j+1 < maxPlaceLength && mActivity.SelectedPostPlaceList[i][j+1] != "" ) strForQuery += " OR "
                 j++
             }
             service.getplaceinfo("SearchPlace", "ByIds", strForQuery).enqueue(object: Callback<ArrayList<PlaceInfo>> {
@@ -186,11 +210,20 @@ class CommunityPostDetail : Fragment()
                 override fun onResponse(call: Call<ArrayList<PlaceInfo>>, response: Response<ArrayList<PlaceInfo>>) {
                     Log.d("성공", "DB 입출력 성공")
                     var returndata = response.body()
-
                     // @솔빈 2022-01-29 (토)
                     // 이하 로직은 좌표값을 posList에 저장함.
                     // mysql 쿼리문의 결과로, 여행지의 순서에 상관없이 여행지의 고유번호에 따라 오름차순으로 결과가 반환되므로
                     // 2중 포문을 통해 여행지 고유번호 순서에 맞게 데이터를 넣어주는 동작을 수행함.
+                    if(returndata != null){
+                        for (q in 0 until maxPlaceLength){
+                            if(mActivity.SelectedPostPlaceList[i][q] == "") break
+                            for (j in 0 until returndata.size){
+                                if(returndata[j].num == mActivity.SelectedPostPlaceList[i][q]){
+                                    mActivity.SelectedPostPlaceInfoList[i].add(returndata[j])
+                                }
+                            }
+                        }
+                    }
 
                 }
             })

@@ -134,7 +134,5 @@ class Community_Post_Write_Plan_Detail : Fragment(), update_list_interface {
             CurrentCourse += " -> "
         }
         mActivity.postplanlist[mActivity.day-1].course = CurrentCourse
-
-
     }
 }

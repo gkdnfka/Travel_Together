@@ -2,6 +2,7 @@ package com.example.capstone_design.Adapterset
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.drawable.toIcon
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Dataset.ImageInfo
@@ -35,7 +37,7 @@ class CommunityAdaptor(val context: Context,private val PostList: ArrayList<Post
         val name = view.findViewById<TextView>(R.id.post_item_username)
         val content = view.findViewById<TextView>(R.id.post_item_content_preview)
         val title =  view.findViewById<TextView>(R.id.post_item_title)
-        val image = view.findViewById<CircleImageView>(R.id.post_item_image)
+        val image = view.findViewById<ImageView>(R.id.post_item_image)
         val date =  view.findViewById<TextView>(R.id.post_item_time)
     }
 

@@ -19,17 +19,31 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Activity : AppCompatActivity() {
-    // @솔빈 2022-1-29 토
-    // SelectedPostInfo : 프래그먼트 화면 전환시(게시글 자세히 보기), 넘겨 받아야할 게시글 정보를 담는 변수
-    // SelectedPlaceList : 최단 경로 찾기에서 사용되는, 선택한 여행지들을 담는 리스트
+    // @솔빈 2022-3-25 금
     // SelectedBitmap : 선택된 여행지의 이미지를 담고 있는 비트맵 객체
     // SelectedPlace  : 선택된 여행지에 대한 정보를 담고있는 객체
     lateinit var SelectedBitmap : Bitmap
     lateinit var SelectedPlace : PlaceInfo
-    lateinit var SelectedPostInfo : PostInfo
+
+    // SelectedPlaceList : 최단 경로 찾기에서 사용되는, 선택한 여행지들을 담는 리스트
+
     lateinit var SelectedBringPostInfo : BringPostInfo
     var SelectedPlaceList = ArrayList<PlaceInfo>()
 
+    // SelectedDayInPostDetail : 게시글 세부정보 페이지의 경로 탭에서 화면 전환시 날짜 선택 정보를 보존하기 위한 변수
+    // SelectedTabInPostDetail : 게시글 세부정보 페이지에서 화면 전환시 선택한 탭의 정보(본문, 경로, 댓글 중에서)를 보존하기 위한 변수
+    var SelectedDayInPostDetail : Int = 0
+    var SelectedTabInPostDetail : Int = 0
+
+    // SelectedPostInfo : 프래그먼트 화면 전환시(게시글 자세히 보기 페이지로 전환할때), 선택된 게시글의 정보를 담는 변수
+    lateinit var SelectedPostInfo : PostInfo
+
+    // SelectedPostPlaceList : 선택된 게시글의 여행 경로를 날짜별로 번호만 저장하는 리스트
+    // SelectedPostPlaceInfoList : 날짜별로 저장된 여행지 번호를 바탕으로 PlaceInfo 객체들을 불러와서 날짜별로 PlaceInfo 객체를 담는 변수.
+    // SelectedPostDone : SelectedPostPlaceList, SelectedPostPlaceInfoList 의 캐싱 여부를 저장하는 변수. 서버에서 중복 호출 방지하기 위함.
+    lateinit var SelectedPostPlaceList : Array<Array<String>>
+    var SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
+    var SelectedPostDone = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,7 +187,6 @@ class Activity : AppCompatActivity() {
             }
             7 ->{
                 ReplaceFragment("PostWriteMain", Community_Post_Write_Main(),R.id.Post_Write_FrameLayout)
-
             }
             8 ->{
                 ReplaceFragment("PostWritePlan", Community_Post_Write_Plan(),R.id.Post_Write_FrameLayout)
@@ -207,7 +220,7 @@ class Activity : AppCompatActivity() {
     // @솔빈 2022-03-14 (월)
     // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.219.101:8080/")
+        .baseUrl("http://10.93.246.248:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -4,19 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    >
 
-    <TextView
-        android:id="@+id/post_detail_day_textview"
+    <LinearLayout
+        android:id="@+id/post_detail_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 일차"
-        android:layout_margin="10dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
+        android:orientation="vertical"
+
+        >
+        <TextView
+            android:id="@+id/post_detail_day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="1 일차"
+            android:background="@color/white"
+            android:layout_marginBottom="3dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            />
+
+    </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

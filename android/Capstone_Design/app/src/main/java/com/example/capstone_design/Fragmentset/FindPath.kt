@@ -1,4 +1,5 @@
 package com.example.capstone_design
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.example.capstone_design.Adapterset.FavoritePlaceAdaptor
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Fragmentset.FindPathResult
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.Util.parseFavorite
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,14 +62,22 @@ class FindPath : Fragment()
                             return (activity as Activity).AddSelectedPlace(element)
                         }
                     }
-                    favoritePlaceListRecycle.adapter = FavoritePlaceAdaptor(returndata, (activity as Activity), Implemented)
+
+                    var Implemented2 = object : PlaceDetailPageInterface {
+                        override fun change(index: Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+                            (activity as Activity).SelectedPlace = placeinfo
+                            if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+                            (activity as Activity)!!.changeFragment(index)
+                        }
+                    }
+                    favoritePlaceListRecycle.adapter = FavoritePlaceAdaptor(returndata, (activity as Activity), Implemented, Implemented2)
                 }
             }
         })
 
         var btn = view.findViewById<Button>(R.id.path_button)
         btn.setOnClickListener {
-            (activity as Activity).supportFragmentManager.beginTransaction().replace(R.id.MainFrameLayout, FindPathResult()).commit()
+            (activity as Activity).changeFragment(13)
         }
         return view
     }

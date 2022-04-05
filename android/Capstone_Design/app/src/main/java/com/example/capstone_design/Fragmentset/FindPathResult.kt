@@ -1,18 +1,26 @@
 package com.example.capstone_design.Fragmentset
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
+import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
 import com.example.capstone_design.Dataset.PlaceInfo
+import com.example.capstone_design.Interfaceset.changeDay
 import com.example.capstone_design.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,6 +32,7 @@ import kotlin.math.pow
 
 interface changeCourse{
     fun change(selectedCourse : Int)
+    fun getSelectedCourse() : Int
 }
 
 
@@ -62,8 +71,33 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
     var lastVisit = ArrayList<ArrayList<Int>>()
     var powList = ArrayList<Int>()
 
+    var tempMarkerQueue = ArrayList<Marker?>()
+    lateinit var marker_root_view : View
+    lateinit var tv_marker : TextView
+
+    interface InterfaceForCourseRecycler{
+        fun changeFragAndInitSelectedPlace(index : Int, placeinfo : PlaceInfo, bitmap : Bitmap?)
+        fun moveCamerato(PosX: Double, PosY: Double, idx : Int)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.path_result, container, false)
+        var distanceTextview = view.findViewById<TextView>(R.id.path_result_km)
+
+        var interfaceForCourseRecycler = object : CourseFragment.InterfaceForCourseRecycler {
+            override fun changeFragAndInitSelectedPlace(index : Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+                (activity as Activity).SelectedPlace = placeinfo
+                if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+                (activity as Activity)!!.changeFragment(index)
+            }
+            override fun moveCamerato(PosX: Double, PosY: Double, idx : Int) {
+                myGooglemap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(PosX,PosY),10f))
+                tempMarkerQueue[idx]?.showInfoWindow()
+            }
+        }
+
+        marker_root_view = LayoutInflater.from((activity as Activity)).inflate(R.layout.marker_layout, null)
+        tv_marker = marker_root_view.findViewById<TextView>(R.id.marker_layout_text)
 
         placeinfoList = (activity as Activity).SelectedPlaceList
         initDP()
@@ -72,26 +106,33 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
             resultCourseList.add(calcPath(i, initState))
         }
 
-        mView = view.findViewById<MapView>(R.id.path_result_mapview)
+        mView = view.findViewById<MapView>(R.id.path_result_course_map)
         mView.onCreate(savedInstanceState)
         mView.getMapAsync(this)
 
-        var courseRecycle = view.findViewById<RecyclerView>(R.id.path_result_course)
+        var courseRecycle = view.findViewById<RecyclerView>(R.id.path_result_course_RecyclerView)
         courseRecycle.layoutManager = LinearLayoutManager((activity as Activity))
-        courseRecycle.adapter = FindPathResultAdaptor(resultCourseList[selectedCourse], (activity as Activity))
+        courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(resultCourseList[selectedCourse], (activity as Activity), interfaceForCourseRecycler)
 
 
         var courseNumberList = ArrayList<Int>()
-        for (i in 0 until placeinfoList.size) courseNumberList.add(i)
+        for (i in 0 until placeinfoList.size) courseNumberList.add(i+1)
 
-        var courseSelectRecycle = view.findViewById<RecyclerView>(R.id.path_result_courseSelect)
+        var courseSelectRecycle = view.findViewById<RecyclerView>(R.id.path_result_course_select_RecyclerView)
         courseSelectRecycle.layoutManager = LinearLayoutManager((activity as Activity), LinearLayoutManager.HORIZONTAL, false)
+        distanceTextview.setText("총 이동거리는 " + (round(dp[selectedCourse][initState]/10)/100 ).toString() + " km 입니다.")
 
         var Implemented = object : changeCourse {
             override fun change(courseNumber: Int) {
                 selectedCourse = courseNumber
-                courseRecycle.adapter = FindPathResultAdaptor(resultCourseList[selectedCourse], (activity as Activity))
+                courseSelectRecycle.adapter!!.notifyDataSetChanged()
+                courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(resultCourseList[selectedCourse], (activity as Activity), interfaceForCourseRecycler)
+                distanceTextview.setText("총 이동거리는 " + (round(dp[selectedCourse][initState]/10)/100).toString() + " km 입니다.")
                 updateGooglemap()
+            }
+
+            override fun getSelectedCourse(): Int {
+                return selectedCourse
             }
         }
         courseSelectRecycle.adapter = PathSelectAdaptor(courseNumberList, (activity as Activity), Implemented)
@@ -99,40 +140,59 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
         return view
     }
 
+    private val PATTERN_GAP_LENGTH_PX = 10
+    private val DOT: PatternItem = Dot()
+    private val GAP: PatternItem = Gap(PATTERN_GAP_LENGTH_PX.toFloat())
+    private val PATTERN_POLYLINE_DOTTED = listOf(GAP, DOT)
+
     override fun onMapReady(googleMap: GoogleMap) {
+        tempMarkerQueue.clear()
+        if(placeinfoList.size == 0) return
         var posLatLng = PolylineOptions().clickable(true)
         for (i in 0 until resultCourseList[selectedCourse].size){
-            Log.d("최종", resultCourseList[selectedCourse][i].toString())
             posLatLng.add(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble()))
             var marker = MarkerOptions()
-            marker.position(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble())).title(resultCourseList[selectedCourse][i].name)
-            googleMap.addMarker(marker)
+            tv_marker.setText((i+1).toString())
+            marker.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView((activity as Activity), marker_root_view)));
+            marker.position(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble())).title((i+1).toString() + "번, " + resultCourseList[selectedCourse][i].name)
+            var tmarker = googleMap.addMarker(marker)
+            tempMarkerQueue.add(tmarker)
         }
 
         val polyline = googleMap.addPolyline(posLatLng)
-        if(resultCourseList[selectedCourse].size > 0){
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(resultCourseList[selectedCourse][0].PosY.toDouble(), resultCourseList[selectedCourse][0].PosX.toDouble()), 10f))
+        polyline.pattern = PATTERN_POLYLINE_DOTTED
+
+        if(placeinfoList.size != 0 && resultCourseList[selectedCourse].size != 0){
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(resultCourseList[selectedCourse][0].PosY.toDouble(), resultCourseList[selectedCourse][0].PosX.toDouble()), 10f))
             googleMap.setOnPolylineClickListener(this)
             googleMap.setOnPolygonClickListener(this)
         }
-
         myGooglemap = googleMap
     }
 
+    // @솔빈 2022-2-5 (토)
+    // 구글맵 객체를 업데이트하는 함수. 날짜가 바뀔때마다 날짜에 해당하는 경로로 마커와 직선이 바뀜.
     fun updateGooglemap(){
         myGooglemap.clear()
+        tempMarkerQueue.clear()
+        if(placeinfoList.size == 0) return
         var posLatLng = PolylineOptions().clickable(true)
+
         for (i in 0 until resultCourseList[selectedCourse].size){
-            Log.d("최종", resultCourseList[selectedCourse][i].toString())
             posLatLng.add(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble()))
             var marker = MarkerOptions()
-            marker.position(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble())).title(resultCourseList[selectedCourse][i].name)
-            myGooglemap.addMarker(marker)
+            tv_marker.setText((i+1).toString())
+            marker.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView((activity as Activity), marker_root_view)));
+            marker.position(LatLng(resultCourseList[selectedCourse][i].PosY.toDouble(), resultCourseList[selectedCourse][i].PosX.toDouble())).title((i+1).toString() + "번, " + resultCourseList[selectedCourse][i].name)
+            var tmarker = myGooglemap.addMarker(marker)
+            tempMarkerQueue.add(tmarker)
         }
 
         val polyline = myGooglemap.addPolyline(posLatLng)
-        if(resultCourseList[selectedCourse].size > 0){
-            myGooglemap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(resultCourseList[selectedCourse][0].PosY.toDouble(), resultCourseList[selectedCourse][0].PosX.toDouble()), 10f))
+        polyline.pattern = PATTERN_POLYLINE_DOTTED
+
+        if(placeinfoList.size != 0 && resultCourseList[selectedCourse].size != 0){
+            myGooglemap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(resultCourseList[selectedCourse][0].PosY.toDouble(), resultCourseList[selectedCourse][0].PosX.toDouble()), 10f))
             myGooglemap.setOnPolylineClickListener(this)
             myGooglemap.setOnPolygonClickListener(this)
         }
@@ -272,28 +332,21 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
 
         return pathList
     }
-}
 
-
-class FindPathResultAdaptor(private val items: ArrayList<PlaceInfo>, context : Context) : RecyclerView.Adapter<FindPathResultAdaptor.ViewHolder>() {
-    override fun getItemCount(): Int = items.size
-    var contexts = context
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FindPathResultAdaptor.ViewHolder {
-        val inflatedView = LayoutInflater.from(contexts).inflate(R.layout.post_detail_course_place_item, parent, false)
-        return ViewHolder(inflatedView)
-    }
-
-    override fun onBindViewHolder(holder: FindPathResultAdaptor.ViewHolder, position: Int) {
-        holder.nametext.text = items[position].name
-        holder.numbertext.text = (position+1).toString()
-    }
-
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private var view: View = v
-        var nametext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_name)
-        var numbertext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_number)
+    fun createDrawableFromView(context : Context, view : View) : Bitmap {
+        var displayMetrics = DisplayMetrics();
+        (activity as Activity).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        var bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        var canvas = Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 }
+
 
 class PathSelectAdaptor(private val items: ArrayList<Int>, context : Context, changeCourse : changeCourse) : RecyclerView.Adapter<PathSelectAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
@@ -306,17 +359,22 @@ class PathSelectAdaptor(private val items: ArrayList<Int>, context : Context, ch
     }
 
     override fun onBindViewHolder(holder: PathSelectAdaptor.ViewHolder, position: Int) {
-        holder.daytext.text = items[position].toString() + " 번째 경로"
+        if(changeCourse.getSelectedCourse() != position) holder.backview.setBackgroundColor(Color.WHITE)
+        else holder.backview.setBackgroundColor(Color.parseColor("#FF000000"))
+
+        holder.daytext.text = "경로 "+items[position].toString()
         holder.daytext.setOnClickListener {
             changeCourse.change(position)
         }
-        holder.daytext.width = 30
+        holder.daytext.width = 150
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
         var daytext: TextView = view.findViewById<TextView>(R.id.post_detail_day_textview)
+        var backview = view.findViewById<LinearLayout>(R.id.post_detail_back)
     }
+
 }
 
 

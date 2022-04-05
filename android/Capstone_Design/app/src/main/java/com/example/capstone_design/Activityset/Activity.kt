@@ -26,7 +26,10 @@ class Activity : AppCompatActivity() {
     lateinit var SelectedPlace : PlaceInfo
 
     // SelectedPlaceList : 최단 경로 찾기에서 사용되는, 선택한 여행지들을 담는 리스트
+<<<<<<< HEAD
+=======
 
+>>>>>>> d23dce664767074f49192aea177bd20069be8915
     lateinit var SelectedBringPostInfo : BringPostInfo
     var SelectedPlaceList = ArrayList<PlaceInfo>()
 
@@ -159,7 +162,11 @@ class Activity : AppCompatActivity() {
     // 1번 버튼 = Main화면 // 2번버튼 = PostBring화면 // 3번 버튼 = Community화면 // 4번 버튼 = FindPath화면
     // 5번 버튼 = SearchPlace화면 // 6번 버튼 = PostWrite화면 // 7번 버튼 = PostWriteMain 화면 // 8번 버튼 = PostWritePlan 화면
     // 9번 버튼 = PostWriteDetail화면 // 10번 버튼 = SearchPlace_Post화면 // 11번 버튼 = 게시글 세부 화면
+<<<<<<< HEAD
+    // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = FindPathResult 화면
+=======
     // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = PostBringDetail 화면
+>>>>>>> d23dce664767074f49192aea177bd20069be8915
     fun changeFragment(index: Int){
         when(index){
             1 -> {
@@ -204,7 +211,11 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("PlaceDetailFragment",Place_Detail_Fragment(),R.id.MainFrameLayout)
             }
             13->{
+<<<<<<< HEAD
+                ReplaceFragment("FindPathResult",FindPathResult(),R.id.MainFrameLayout)
+=======
                 ReplaceFragment("PostBringDetail",PostBringDetail(),R.id.MainFrameLayout)
+>>>>>>> d23dce664767074f49192aea177bd20069be8915
             }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가

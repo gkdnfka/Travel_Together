@@ -39,6 +39,10 @@ class SearchPlace : Fragment() {
         var listView = tmp.findViewById<RecyclerView>(R.id.Search_Tourist_Spot_ListView)
         var place_list: ArrayList<PlaceInfo> = ArrayList()
         listView.layoutManager = LinearLayoutManager(tmp.context)
+
+
+
+
         edit.setOnFocusChangeListener(object : View.OnFocusChangeListener{
             override fun onFocusChange(view: View?, hasFocus: Boolean) {
                 if(hasFocus){

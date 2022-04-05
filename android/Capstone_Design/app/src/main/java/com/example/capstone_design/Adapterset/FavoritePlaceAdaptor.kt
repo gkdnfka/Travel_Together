@@ -1,18 +1,31 @@
 package com.example.capstone_design.Adapterset
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.capstone_design.Dataset.ImageInfo
+import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Dataset.PlaceInfo
+import com.example.capstone_design.Interfaceset.LoadImage
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.PublicRetrofit
+import com.example.capstone_design.Util.TranslateTagName
 import com.example.capstone_design.selectPlace
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, selectplace : selectPlace) : RecyclerView.Adapter<FavoritePlaceAdaptor.ViewHolder>() {
+class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, selectplace : selectPlace, val placeDetailPageInterface : PlaceDetailPageInterface) : RecyclerView.Adapter<FavoritePlaceAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
     var selectplace = selectplace
@@ -24,9 +37,31 @@ class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Co
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.Name.text = items[position].name
-        holder.Addr.text = items[position].address
-        holder.btn.setOnClickListener {
+        holder.chkbox.setOnClickListener {
             var retvalue : Int = selectplace.selectplace(items[position])
+        }
+        holder.tag.setText(TranslateTagName(items[position].depart))
+        var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
+        var tmp = ImageInfoForLoad(items[position].num, "PlaceImages")
+        lateinit var mbitmap : Bitmap
+        service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
+            override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
+                Log.d("ImgLoadingObj", "이미지 출력 성공")
+                var returndata = response.body()
+                var byteArry = returndata?.data
+                var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
+                mbitmap = tbitmap!!
+                holder.image.setImageBitmap(mbitmap)
+            }
+            override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
+                Log.d("ImgLoadingObj", "이미지 출력 실패")
+                mbitmap = BitmapFactory.decodeResource(contexts.getResources(), R.drawable.image);
+                t.printStackTrace()
+            }
+        })
+
+        holder.more.setOnClickListener{
+            placeDetailPageInterface.change(12, items[position], mbitmap)
         }
     }
 
@@ -34,7 +69,9 @@ class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Co
         private var view: View = v
         val Photo = view.findViewById<ImageView>(R.id.path_select_place_image)
         val Name = view.findViewById<TextView>(R.id.path_select_place_name)
-        val Addr = view.findViewById<TextView>(R.id.path_select_place_address)
-        val btn = view.findViewById<TextView>(R.id.path_select_place_check)
+        val image = view.findViewById<ImageView>(R.id.path_select_place_image)
+        val tag = view.findViewById<TextView>(R.id.path_select_place_tag)
+        val chkbox = view.findViewById<CheckBox>(R.id.path_select_place_chkbox)
+        val more = view.findViewById<ImageView>(R.id.path_select_place_more)
     }
 }

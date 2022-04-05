@@ -20,12 +20,12 @@ import com.example.capstone_design.Dataset.CommentInfo
 import com.example.capstone_design.Dataset.BringPostInfo
 import com.example.capstone_design.Interfaceset.BringPost
 
+
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Fragmentset.*
 
-import com.example.capstone_design.databinding.AlertdialogEdittextBinding
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -65,7 +65,7 @@ class CommunityPostDetail : Fragment()
         var selectedTab = mActivity.SelectedTabInPostDetail
         Log.d("Tab 값 = ", selectedTab.toString())
         if(selectedTab == 1) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CommentFragment((activity as Activity))).commit()
-        else if(selectedTab == 3) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit()
+        else if(selectedTab == 3) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment()).commit()
         else childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit()
 
         var bottom : BottomNavigationView = view.findViewById(R.id.post_detail_fragment_menu)
@@ -85,7 +85,7 @@ class CommunityPostDetail : Fragment()
                     childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit() }
                 R.id.post_detail_course_button-> {
                     mActivity.SelectedTabInPostDetail = 3
-                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit() }
+                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment()).commit() }
             }
             Log.d("Tab 값 = ", mActivity.SelectedTabInPostDetail.toString())
             true
@@ -112,10 +112,10 @@ class CommunityPostDetail : Fragment()
                             val PostName = editText.text.toString()
                             service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE,course).enqueue(object:Callback<ArrayList<BringPostInfo>> {
                                 override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
-                                    Log.d("Log", t.toString())
+                                    Log.d("실패", t.toString())
                                 }
                                 override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
-                                    Log.d("Log", "입출력 성공")
+                                    Log.d("성공", "입출력 성공")
                                     Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
                                 }
                             })
@@ -202,6 +202,7 @@ class CommunityPostDetail : Fragment()
                 if(j+1 < maxPlaceLength && mActivity.SelectedPostPlaceList[i][j+1] != "" ) strForQuery += " OR "
                 j++
             }
+
             service.getplaceinfo("SearchPlace", "ByIds", strForQuery).enqueue(object: Callback<ArrayList<PlaceInfo>> {
                 override fun onFailure(call : Call<ArrayList<PlaceInfo>>, t : Throwable){
                     Log.d("실패", t.toString())
@@ -210,6 +211,7 @@ class CommunityPostDetail : Fragment()
                 override fun onResponse(call: Call<ArrayList<PlaceInfo>>, response: Response<ArrayList<PlaceInfo>>) {
                     Log.d("성공", "DB 입출력 성공")
                     var returndata = response.body()
+
                     // @솔빈 2022-01-29 (토)
                     // 이하 로직은 좌표값을 posList에 저장함.
                     // mysql 쿼리문의 결과로, 여행지의 순서에 상관없이 여행지의 고유번호에 따라 오름차순으로 결과가 반환되므로
@@ -224,7 +226,6 @@ class CommunityPostDetail : Fragment()
                             }
                         }
                     }
-
                 }
             })
         }

@@ -11,22 +11,21 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 
 import com.example.capstone_design.Activityset.Activity
-<<<<<<< HEAD
+
 import com.example.capstone_design.Adapterset.CommunityPostDetailCommentAdaptor
 import com.example.capstone_design.Adapterset.CommunityPostDetailDayAdaptor
 import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
 import com.example.capstone_design.Dataset.CommentInfo
-=======
+
 import com.example.capstone_design.Dataset.BringPostInfo
 import com.example.capstone_design.Interfaceset.BringPost
 
->>>>>>> d97273e67dc706ca3ea47e1547841d7706d21455
+
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Fragmentset.*
 
-import com.example.capstone_design.databinding.AlertdialogEdittextBinding
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -66,7 +65,7 @@ class CommunityPostDetail : Fragment()
         var selectedTab = mActivity.SelectedTabInPostDetail
         Log.d("Tab 값 = ", selectedTab.toString())
         if(selectedTab == 1) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CommentFragment((activity as Activity))).commit()
-        else if(selectedTab == 3) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit()
+        else if(selectedTab == 3) childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment()).commit()
         else childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit()
 
         var bottom : BottomNavigationView = view.findViewById(R.id.post_detail_fragment_menu)
@@ -86,7 +85,7 @@ class CommunityPostDetail : Fragment()
                     childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, ContentFragment(selectedPostInfo.content, selectedPostInfo.title)).commit() }
                 R.id.post_detail_course_button-> {
                     mActivity.SelectedTabInPostDetail = 3
-                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment(daycount)).commit() }
+                    childFragmentManager.beginTransaction().replace(R.id.post_detail_FrameLayout, CourseFragment()).commit() }
             }
             Log.d("Tab 값 = ", mActivity.SelectedTabInPostDetail.toString())
             true

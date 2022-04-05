@@ -44,23 +44,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
-<<<<<<< HEAD
+
         app:itemIconTint="@color/black"
         app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056"
-=======
         android:layout_weight="1"
         android:background="@android:color/transparent"
-        app:elevation="0dp"
-        app:itemIconTint="@color/black"
         app:itemTextColor="#100F0F"
-
->>>>>>> d97273e67dc706ca3ea47e1547841d7706d21455
         app:menu="@menu/menu_post_detail" />
 
     <FrameLayout

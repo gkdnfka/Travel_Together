@@ -4,74 +4,133 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="100dp"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
+
     >
 
-
-    <CheckBox
-        android:id="@+id/path_select_place_check"
-        android:layout_width="40dp"
-        android:layout_height="51dp"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/path_place_list_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-        <ImageView
-            android:id="@+id/path_select_place_image"
-            android:layout_width="58dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="15dp"
-            android:layout_gravity="center"
-            android:foreground="@drawable/first"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
-
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        app:cardCornerRadius="2dp"
+        >
         <LinearLayout
-            android:layout_marginStart="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="15dp"
-            android:gravity="center_vertical"
             >
-            <TextView
-                android:id="@+id/path_select_place_name"
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="장소 이름"
-                android:textColor="#070505"
-                android:layout_marginBottom="30dp"
-                app:layout_constraintBottom_toTopOf="@+id/path_place_list_address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/path_place_list_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent"
+                >
 
-            <TextView
-                android:id="@+id/path_select_place_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주소지"
-                android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.111"
-                app:layout_constraintStart_toEndOf="@+id/path_place_list_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.661" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/main_theme"
+                    >
+                    <TextView
+                        android:id="@+id/path_select_place_tag"
+                        android:layout_width="29dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="관광명소"
+                        android:textSize="14dp"
+
+                        android:textColor="#000000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.04"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.454" />
+
+                </LinearLayout>
 
 
-    </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    >
+                    <ImageView
+                        android:id="@+id/path_select_place_image"
+                        android:layout_width="55dp"
+                        android:layout_height="57dp"
+                        android:scaleType="fitXY"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.182"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.372"
+                        app:srcCompat="@drawable/first" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/path_select_place_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="19dp"
+                        android:text="TextView"
+                        android:textSize="18dp"
+                        android:textColor="#000000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.386"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.197" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical"
+                    >
+                    <ImageView
+                        android:id="@+id/path_select_place_more"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/info"
+                        android:tint="#676161"></ImageView>
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/path_select_place_chkbox"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp">
+                </CheckBox>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

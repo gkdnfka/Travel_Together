@@ -33,7 +33,7 @@ import org.w3c.dom.Text
 
 // @솔빈 2022-01-27 (목)
 // CourseFragment -> 경로를 출력하는 프래그먼트
-class CourseFragment(dayCount : Int) : Fragment(),
+class CourseFragment() : Fragment(),
     OnMapReadyCallback, GoogleMap.OnPolylineClickListener, GoogleMap.OnPolygonClickListener
 {
 
@@ -41,7 +41,7 @@ class CourseFragment(dayCount : Int) : Fragment(),
     lateinit var mView : MapView
     var placeinfoList = ArrayList<ArrayList<PlaceInfo>>()
     var selectedDay : Int = 0
-    var dayCount = dayCount
+    var dayCount = 0
     var tempMarkerQueue = ArrayList<Marker?>()
     lateinit var marker_root_view : View
     lateinit var tv_marker : TextView
@@ -62,6 +62,7 @@ class CourseFragment(dayCount : Int) : Fragment(),
 
         selectedDay = mActivity.SelectedDayInPostDetail
         placeinfoList = mActivity.SelectedPostPlaceInfoList
+        dayCount = placeinfoList.size
 
         mView = view.findViewById<MapView>(R.id.post_detail_course_map)
         mView.onCreate(savedInstanceState)
@@ -228,5 +229,4 @@ class CourseFragment(dayCount : Int) : Fragment(),
         view.draw(canvas);
         return bitmap;
     }
-
 }

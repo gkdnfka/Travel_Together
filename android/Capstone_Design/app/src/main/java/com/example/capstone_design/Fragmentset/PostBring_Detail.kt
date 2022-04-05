@@ -35,9 +35,10 @@ class PostBringDetail : Fragment() {
         courseIndex = mActivity.SelectedBringPostInfo.courseindex.toInt()
         divideCourse()
         searchPlaceData()
+        Log.d("Log","!!!!!!")
         // 메인스레드와 서버통신을 위해 생성한 스레드의 동기를 맞추기위해 메인스레드를 sleep 통해 잠시 정지시켜준다.
         try {
-            Thread.sleep(50)
+            Thread.sleep(150)
         }catch (e:Exception){
             e.printStackTrace()
         }

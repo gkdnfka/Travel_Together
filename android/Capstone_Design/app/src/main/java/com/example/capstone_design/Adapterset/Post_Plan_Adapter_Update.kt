@@ -17,7 +17,7 @@ class Post_Plan_Adapter_Update(val context: Context, val PlanList: MutableList<P
     : RecyclerView.Adapter< Post_Plan_Adapter_Update.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.plan_item,null)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.plan_item,parent,false)
         return ViewHolder(view)
     }
 

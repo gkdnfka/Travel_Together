@@ -88,10 +88,10 @@ class CommunityPostDetail : Fragment()
                             val PostName = editText.text.toString()
                             service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE,course).enqueue(object:Callback<ArrayList<BringPostInfo>> {
                                 override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
-                                    Log.d("실패", t.toString())
+                                    Log.d("Log", t.toString())
                                 }
                                 override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
-                                    Log.d("성공", "입출력 성공")
+                                    Log.d("Log", "입출력 성공")
                                     Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
                                 }
                             })
@@ -178,7 +178,6 @@ class CommunityPostDetail : Fragment()
                 if(j+1 < maxPlaceLength && courseList[i][j+1] != "" ) strForQuery += " OR "
                 j++
             }
-
             service.getplaceinfo("SearchPlace", "ByIds", strForQuery).enqueue(object: Callback<ArrayList<PlaceInfo>> {
                 override fun onFailure(call : Call<ArrayList<PlaceInfo>>, t : Throwable){
                     Log.d("실패", t.toString())
@@ -192,19 +191,7 @@ class CommunityPostDetail : Fragment()
                     // 이하 로직은 좌표값을 posList에 저장함.
                     // mysql 쿼리문의 결과로, 여행지의 순서에 상관없이 여행지의 고유번호에 따라 오름차순으로 결과가 반환되므로
                     // 2중 포문을 통해 여행지 고유번호 순서에 맞게 데이터를 넣어주는 동작을 수행함.
-                    if(returndata != null){
 
-                        Log.d("테스트 출력", returndata.toString())
-                        Log.d("테스트 출력2", placeinfoList.toString())
-                        for (q in 0 until maxPlaceLength){
-                            if(courseList[i][q] == "") break
-                            for (j in 0 until returndata.size){
-                                if(returndata[j].num == courseList[i][q]){
-                                    placeinfoList[i].add(returndata[j])
-                                }
-                            }
-                        }
-                    }
                 }
             })
         }

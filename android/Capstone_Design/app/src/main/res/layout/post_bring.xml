@@ -17,16 +17,21 @@
         android:textColor="#bee9c4"
         android:layout_weight="1"
         />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/post_bring_list"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="20dp"
-        android:layout_weight="9"
-        android:background="#BEE9B4"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_weight="9">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_bring_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:background="#BEE9B4"/>
+    </LinearLayout>
+
 
 
 </LinearLayout>

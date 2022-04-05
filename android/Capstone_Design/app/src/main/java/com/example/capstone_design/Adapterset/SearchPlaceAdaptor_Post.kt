@@ -14,7 +14,7 @@ class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val conte
         return items.size
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.tourist_spot_item_post, null)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.tourist_spot_item_post, parent,false)
         return ViewHolder(view)
     }
 

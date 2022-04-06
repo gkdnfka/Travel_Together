@@ -204,7 +204,8 @@ class Community : Fragment()
             if(i == 1)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
-
+                    mActivity.changeFragment(15)
+                    mActivity.reset_value()
                 }).normalText("여행 추천 기능").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)
                 communityTool.addBuilder(builder)

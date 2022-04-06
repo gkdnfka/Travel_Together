@@ -209,6 +209,9 @@ class Activity : AppCompatActivity() {
             14->{
                 ReplaceFragment("PostBringDetail",PostBringDetail(),R.id.MainFrameLayout)
             }
+            15->{
+                ReplaceFragment("Recommend", Recommend(), R.id.MainFrameLayout)
+            }
 
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가
@@ -224,7 +227,7 @@ class Activity : AppCompatActivity() {
     // @솔빈 2022-03-14 (월)
     // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.219.101:8080/")
+        .baseUrl("http://192.168.219.103:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

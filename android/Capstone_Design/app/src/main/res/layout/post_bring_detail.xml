@@ -1,18 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailFragment"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:id="@+id/bringDetailPlaceName"
-        android:text = "test"
-        android:textAlignment="center"
-        android:textSize="40dp"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bringDetailButton"/>
 
-</LinearLayout>
+    <com.naver.maps.map.MapView
+        android:id="@+id/bringMap"
+        android:name="com.naver.maps.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1.3"
+            android:background="@color/main_default"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1.7"
+                    android:background="@drawable/toggle_background"
+                    android:gravity="center"
+                    android:text="목적지"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bringDetailDestination"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="7.5"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="center|left"
+                    android:singleLine="true"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_background"
+                android:drawableLeft="@drawable/store1"
+                android:drawablePadding="-3dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="13dp"
+                android:minHeight="0dp"
+                android:text="편의점" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_background"
+                android:drawableLeft="@drawable/cafe"
+                android:minWidth="0dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="13dp"
+                android:minHeight="0dp"
+                android:text="카페" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"/>
+        <Button
+            android:id="@+id/bringDetailButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom|right"
+            android:text="다음여행지로" />
+        <Button
+            android:id="@+id/bringNavigate"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom|right"
+            android:text="경로" />
+
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

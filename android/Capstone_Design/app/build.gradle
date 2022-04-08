@@ -30,10 +30,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    viewBinding{
-        enabled=true
-    }
     buildFeatures {
+        viewBinding = true
         mlModelBinding true
     }
 }
@@ -61,6 +59,22 @@ dependencies {
     implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
     implementation 'co.dift.ui.swipetoaction:library:1.1'
     implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
+    implementation 'com.google.android.material:material:1.4.0-alpha02'
+
+    // @지원
+    // 네이버 지도를 위한 의존성 추가
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.2.0')
+
+    // Declare the dependencies for the desired Firebase products without specifying versions
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.naver.maps:map-sdk:3.11.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
 
     // @솔빈
     // bottomSheet 을 위한 의존성 추가

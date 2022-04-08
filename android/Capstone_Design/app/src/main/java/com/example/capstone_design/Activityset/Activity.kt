@@ -14,11 +14,14 @@ import com.example.capstone_design.Fragmentset.*
 import com.example.capstone_design.Interfaceset.BringPost
 import com.example.capstone_design.Interfaceset.SetSelectedBringPost
 import com.example.capstone_design.Util.FavoriteAddManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Activity : AppCompatActivity() {
+
     // @솔빈 2022-3-25 금
     // SelectedBitmap : 선택된 여행지의 이미지를 담고 있는 비트맵 객체
     // SelectedPlace  : 선택된 여행지에 대한 정보를 담고있는 객체

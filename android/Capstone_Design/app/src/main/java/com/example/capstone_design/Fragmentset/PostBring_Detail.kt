@@ -50,11 +50,8 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
     var permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)
     //권한 가져오기
     //내 위치를 가져오는 코드
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient //자동으로 gps값을 받아온다.
-    lateinit var locationCallback: LocationCallback //gps응답 값을 가져온다.
-    lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
     private lateinit var locationSource: FusedLocationSource
-
+    val path = PathOverlay()
     lateinit var myNaverMap: NaverMap
     var destinationMarker = Marker()
     lateinit var dtInfo : PlaceInfo
@@ -99,6 +96,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                     courseIndex = 0
                     dtInfo = coursePlaceList[dayIndex][courseIndex]
                     destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
+                    detailDestination.text = dtInfo.name
 
 
                 }
@@ -107,6 +105,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                 courseIndex += 1
                 dtInfo = coursePlaceList[dayIndex][courseIndex]
                 destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
+                detailDestination.text = dtInfo.name
 
             }
         }
@@ -274,7 +273,6 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         val api = retrofit.create(NaverAPI::class.java)
         //근처에서 길찾기
         val callgetPath = api.getPath(APIKEY_ID, APIKEY,courseStart, courseEnd)
-
         callgetPath.enqueue(object : Callback<ResultPath> {
             override fun onFailure(call: Call<ResultPath>, t: Throwable) {
                 Log.d("실패", t.toString())
@@ -285,7 +283,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             ) {
                 val path_cords_list = response.body()?.route?.traoptimal
                 //경로 그리기 응답바디가 List<List<Double>> 이라서 2중 for문 썼음
-                val path = PathOverlay()
+
                 //MutableList에 add 기능 쓰기 위해 더미 원소 하나 넣어둠
                 val path_container : MutableList<LatLng>? = mutableListOf(LatLng(0.1,0.1))
                 for(path_cords in path_cords_list!!){
@@ -304,7 +302,6 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                     val cameraUpdate = CameraUpdate.scrollTo(path.coords[0]!!)
                         .animate(CameraAnimation.Fly, 3000)
                     myNaverMap!!.moveCamera(cameraUpdate)
-
                     Toast.makeText(activity as Activity, "경로 안내가 시작됩니다.", Toast.LENGTH_SHORT).show()
                 }
             }

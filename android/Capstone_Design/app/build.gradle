@@ -40,8 +40,11 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // @우람
+    // tensorflow-lite 사용을 위한 라이브러리 (auto-implement)
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+
     def retrofit_version = "2.9.0"
     // @솔빈
     // http 통신을 위한 라이브러리

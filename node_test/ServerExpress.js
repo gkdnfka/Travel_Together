@@ -115,7 +115,7 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + result);
         });
     }
-        // @정지원 2022-03-26 토 
+    // @정지원 2022-03-26 토 
     // 게시글 가져오기(불러오기)을 위한 로직
     if(parsedQuery["func"] == "BringPostGet"){
         var testQuery = "";

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Activityset.MainActivity
 import com.example.capstone_design.Dataset.JoinSuccess
@@ -36,12 +37,12 @@ class Recommend : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         var view = inflater.inflate(R.layout.recommend, container, false)
-        var textviews = view.findViewById<TextView>(R.id.RecommendLayout)
+        var textviews = view.findViewById<TextView>(R.id.TestText)
         var mactivity = (activity as Activity)
         val serviceForTaste = mactivity.retrofit.create(LoadUserTaste::class.java)
+        var resStr: String = String() //결과값 저장
 
-
-        val model = TtDatamodel.newInstance(view.context)
+        var model = TtDatamodel.newInstance(view.context)
 
         serviceForTaste.loadUserTaste("LoadTaste", mactivity.USER_CODE).enqueue(object: Callback<TasteInfo> {
             override fun onFailure(call : Call<TasteInfo>, t : Throwable){
@@ -61,8 +62,10 @@ class Recommend : Fragment()
                     .outputFeature0AsTensorBuffer
 
                 model.close()
-                var catArr = arrayOf("Rest", "Nature", "Lagacy", "Activity", "Shopping", "Perfomance", "Exhibition")
-                var resStr: String = String()
+
+                /*
+                var catArr = arrayOf("Rest", "Nature", "Lagacy", "Activity", "Shopping", "Performance", "Exhibition")
+
                 var outputApplyArray = IntArray(7)
 
                 var isAllZero: Boolean = true
@@ -77,17 +80,20 @@ class Recommend : Fragment()
                     if(outputApplyArray[i] == 1) {
                         resStr += catArr[i] + '/'
                     }
+                    resStr += outputApplyArray[i].toString()
                 }
                 if(isAllZero) {
                     val maxIdx = output.floatArray.indices.maxByOrNull { output.floatArray[it] } ?: -1
                     resStr += catArr[maxIdx]
-                }
+                }*/
 
-
-                string += "성별 값 : " + dataArray[7] + "\n" + resStr
-                textviews.text = string
+                resStr = if(output.floatArray[0] > 0.5) "1" else "0"
+                textviews.text = resStr
             }
-        })
+        }) // model 처리 끝.
+
+        val recommend_spot_view = view.findViewById<RecyclerView>(R.id.Recommend_Spot_View)
+
 
         return view
     }

@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Activityset.MainActivity
+import com.example.capstone_design.Adapterset.RecommendAdaptor
 import com.example.capstone_design.Dataset.JoinSuccess
 import com.example.capstone_design.Dataset.LoginSuccess
+import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Dataset.TasteInfo
 import com.example.capstone_design.Interfaceset.LoadUserTaste
+import com.example.capstone_design.Interfaceset.RecommendPlace
 import com.example.capstone_design.Interfaceset.SendJoinInfo
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.FavoriteAddManager
@@ -38,13 +42,13 @@ class Recommend : Fragment()
     {
         var view = inflater.inflate(R.layout.recommend, container, false)
         var textviews = view.findViewById<TextView>(R.id.TestText)
-        var mactivity = (activity as Activity)
-        val serviceForTaste = mactivity.retrofit.create(LoadUserTaste::class.java)
+        var mActivity = (activity as Activity)
+        val serviceForTaste = mActivity.retrofit.create(LoadUserTaste::class.java)
         var resStr: String = String() //결과값 저장
 
         var model = TtDatamodel.newInstance(view.context)
 
-        serviceForTaste.loadUserTaste("LoadTaste", mactivity.USER_CODE).enqueue(object: Callback<TasteInfo> {
+        serviceForTaste.loadUserTaste("LoadTaste", mActivity.USER_CODE).enqueue(object: Callback<TasteInfo> {
             override fun onFailure(call : Call<TasteInfo>, t : Throwable){
                 Log.d("실패", t.toString())
             }
@@ -63,36 +67,65 @@ class Recommend : Fragment()
 
                 model.close()
 
-                /*
-                var catArr = arrayOf("Rest", "Nature", "Lagacy", "Activity", "Shopping", "Performance", "Exhibition")
-
-                var outputApplyArray = IntArray(7)
-
-                var isAllZero: Boolean = true
-
-                for((i, out) in output.floatArray.withIndex()) {
-                    outputApplyArray[i] = if (out > 0.55f) 1 else 0
-
-                    if(isAllZero && outputApplyArray[i] != 0) {
-                        isAllZero = false
-                    }
-
-                    if(outputApplyArray[i] == 1) {
-                        resStr += catArr[i] + '/'
-                    }
-                    resStr += outputApplyArray[i].toString()
-                }
-                if(isAllZero) {
-                    val maxIdx = output.floatArray.indices.maxByOrNull { output.floatArray[it] } ?: -1
-                    resStr += catArr[maxIdx]
-                }*/
-
-                resStr = if(output.floatArray[0] > 0.5) "1" else "0"
-                textviews.text = resStr
+                resStr = if(output.floatArray[0] > 0.55) "1" else "0"
+                textviews.text = "사용자의 여행지 타입: " + resStr
             }
-        }) // model 처리 끝.
+        }) // model 처리
+        /*
+           date  : 2022-04-13
+           worker: 김우람
+           note  : recommend recyclerView 구성
+           현재는 임시 테이블인 test를 이용해 category를 통해 여행지 목록 서치.
+           이후에는 model output을 기반으로 해당하는 카테고리의 여행지만 띄워줄 예정.
 
+        */
         val recommend_spot_view = view.findViewById<RecyclerView>(R.id.Recommend_Spot_View)
+        recommend_spot_view.layoutManager = LinearLayoutManager(view.context)
+
+        val serviceRecommend = mActivity.retrofit.create(RecommendPlace::class.java)
+        val funcName = "RecommendPlace"
+
+        var catName = "Leisure"
+        //이후 DB 이전 완전히 끝나면 model output type에 따라 부여예정
+        var place_list:ArrayList<PlaceInfo> = ArrayList()
+
+        serviceRecommend.recommendplace(funcName, catName)
+            .enqueue(object : Callback<ArrayList<PlaceInfo>>{
+                override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
+                    Log.d("실패", t.toString())
+                }
+
+                override fun onResponse(
+                    call: Call<ArrayList<PlaceInfo>>,
+                    response: Response<ArrayList<PlaceInfo>>
+                ) {
+                    Log.d("성공", "추천 카테고리 여행지 불러오기")
+                    var returnData = response.body()
+
+                    if(returnData != null){
+
+
+                        var manager = LinearLayoutManager(
+                            (activity as Activity),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+
+                        var recView =
+                            view.findViewById<RecyclerView>(R.id.Recommend_Spot_View)
+
+                        recView.apply {
+                            layoutManager = manager
+                        }
+
+                        place_list = response.body()!!
+                        if(place_list != null) {
+                            val recommendAdaptor = RecommendAdaptor(place_list, view.context)
+                            recView.adapter = recommendAdaptor
+                        }
+                    }
+                }
+        })
 
 
         return view

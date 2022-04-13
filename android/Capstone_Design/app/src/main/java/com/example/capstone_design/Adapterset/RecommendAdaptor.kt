@@ -36,7 +36,7 @@ class RecommendAdaptor(private val items: ArrayList<PlaceInfo>, context : Contex
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tag.text = TranslateTagName(items[position].name)
+        holder.tag.text = TranslateTagName(items[position].depart)
         holder.nametext.text = items[position].name
         holder.btn.setOnClickListener {
             addFavorite("FavoritePlaceList", items[position].num)

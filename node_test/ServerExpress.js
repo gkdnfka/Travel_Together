@@ -291,6 +291,26 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + ret);
         }); 
     }
+
+    // @우람 2022-04-13 수
+    // 추천을 위한 select query
+    if(parsedQuery["func"] == "RecommendPlace"){ 
+        var testQuery = "SELECT * FROM test WHERE testdepart = '" + parsedQuery['cat'] + "'"
+        var ret = {
+            "number" : "1"
+        };
+
+        var result;
+        connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+            console.log(results)
+            result = JSON.stringify(results)
+            response.end(result)
+            console.log("쿼리문 결과1 : " + result)
+        });
+    }
 });
 
 

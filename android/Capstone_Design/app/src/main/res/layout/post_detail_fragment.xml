@@ -43,24 +43,14 @@
         android:id="@+id/post_detail_fragment_menu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-<<<<<<< HEAD
         android:layout_weight="1"
-        android:layout_gravity="top"/>
-=======
-<<<<<<< HEAD
-        android:layout_gravity="bottom"
-
         app:itemIconTint="@color/black"
         app:elevation="0dp"
-        android:layout_weight="1"
         android:background="@android:color/transparent"
         app:itemTextColor="#100F0F"
-        app:menu="@menu/menu_post_detail" />
-=======
+        app:menu="@menu/menu_post_detail"
         android:layout_gravity="bottom"/>
->>>>>>> 678a52a135be8e833ee5e89a900241c3a6d798b9
 
->>>>>>> d23dce664767074f49192aea177bd20069be8915
 
     <FrameLayout
         android:id="@+id/post_detail_FrameLayout"

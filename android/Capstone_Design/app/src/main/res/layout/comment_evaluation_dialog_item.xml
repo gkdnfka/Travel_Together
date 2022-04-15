@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RatingBar
+        android:id ="@+id/comment_evaluation_dialog_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:numStars="5"
+        android:stepSize="1"
+        android:progressTint="@color/yellow"
+        android:progressBackgroundTint="@color/gray"
+        android:secondaryProgressTint="@color/yellow"
+        >
+    </RatingBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@color/black"
+        >
+
+        <TextView
+            android:id="@+id/comment_evaluation_dialog_okaybtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "확인"
+            android:textAlignment="center"
+            android:background="@color/main_theme"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/comment_evaluation_dialog_cancelbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "취소"
+            android:layout_margin="1dp"
+            android:textAlignment="center"
+            android:background="@color/main_theme"
+            android:layout_weight="1"
+            >
+        </TextView>
+
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

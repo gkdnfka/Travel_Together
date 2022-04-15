@@ -60,17 +60,15 @@
 
 
             <TextView
-                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text = "상세 정보"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:gravity="center"
+                android:layout_marginTop="25dp"
                 android:background="@color/main_theme"
-                >
-            </TextView>
+                android:gravity="center"
+                android:text="상세 정보"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"></TextView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,26 +222,255 @@
                 >
             </TextView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/place_detail_fragment_evaluation_avg_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="3.75 점"
+                        android:textSize="22dp"
+                        >
+                    </TextView>
+
+                    <RatingBar
+                        style = "@style/Widget.AppCompat.RatingBar.Small"
+                        android:id = "@+id/place_detail_comment_item_score"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:isIndicator="true"
+                        android:progressTint="@color/yellow"
+                        android:progressBackgroundTint="@color/gray"
+                        android:secondaryProgressTint="@color/yellow"
+                        >
+                    </RatingBar>
+                    <TextView
+                        android:id="@+id/place_detail_fragment_evaluation_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="35dp"
+                        android:text="152명 평가"
+                        >
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="35dp"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textSize="20dp"
+                            android:gravity="center_vertical"
+                            >
+                        </TextView>
+                        <SeekBar
+                            android:id="@+id/place_detail_score_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:thumb="@color/white"
+                            android:progressDrawable="@drawable/seekbar_bar"
+                            android:max="100"
+                            android:enabled="true"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4"
+                            android:textSize="20dp"
+                            android:gravity="center_vertical"
+                            >
+                        </TextView>
+                        <SeekBar
+                            android:id="@+id/place_detail_score_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:thumb="@color/white"
+                            android:progressDrawable="@drawable/seekbar_bar"
+                            android:max="100"
+                            android:clickable="false"
+                            android:enabled="false"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textSize="20dp"
+                            android:gravity="center_vertical"
+                            >
+                        </TextView>
+                        <SeekBar
+                            android:id="@+id/place_detail_score_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:thumb="@color/white"
+                            android:progressDrawable="@drawable/seekbar_bar"
+                            android:max="100"
+                            android:enabled="false"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2"
+                            android:textSize="20dp"
+                            android:gravity="center_vertical"
+                            >
+                        </TextView>
+                        <SeekBar
+                            android:id="@+id/place_detail_score_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:thumb="@color/white"
+                            android:progressDrawable="@drawable/seekbar_bar"
+                            android:max="100"
+                            android:enabled="false"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="20dp"
+                            android:gravity="center_vertical"
+                            >
+                        </TextView>
+                        <SeekBar
+                            android:id="@+id/place_detail_score_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:thumb="@color/white"
+                            android:progressDrawable="@drawable/seekbar_bar"
+                            android:max="100"
+                            android:enabled="false"
+                            />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
                 >
-                    <RatingBar
-                        android:id="@+id/place_detail_fragment_rating"
-                        android:layout_width="250dp"
-                        android:layout_height="40dp"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:rating="0"
-                        android:stepSize="2"></RatingBar>
+
+                <TextView
+                    android:id = "@+id/place_detail_fragment_comment_cnt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text = "총 12개의 댓글"
+                    android:textSize="25dp"
+                    >
+                </TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    >
+
+                    <EditText
+                        android:id="@+id/place_detail_fragment_comment_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="댓글 추가..."
+                        android:textColorHint="#7E7A7A"></EditText>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/place_detail_fragment_comment_send_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        android:layout_weight="6"
+                        android:background="@drawable/send"
+                        android:backgroundTint="@color/black" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/place_detail_fragment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    >
+
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 

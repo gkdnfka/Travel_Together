@@ -201,8 +201,9 @@ app.get('*', (request, response) => {
     // @솔빈 2022-03-03 목 
     // 댓글을 불러오기 위한 로직
     if(parsedQuery["func"] == "SearchComment"){ 
-        var testQuery = "SELECT * FROM COMMENT_DB WHERE NOTICEBOARD_NUM = '" + parsedQuery['number'] + "'"
+        var testQuery = "SELECT * FROM COMMENT_DB WHERE UNIQUE_NUM = '" + parsedQuery['number'] + "' and COMMENT_TYPE = '" + parsedQuery['CommentType'] + "'"
         var result;
+        console.log(testQuery)
 
         connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
             if (err) {
@@ -218,7 +219,7 @@ app.get('*', (request, response) => {
     // @솔빈 2022-03-03 목 
     // 댓글 수정을 위한 로직
     if(parsedQuery["func"] == "EditComment"){ 
-        var testQuery = "UPDATE COMMENT_DB SET CONTENT = '" + parsedQuery['Content'] + "' , DATES = '" + parsedQuery['Dates'] + "' WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
+        var testQuery = "UPDATE COMMENT_DB SET CONTENT = '" + parsedQuery['Content'] + "' , DATES = '" + parsedQuery['Dates'] + "', COMMENT_RATING = '" +  parsedQuery['Rating'] + "' WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
         var ret = {
             "number" : "1"
         };
@@ -241,8 +242,8 @@ app.get('*', (request, response) => {
     // @솔빈 2022-03-03 목 
     // 댓글 작성을 위한 로직
     if(parsedQuery["func"] == "WriteComment"){ 
-        var testQuery = "INSERT INTO COMMENT_DB VALUES (0, " + parsedQuery['NoticeNum'] + " , " + parsedQuery['UserCode'] + " , '" 
-                                                             + parsedQuery['UserName'] + "' , '" + parsedQuery['Dates'] + "' , '" + parsedQuery['Content'] + "')"
+        var testQuery = "INSERT INTO COMMENT_DB VALUES (0, " + parsedQuery['UniqueNum'] + " , " + parsedQuery['UserCode'] + " , '" 
+                                                             + parsedQuery['UserName'] + "' , '" + parsedQuery['Dates'] + "' , '" + parsedQuery['Content'] + "' , '" + parsedQuery['CommentType'] + "' , '" + parsedQuery['Rating'] +"')"
         var ret = {
             "number" : "1"
         };

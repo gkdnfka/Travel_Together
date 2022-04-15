@@ -16,11 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 // 이미지 불러오는 객체(싱글톤 방식) 선언
 object PublicRetrofit {
     var retrofit   = Retrofit.Builder()
-<<<<<<< HEAD
         .baseUrl("http://192.168.219.105:8080/")
-=======
-        .baseUrl("http://10.93.246.248:8080/")
->>>>>>> d23dce664767074f49192aea177bd20069be8915
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

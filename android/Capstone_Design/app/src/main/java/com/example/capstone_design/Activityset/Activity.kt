@@ -14,11 +14,14 @@ import com.example.capstone_design.Fragmentset.*
 import com.example.capstone_design.Interfaceset.BringPost
 import com.example.capstone_design.Interfaceset.SetSelectedBringPost
 import com.example.capstone_design.Util.FavoriteAddManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Activity : AppCompatActivity() {
+
     // @솔빈 2022-3-25 금
     // SelectedBitmap : 선택된 여행지의 이미지를 담고 있는 비트맵 객체
     // SelectedPlace  : 선택된 여행지에 대한 정보를 담고있는 객체
@@ -158,9 +161,13 @@ class Activity : AppCompatActivity() {
     // 1번 버튼 = Main화면 // 2번버튼 = PostBring화면 // 3번 버튼 = Community화면 // 4번 버튼 = FindPath화면
     // 5번 버튼 = SearchPlace화면 // 6번 버튼 = PostWrite화면 // 7번 버튼 = PostWriteMain 화면 // 8번 버튼 = PostWritePlan 화면
     // 9번 버튼 = PostWriteDetail화면 // 10번 버튼 = SearchPlace_Post화면 // 11번 버튼 = 게시글 세부 화면
+<<<<<<< HEAD
     // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = FindPathResult 화면
     // 14번 버튼 PostBringDetail 화면
 
+=======
+    // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = FindPathResult 화면 // 14번 버튼 = bringDetail 화면
+>>>>>>> 223042b36a66e916ddb31a45712076cc25c8c1fb
     fun changeFragment(index: Int){
         when(index){
             1 -> {
@@ -205,11 +212,16 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("PlaceDetailFragment",Place_Detail_Fragment(),R.id.MainFrameLayout)
             }
             13->{
+<<<<<<< HEAD
+=======
+
+>>>>>>> 223042b36a66e916ddb31a45712076cc25c8c1fb
                 ReplaceFragment("FindPathResult",FindPathResult(),R.id.MainFrameLayout)
             }
             14->{
                 ReplaceFragment("PostBringDetail",PostBringDetail(),R.id.MainFrameLayout)
             }
+
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가
         }

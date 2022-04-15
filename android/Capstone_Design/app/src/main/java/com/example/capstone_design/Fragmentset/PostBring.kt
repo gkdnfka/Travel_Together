@@ -60,7 +60,7 @@ class PostBring : Fragment() {
                             element: BringPostInfo
                         ) {
                             mActivity.SetSelectedBringPost(element)
-                            mActivity.changeFragment(13)
+                            mActivity.changeFragment(14)
                         }
                     }
                     val bringAdapter = PostBringAdapter(view.context,returndata!!,Implemented)

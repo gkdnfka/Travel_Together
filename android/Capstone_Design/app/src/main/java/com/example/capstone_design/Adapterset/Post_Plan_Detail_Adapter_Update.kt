@@ -21,7 +21,7 @@ class Post_Plan_Detail_Adapter_Update(val context: Context, val PlaceList: Mutab
     : RecyclerView.Adapter<Post_Plan_Detail_Adapter_Update.ViewHolder>() {
     private lateinit var dragListener: OnStartDragListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.post_write_detail_item,parent,false)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.post_write_detail_item,null)
         return ViewHolder(view)
     }
 

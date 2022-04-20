@@ -99,8 +99,6 @@ class SearchPlace : Fragment() {
                             Log.d("성공", "입출력 성공")
                             var returndata = response.body()
                             if (returndata != null) {
-                                val SearchAdapter =
-                                    SearchPlaceAdaptor(returndata!!, (activity as Activity))
 
                                 var manager = LinearLayoutManager(
                                     (activity as Activity),

@@ -87,7 +87,7 @@ class Recommend : Fragment()
 
         var catName = "Leisure"
         //이후 DB 이전 완전히 끝나면 model output type에 따라 부여예정
-        var place_list:ArrayList<PlaceInfo> = ArrayList()
+
 
         serviceRecommend.recommendplace(funcName, catName)
             .enqueue(object : Callback<ArrayList<PlaceInfo>>{
@@ -117,7 +117,7 @@ class Recommend : Fragment()
                         recView.apply {
                             layoutManager = manager
                         }
-
+                        var place_list:ArrayList<PlaceInfo> = ArrayList()
                         place_list = response.body()!!
                         if(place_list != null) {
                             val recommendAdaptor = RecommendAdaptor(place_list, view.context)

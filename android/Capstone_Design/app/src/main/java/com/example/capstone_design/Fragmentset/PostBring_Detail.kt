@@ -226,7 +226,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                 if(courseList[i][j] == ""){
                     break
                 }
-                 tempQuery += "testnum = " + courseList[i][j]
+                tempQuery += "testnum = " + courseList[i][j]
                 if(courseList[i][j+1] != ""){
                     tempQuery += " OR "
                 }
@@ -235,25 +235,25 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
 
             Thread(object: Runnable{
                 override fun run() {
-                  try {
-                      val returnData = service.getplaceinfo("SearchPlace","ByIds",tempQuery).execute().body()
-                      if(returnData != null){
-                          for(w in 0 until maxString){
-                              if(courseList[i][w] == ""){
-                                  break
-                              }
-                              for(x in 0 until returnData.size){
-                                  if(returnData[x].num == courseList[i][w]){
-                                      coursePlaceList[i].add(returnData[x])
-                                      Log.d("Log","성공!" + coursePlaceList.toString())
-                                  }
-                              }
-                          }
-                      }
-                  }catch (e:IOException){
-                      Log.d("Log","실패")
-                      e.printStackTrace()
-                  }
+                    try {
+                        val returnData = service.getplaceinfo("SearchPlace","ByIds",tempQuery).execute().body()
+                        if(returnData != null){
+                            for(w in 0 until maxString){
+                                if(courseList[i][w] == ""){
+                                    break
+                                }
+                                for(x in 0 until returnData.size){
+                                    if(returnData[x].num == courseList[i][w]){
+                                        coursePlaceList[i].add(returnData[x])
+                                        Log.d("Log","성공!" + coursePlaceList.toString())
+                                    }
+                                }
+                            }
+                        }
+                    }catch (e:IOException){
+                        Log.d("Log","실패")
+                        e.printStackTrace()
+                    }
                 }
             }).start()
 

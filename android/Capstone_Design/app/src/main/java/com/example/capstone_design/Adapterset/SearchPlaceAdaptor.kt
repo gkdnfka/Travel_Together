@@ -1,8 +1,13 @@
 package com.example.capstone_design.Adapterset
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +19,7 @@ import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.R
-import com.example.capstone_design.Util.PublicRetrofit
-import com.example.capstone_design.Util.TranslateTagName
-import com.example.capstone_design.Util.addFavorite
+import com.example.capstone_design.Util.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,11 +33,15 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        GetBookmarkImage("FavoritePlaceList", holder.btn, items[position].num)
+
         holder.tag.text = TranslateTagName(items[position].name)
         holder.nametext.text = items[position].name
         holder.btn.setOnClickListener {
             addFavorite("FavoritePlaceList", items[position].num)
+            GetBookmarkImage("FavoritePlaceList", holder.btn, items[position].num)
         }
+
         var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
         var tmp = ImageInfoForLoad(items[position].num, "PlaceImages")
         lateinit var mbitmap : Bitmap
@@ -45,7 +52,12 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
                 var byteArry = returndata?.data
                 var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
                 mbitmap = tbitmap!!
-                holder.image.setImageBitmap(mbitmap)
+
+                val resources: Resources = (contexts).resources
+                val drawable = BitmapDrawable(resources, mbitmap)
+                drawable.setColorFilter(Color.parseColor("#FFA5A1A1"), PorterDuff.Mode.MULTIPLY)
+                holder.Linear.setBackgroundDrawable(drawable)
+
             }
             override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
                 Log.d("ImgLoadingObj", "이미지 출력 실패")
@@ -59,7 +71,7 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
         private var view: View = v
         var tag : TextView = view.findViewById<TextView>(R.id.tourist_spot_item_tag)
         var nametext: TextView = view.findViewById<TextView>(R.id.PlaceNameText)
-        var image : ImageView = view.findViewById<ImageView>(R.id.PlaceImage)
+        var Linear : LinearLayout = view.findViewById<LinearLayout>(R.id.tourist_spot_item_Linear)
         var btn : ImageView = view.findViewById<ImageView>(R.id.search_tourist_spot_item_favorite)
     }
     interface OnItemClickListener {

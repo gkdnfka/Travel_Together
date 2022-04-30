@@ -41,8 +41,6 @@ class SearchPlace : Fragment() {
         listView.layoutManager = LinearLayoutManager(tmp.context)
 
 
-
-
         edit.setOnFocusChangeListener(object : View.OnFocusChangeListener{
             override fun onFocusChange(view: View?, hasFocus: Boolean) {
                 if(hasFocus){

@@ -2,47 +2,57 @@ package com.example.capstone_design.Adapterset
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
+import android.graphics.Canvas
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
-import androidx.core.graphics.drawable.toIcon
+import androidx.core.view.marginLeft
+import androidx.core.view.setMargins
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
-import com.example.capstone_design.Dataset.ImageInfo
-import com.example.capstone_design.Dataset.ImageInfoForLoad
-import com.example.capstone_design.Dataset.PostInfo
+import com.example.capstone_design.Dataset.*
+import com.example.capstone_design.Interfaceset.CommentInterface
+import com.example.capstone_design.Interfaceset.LikeOperation
 import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
 import com.example.capstone_design.R
-import com.example.capstone_design.Util.PublicRetrofit
-import com.google.android.gms.maps.model.Circle
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.capstone_design.Util.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
 
 
-class CommunityAdaptor(val context: Context,private val PostList: ArrayList<PostInfo>, var implemented: SetSeletedPostInfo) :
+class CommunityAdaptor(
+    val context: Context,
+    private val PostList: ArrayList<PostInfo>,
+    var implemented: SetSeletedPostInfo,
+    val userCode : String
+) :
     RecyclerView.Adapter<CommunityAdaptor.ViewHolder>() {
     override fun getItemCount(): Int =  PostList.size
 
-    class ViewHolder(view :View):RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val name = view.findViewById<TextView>(R.id.post_item_username)
         val content = view.findViewById<TextView>(R.id.post_item_content_preview)
         val title =  view.findViewById<TextView>(R.id.post_item_title)
         val image = view.findViewById<ImageView>(R.id.post_item_image)
         val date =  view.findViewById<TextView>(R.id.post_item_time)
+        val scrollimg = view.findViewById<LinearLayout>(R.id.post_item_image_preview)
+        val commentCount = view.findViewById<TextView>(R.id.post_item_comment_cnt)
+        val bookmark = view.findViewById<ImageView>(R.id.post_item_bookmark)
+        val likebtn = view.findViewById<ImageView>(R.id.post_item_like_button)
+        val likenum = view.findViewById<TextView>(R.id.post_item_like_number)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.post_item,null)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.post_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -52,6 +62,12 @@ class CommunityAdaptor(val context: Context,private val PostList: ArrayList<Post
         holder.title.text = PostList[position].title
         holder.date.text = PostList[position].dates
 
+        GetBookmarkImage("FavoritePostList", holder.bookmark, PostList[position].number)
+        holder.bookmark.setOnClickListener {
+            addFavorite("FavoritePostList", PostList[position].number)
+            GetBookmarkImage("FavoritePostList", holder.bookmark, PostList[position].number)
+        }
+
         var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
         var tmp = ImageInfoForLoad(PostList[position].number, "ProfileImages")
         service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
@@ -59,17 +75,127 @@ class CommunityAdaptor(val context: Context,private val PostList: ArrayList<Post
                 Log.d("ImgLoadingObj", "이미지 출력 성공")
                 var returndata = response.body()
                 var byteArry = returndata?.data
-                var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
+                var tbitmap = BitmapFactory.decodeByteArray(byteArry, 0, byteArry!!.size)
                 holder.image.setImageBitmap(tbitmap)
             }
+
             override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
                 Log.d("ImgLoadingObj", "이미지 출력 실패")
                 t.printStackTrace()
             }
         })
 
+        var commentservice = PublicRetrofit.retrofit.create(CommentInterface::class.java)
+        commentservice.getCommentCount("CountComment", PostList[position].number, "Post").enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                var returndata = response.body()
+                holder.commentCount.text = returndata
+            }
+
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                Log.d("ImgLoadingObj", "이미지 출력 실패")
+                t.printStackTrace()
+            }
+        })
+
+        var likeservice = PublicRetrofit.retrofit.create(LikeOperation::class.java)
+        getLike(holder.likenum, PostList[position].number)
+        holder.likebtn.setOnClickListener {
+            val currentTime : Long = System.currentTimeMillis()
+            val timeformat = SimpleDateFormat("yyyy-MM-dd")
+            var nowtime = timeformat.format(currentTime).toString()
+            likeservice.addLike("AddLike", PostList[position].number, userCode, nowtime).enqueue(object : Callback<String?> {
+                override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                    var retvalue = response.body()
+                    if(retvalue == "1") holder.likenum.text = ((holder.likenum.text).toString().toInt() + 1).toString()
+                    else holder.likenum.text = ((holder.likenum.text).toString().toInt() - 1).toString()
+                }
+                override fun onFailure(call: Call<String?>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        }
+
+        var data = parseCourse(PostList[position].course)
+        holder.scrollimg.removeAllViews()
+
+        var cnt = 0
+        for (i in 0 until data.size){
+            for (j in 0 until data[i].size){
+                var newimage : ImageView = ImageView(context)
+                cnt += 1
+                if(cnt >= 4) break
+                var tmp = ImageInfoForLoad(data[i][j], "PlaceImages")
+                service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
+                    override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
+                        Log.d("ImgLoadingObj", "이미지 출력 성공")
+                        var returndata = response.body()
+                        var byteArry = returndata?.data
+                        var tbitmap = BitmapFactory.decodeByteArray(byteArry, 0, byteArry!!.size)
+
+
+                        var newimage = ImageView(context)
+                        newimage.setImageBitmap(tbitmap)
+
+                        val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
+                        lp.setMargins(0,5,5,0)
+                        newimage.layoutParams = lp
+                        newimage.scaleType = ImageView.ScaleType.FIT_XY
+
+                        holder.scrollimg.addView(newimage)
+                    }
+
+                    override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
+                        Log.d("ImgLoadingObj", "이미지 출력 실패")
+                        t.printStackTrace()
+                    }
+                })
+            }
+        }
+
         holder.itemView.setOnClickListener {
             implemented.setSelectedPostInfo("ComminityPostDetail", PostList[position])
         }
     }
+}
+
+private fun parseCourse(course : String) : ArrayList<ArrayList<String>> {
+    var course = course
+    var PlaceList = ArrayList<ArrayList<String>>()
+
+    var tmpStr = ""
+    var tmpArryList = ArrayList<String>()
+    // 문자열 파싱 로직
+    for (i in 0 until course.length){
+        if(course[i] != '/' && course[i] != ',') tmpStr += course[i]
+        else{
+            tmpArryList.add(tmpStr)
+            tmpStr = ""
+            if(course[i] == '/') {
+                PlaceList.add(tmpArryList)
+                tmpArryList = ArrayList<String>()
+            }
+        }
+
+        if(i == course.length-1){
+            tmpArryList.add(tmpStr)
+            PlaceList.add(tmpArryList)
+            tmpArryList = ArrayList<String>()
+        }
+    }
+
+    return PlaceList
+}
+
+private fun getLike(textview : TextView, NoticeNum : String){
+    var likeservice = PublicRetrofit.retrofit.create(LikeOperation::class.java)
+    likeservice.getLikeCnt("GetLikeCnt", NoticeNum).enqueue(object : Callback<String?> {
+        override fun onResponse(call: Call<String?>, response: Response<String?>) {
+            var returndata = response.body()
+            textview.text = returndata
+        }
+        override fun onFailure(call: Call<String?>, t: Throwable) {
+            t.printStackTrace()
+        }
+    })
 }

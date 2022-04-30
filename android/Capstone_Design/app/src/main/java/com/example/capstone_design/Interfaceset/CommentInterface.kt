@@ -17,6 +17,9 @@ interface CommentInterface{
     @GET("func={func}/number={number}/CommentType={CommentType}")
     fun getCommentInfo(@Path("func") func : String, @Path("number") number : String, @Path("CommentType") CommentType:String): Call<ArrayList<CommentInfo>>
 
+    @GET("func={func}/number={number}/CommentType={CommentType}")
+    fun getCommentCount(@Path("func") func : String, @Path("number") number : String, @Path("CommentType") CommentType:String): Call<String>
+
     @GET("func={func}/UniqueNum={UniqueNum}/UserCode={UserCode}/UserName={UserName}/Dates={Dates}/Content={Content}/CommentType={CommentType}/Rating={Rating}")
     fun writecomment(@Path("func") func : String, @Path("UniqueNum") NoticeNum : String, @Path("UserCode") UserCode : String, @Path("UserName") UserName : String, @Path("Dates") Dates : String, @Path("Content") Content : String, @Path("CommentType") CommentType:String, @Path("Rating") Rating:String): Call<Success>
 

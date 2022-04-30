@@ -1,9 +1,12 @@
 package com.example.capstone_design.Adapterset
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.BitmapDrawable
 import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +25,9 @@ import com.example.capstone_design.Interfaceset.ChangeFragment
 import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.Interfaceset.changeDay
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.GetBookmarkImage
 import com.example.capstone_design.Util.PublicRetrofit
+import com.example.capstone_design.Util.addFavorite
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,6 +42,12 @@ class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, c
     }
 
     override fun onBindViewHolder(holder: CommunityPostDetailPlaceAdaptor.ViewHolder, position: Int) {
+        GetBookmarkImage("FavoritePlaceList", holder.bookmark, items[position].num)
+        holder.bookmark.setOnClickListener {
+            addFavorite("FavoritePlaceList", items[position].num)
+            GetBookmarkImage("FavoritePlaceList", holder.bookmark, items[position].num)
+        }
+
         var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
         var tmp = ImageInfoForLoad(items[position].num, "PlaceImages")
         lateinit var mbitmap : Bitmap
@@ -47,11 +58,20 @@ class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, c
                 var byteArry = returndata?.data
                 var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
                 mbitmap = tbitmap!!
-                holder.image.setImageBitmap(mbitmap)
+
+                val resources: Resources = (contexts).resources
+                val drawable = BitmapDrawable(resources, mbitmap)
+                drawable.setColorFilter(Color.parseColor("#FFA5A1A1"), PorterDuff.Mode.MULTIPLY)
+                holder.Linear.setBackgroundDrawable(drawable)
             }
             override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
                 Log.d("ImgLoadingObj", "이미지 출력 실패")
-                mbitmap = BitmapFactory.decodeResource(contexts.getResources(), R.drawable.image);
+                mbitmap = BitmapFactory.decodeResource(contexts.getResources(), R.drawable.image)
+
+                val resources: Resources = (contexts).resources
+                val drawable = contexts.getResources().getDrawable(R.drawable.first)
+                drawable.setColorFilter(Color.parseColor("#FFA5A1A1"), PorterDuff.Mode.MULTIPLY)
+                holder.Linear.setBackgroundDrawable(drawable)
                 t.printStackTrace()
             }
         })
@@ -66,15 +86,15 @@ class CommunityPostDetailPlaceAdaptor(private val items: ArrayList<PlaceInfo>, c
 
         holder.nametext.text = items[position].name
         holder.numbertext.text = (position+1).toString()
-        Toast.makeText(contexts, items[position].name + " 입니다!", Toast.LENGTH_SHORT).show()
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
         var nametext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_name)
         var numbertext: TextView = view.findViewById<TextView>(R.id.post_detail_course_place_number)
-        var image = view.findViewById<ImageView>(R.id.post_detail_course_place_image)
+        var Linear = view.findViewById<LinearLayout>(R.id.post_detail_course_place_item_Linear)
         var moreinfo = view.findViewById<ImageView>(R.id.post_detail_course_place_item_more_info)
+        var bookmark = view.findViewById<ImageView>(R.id.post_detail_course_place_item_bookmark)
     }
 }
 

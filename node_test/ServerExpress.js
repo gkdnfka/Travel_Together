@@ -383,6 +383,20 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + ret);
         }); 
     }
+    
+    //@우람 2022-05-01
+    // tag 출력을 위한 tag get
+    if(parsedQuery["func"] == "GetTagLabel") {
+        var query = "SELECT * FROM TagLabel";
+        var result;
+
+        connection.query(query, function (err, ret, fields) {
+            if(err) { console.log(err)}
+            if (err) { console.log(err);}
+            ret = JSON.stringify(ret[0]);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        });
 
      // @솔빈 2022-04-23 일 
      // 좋아요 갯수를 불러오기 위한 로직

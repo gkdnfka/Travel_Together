@@ -397,6 +397,7 @@ app.get('*', (request, response) => {
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
         });
+    }
 
      // @솔빈 2022-04-23 일 
      // 좋아요 갯수를 불러오기 위한 로직

@@ -1,21 +1,14 @@
 package com.example.capstone_design.Adapterset
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
-import androidx.core.view.marginLeft
-import androidx.core.view.setMargins
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Dataset.*
 import com.example.capstone_design.Interfaceset.CommentInterface
 import com.example.capstone_design.Interfaceset.LikeOperation
@@ -33,7 +26,7 @@ class CommunityAdaptor(
     val context: Context,
     private val PostList: ArrayList<PostInfo>,
     var implemented: SetSeletedPostInfo,
-    val userCode : String
+    val userCode: String
 ) :
     RecyclerView.Adapter<CommunityAdaptor.ViewHolder>() {
     override fun getItemCount(): Int =  PostList.size
@@ -49,6 +42,7 @@ class CommunityAdaptor(
         val bookmark = view.findViewById<ImageView>(R.id.post_item_bookmark)
         val likebtn = view.findViewById<ImageView>(R.id.post_item_like_button)
         val likenum = view.findViewById<TextView>(R.id.post_item_like_number)
+        val tagLinear = view.findViewById<LinearLayout>(R.id.post_item_tag_Linear)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -86,17 +80,18 @@ class CommunityAdaptor(
         })
 
         var commentservice = PublicRetrofit.retrofit.create(CommentInterface::class.java)
-        commentservice.getCommentCount("CountComment", PostList[position].number, "Post").enqueue(object : Callback<String?> {
-            override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                var returndata = response.body()
-                holder.commentCount.text = returndata
-            }
+        commentservice.getCommentCount("CountComment", PostList[position].number, "Post").enqueue(
+            object : Callback<String?> {
+                override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                    var returndata = response.body()
+                    holder.commentCount.text = returndata
+                }
 
-            override fun onFailure(call: Call<String?>, t: Throwable) {
-                Log.d("ImgLoadingObj", "이미지 출력 실패")
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<String?>, t: Throwable) {
+                    Log.d("ImgLoadingObj", "이미지 출력 실패")
+                    t.printStackTrace()
+                }
+            })
 
         var likeservice = PublicRetrofit.retrofit.create(LikeOperation::class.java)
         getLike(holder.likenum, PostList[position].number)
@@ -104,16 +99,20 @@ class CommunityAdaptor(
             val currentTime : Long = System.currentTimeMillis()
             val timeformat = SimpleDateFormat("yyyy-MM-dd")
             var nowtime = timeformat.format(currentTime).toString()
-            likeservice.addLike("AddLike", PostList[position].number, userCode, nowtime).enqueue(object : Callback<String?> {
-                override fun onResponse(call: Call<String?>, response: Response<String?>) {
-                    var retvalue = response.body()
-                    if(retvalue == "1") holder.likenum.text = ((holder.likenum.text).toString().toInt() + 1).toString()
-                    else holder.likenum.text = ((holder.likenum.text).toString().toInt() - 1).toString()
-                }
-                override fun onFailure(call: Call<String?>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            })
+            likeservice.addLike("AddLike", PostList[position].number, userCode, nowtime).enqueue(
+                object : Callback<String?> {
+                    override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                        var retvalue = response.body()
+                        if (retvalue == "1") holder.likenum.text =
+                            ((holder.likenum.text).toString().toInt() + 1).toString()
+                        else holder.likenum.text =
+                            ((holder.likenum.text).toString().toInt() - 1).toString()
+                    }
+
+                    override fun onFailure(call: Call<String?>, t: Throwable) {
+                        t.printStackTrace()
+                    }
+                })
         }
 
         var data = parseCourse(PostList[position].course)
@@ -127,7 +126,10 @@ class CommunityAdaptor(
                 if(cnt >= 4) break
                 var tmp = ImageInfoForLoad(data[i][j], "PlaceImages")
                 service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
-                    override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
+                    override fun onResponse(
+                        call: Call<ImageInfo?>,
+                        response: Response<ImageInfo?>
+                    ) {
                         Log.d("ImgLoadingObj", "이미지 출력 성공")
                         var returndata = response.body()
                         var byteArry = returndata?.data
@@ -137,8 +139,12 @@ class CommunityAdaptor(
                         var newimage = ImageView(context)
                         newimage.setImageBitmap(tbitmap)
 
-                        val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
-                        lp.setMargins(0,5,5,0)
+                        val lp = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            1f
+                        )
+                        lp.setMargins(0, 5, 5, 0)
                         newimage.layoutParams = lp
                         newimage.scaleType = ImageView.ScaleType.FIT_XY
 
@@ -153,13 +159,25 @@ class CommunityAdaptor(
             }
         }
 
+        var str : String = ""
+        if(PostList[position].tags == "") str = "1박2일,가족,경치,힐링,"
+        //var parsedTAG = ParsingString(str)
+        var parsedTAG  = arrayListOf<String>("1박2일","가족","경치","힐링")
+        Log.d("태그", parsedTAG.toString())
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        for (i in 0 until parsedTAG.size){
+            var view = inflater.inflate(R.layout.tag_item, holder.tagLinear, false)
+            view.findViewById<TextView>(R.id.tag_item_text).text =  "#"+ parsedTAG[i]
+            holder.tagLinear.addView(view)
+        }
+
         holder.itemView.setOnClickListener {
             implemented.setSelectedPostInfo("ComminityPostDetail", PostList[position])
         }
     }
 }
 
-private fun parseCourse(course : String) : ArrayList<ArrayList<String>> {
+private fun parseCourse(course: String) : ArrayList<ArrayList<String>> {
     var course = course
     var PlaceList = ArrayList<ArrayList<String>>()
 
@@ -187,13 +205,14 @@ private fun parseCourse(course : String) : ArrayList<ArrayList<String>> {
     return PlaceList
 }
 
-private fun getLike(textview : TextView, NoticeNum : String){
+private fun getLike(textview: TextView, NoticeNum: String){
     var likeservice = PublicRetrofit.retrofit.create(LikeOperation::class.java)
     likeservice.getLikeCnt("GetLikeCnt", NoticeNum).enqueue(object : Callback<String?> {
         override fun onResponse(call: Call<String?>, response: Response<String?>) {
             var returndata = response.body()
             textview.text = returndata
         }
+
         override fun onFailure(call: Call<String?>, t: Throwable) {
             t.printStackTrace()
         }

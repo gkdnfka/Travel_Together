@@ -42,7 +42,7 @@ class JoinTagSelect(val join_name : String, val join_id : String, val join_passw
             // 회원가입을 시도하는 로직
             // 회원가입 성공여부는 서버단에서 처리하고, 반환값을 건네주는 방식
             // 빈칸이 하나라도 입력되어 있는 경우 인정하지 않음.
-
+            val str = "123"
             (activity as MainActivity).serviceForJoin.sendJoinInfo("Join", join_id, join_password, join_name, gender, join_address, str).enqueue(object: Callback<JoinSuccess> {
                 override fun onFailure(call : Call<JoinSuccess>, t : Throwable){
                     Log.d("실패", t.toString())

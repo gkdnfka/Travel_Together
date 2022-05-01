@@ -17,4 +17,6 @@ data class PostInfo(
     var content : String,
     @SerializedName("NOTICEBOARD_TITLE")
     var title : String,
+    @SerializedName("TAGS")
+    var tags: String
 )

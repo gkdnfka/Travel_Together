@@ -31,9 +31,9 @@
 
     <item
         android:id="@+id/PathButton"
-        android:title="최단 경로"
+        android:title="북마크"
         android:checked="true"
-        android:icon = "@drawable/path_icon"
+        android:icon = "@drawable/bookmark"
         android:textColor="#252222"
         android:enabled="true">
     </item>

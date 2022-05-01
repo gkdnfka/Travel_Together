@@ -10,6 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         >
 
@@ -17,7 +20,8 @@
             android:id = "@+id/path_result_km"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="5"
 
             android:text = "총 이동거리 : 15km"
             android:textSize="25dp"
@@ -26,32 +30,26 @@
         </TextView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:cardCornerRadius="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="20"
             >
-
             <com.google.android.gms.maps.MapView
                 android:id="@+id/path_result_course_map"
                 android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="355dp"
-                android:layout_height="175dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></com.google.android.gms.maps.MapView>
 
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.117"></com.google.android.gms.maps.MapView>
         </androidx.cardview.widget.CardView>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/path_result_course_select_RecyclerView"
-            android:layout_width="355dp"
+            android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
@@ -61,16 +59,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/path_result_course_RecyclerView"
-            android:layout_width="355dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="5dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.884"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.669" />
+            android:layout_weight="35"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

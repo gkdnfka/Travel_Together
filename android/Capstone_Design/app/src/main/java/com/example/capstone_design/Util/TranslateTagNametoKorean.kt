@@ -8,5 +8,5 @@ fun TranslateTagName(Name : String) : String{
     else if(Name == "History") return "역사적장소"
     else if(Name == "Attraction") return "자연경관"
     else if(Name == "Culture") return "전시물관람"
-    else return "공연관람"
+    else return "자연경관"
 }

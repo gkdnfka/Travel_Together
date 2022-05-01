@@ -32,7 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import kotlin.math.log
 
 
 class CommunityPostDetail : Fragment()
@@ -53,7 +53,7 @@ class CommunityPostDetail : Fragment()
         // 1. parseCourseList() -> 경로 문자열을 파싱해서 2차원 여행지 리스트(courseList[일차][여행지]로 변환
         // 2. loadPosList()     -> courseList[일차][여행지]의 원소인 여행지 번호를 통해 DB 에서 좌표값 불러와서 placeinfo 클래스를 원소로 가지는 placeinfoList[일차][여행지] 초기화.
         if(mActivity.SelectedPostDone == 0){
-            parseCourseList()
+            mActivity.SelectedPostPlaceList = parseCourseList(selectedPostInfo.course)
             loadPosList()
             mActivity.SelectedPostDone = 1
         }
@@ -153,54 +153,54 @@ class CommunityPostDetail : Fragment()
     // -> 1일차에 123번 -> 23번 -> 125번 -> 42번 순으로 여행지 방문
     // -> 2일차에 1번 -> 2번 -> 3번 -> 4번 -> 5번 순으로 여행지 방문
 
-    private fun parseCourseList() {
-        var mActivity = (activity as Activity)
-        course = selectedPostInfo.course
-        mActivity.SelectedPostPlaceList = Array(maxDayLength, { Array(maxPlaceLength, {""}) })
+    private fun parseCourseList(course : String) : ArrayList<ArrayList<String>> {
+        var course = course
+        var PlaceList = ArrayList<ArrayList<String>>()
 
         var tmpStr = ""
-        var courseCount = 0
-        daycount = 0
-
+        var tmpArryList = ArrayList<String>()
         // 문자열 파싱 로직
         for (i in 0 until course.length){
             if(course[i] != '/' && course[i] != ',') tmpStr += course[i]
             else{
-                mActivity.SelectedPostPlaceList[daycount][courseCount] = tmpStr
-                courseCount += 1
+                tmpArryList.add(tmpStr)
                 tmpStr = ""
                 if(course[i] == '/') {
-                    daycount += 1
-                    courseCount = 0
+                    PlaceList.add(tmpArryList)
+                    tmpArryList = ArrayList<String>()
                 }
             }
 
             if(i == course.length-1){
-                mActivity.SelectedPostPlaceList[daycount][courseCount] = tmpStr
-                daycount += 1
+                tmpArryList.add(tmpStr)
+                PlaceList.add(tmpArryList)
+                tmpArryList = ArrayList<String>()
             }
         }
+
+        return PlaceList
     }
 
     // @솔빈  2022-01-29 (토)
     // ---함수 설명---
     // loadPosList -> 날짜별로 분류된 여행지 코스 2차원 배열인 courseList를 기반으로
     // DB에 쿼리문을 날려서 각각의 여행지의 좌표를 불러오고, placeinfoList에 저장한다.
-
     private fun loadPosList(){
         var mActivity = (activity as Activity)
         mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)
 
-        for (i in 0 until daycount){
+        var isize = mActivity.SelectedPostPlaceList.size
+
+        Log.d("사이즈 체크", isize.toString())
+        for (i in 0 until isize){
             mActivity.SelectedPostPlaceInfoList.add(ArrayList<PlaceInfo>())
             var strForQuery = ""
-            var j = 0
 
-            while(mActivity.SelectedPostPlaceList[i][j] != ""){
+            var jsize = mActivity.SelectedPostPlaceList[i].size
+            for (j in 0 until jsize){
                 strForQuery +=  "testnum = " + mActivity.SelectedPostPlaceList[i][j]
-                if(j+1 < maxPlaceLength && mActivity.SelectedPostPlaceList[i][j+1] != "" ) strForQuery += " OR "
-                j++
+                if(j != jsize-1) strForQuery += " OR "
             }
 
             service.getplaceinfo("SearchPlace", "ByIds", strForQuery).enqueue(object: Callback<ArrayList<PlaceInfo>> {
@@ -217,7 +217,7 @@ class CommunityPostDetail : Fragment()
                     // mysql 쿼리문의 결과로, 여행지의 순서에 상관없이 여행지의 고유번호에 따라 오름차순으로 결과가 반환되므로
                     // 2중 포문을 통해 여행지 고유번호 순서에 맞게 데이터를 넣어주는 동작을 수행함.
                     if(returndata != null){
-                        for (q in 0 until maxPlaceLength){
+                        for (q in 0 until jsize){
                             if(mActivity.SelectedPostPlaceList[i][q] == "") break
                             for (j in 0 until returndata.size){
                                 if(returndata[j].num == mActivity.SelectedPostPlaceList[i][q]){

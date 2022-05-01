@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="140dp"
     android:orientation="horizontal"
 
     >
@@ -12,78 +12,51 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        app:cardCornerRadius="2dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
         >
         <LinearLayout
+            android:id = "@+id/path_select_linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/first"
+            android:weightSum="100"
             >
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
+                android:layout_weight="10"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                >
+                android:background="@color/main_theme"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@color/main_theme"
-                    >
-                    <TextView
-                        android:id="@+id/path_select_place_tag"
-                        android:layout_width="29dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="관광명소"
-                        android:textSize="14dp"
+                <TextView
+                    android:id="@+id/path_select_place_tag"
+                    android:layout_width="29dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="관광명소"
+                    android:textColor="#000000"
 
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.04"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.454" />
+                    android:textSize="14dp" />
 
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
-                    >
-                    <ImageView
-                        android:id="@+id/path_select_place_image"
-                        android:layout_width="55dp"
-                        android:layout_height="57dp"
-                        android:scaleType="fitXY"
-
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.182"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.372"
-                        app:srcCompat="@drawable/first" />
-                </androidx.cardview.widget.CardView>
+                android:layout_weight="90"
+                android:gravity="center_vertical"
+                android:weightSum="100">
 
                 <LinearLayout
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="90"
                     android:orientation="vertical">
 
                     <TextView
@@ -91,15 +64,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="19dp"
-                        android:text="TextView"
-                        android:textSize="18dp"
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.386"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.197" />
+                        android:text="갑곶돈대"
+                        android:textColor="#ffffff"
+                        android:textSize="22dp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
@@ -108,22 +76,34 @@
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="30dp"
-                    android:orientation="vertical"
-                    >
+                    android:layout_weight="10"
+                    android:orientation="vertical">
+
                     <ImageView
+                        android:layout_weight="1"
                         android:id="@+id/path_select_place_more"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginTop="5dp"
+                        android:foregroundTint="@color/white"
                         android:src="@drawable/info"
-                        android:tint="#676161"></ImageView>
+                        android:tint="#FFFFFF"></ImageView>
+
+                    <ImageView
+                        android:id="@+id/path_select_place_bookmark"
+                        android:layout_width="20dp"
+                        android:layout_weight="1"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/bookmark"></ImageView>
                 </LinearLayout>
 
                 <CheckBox
                     android:id="@+id/path_select_place_chkbox"
                     android:layout_width="40dp"
-                    android:layout_height="40dp">
-                </CheckBox>
+                    android:layout_height="40dp"
+                    android:layout_weight="8"
+                    android:buttonTint="#F6F6F6"
+                    android:drawableTint="#FFFFFF"></CheckBox>
 
             </LinearLayout>
 

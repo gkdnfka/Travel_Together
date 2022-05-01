@@ -8,27 +8,45 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        android:id="@+id/post_detail_content_title_text"
-        android:layout_width="match_parent"
-        android:layout_height="87dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:text="타이틀"
-        android:gravity="center"
-         />
-
-    <TextView
-        android:id="@+id/post_detail_content_content_text"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:textSize="13dp"
-        android:textColor="@color/black"
-        android:text="본문 아이템"
-        />
+        android:layout_margin="25dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="50dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/gray"
+            >
+            <TextView
+                android:id="@+id/post_detail_content_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:layout_marginBottom="1dp"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="타이틀"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/post_detail_content_content_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15"
+                android:textSize="13dp"
+                android:padding="25dp"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:text="본문 아이템"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

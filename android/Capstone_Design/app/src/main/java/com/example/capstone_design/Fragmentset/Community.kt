@@ -55,6 +55,7 @@ class Community : Fragment()
         val mActivity = activity as Activity
         val retrofit = mActivity.retrofit
         val service = retrofit.create(GetPostInfo::class.java)
+        val user_code = mActivity.USER_CODE
 
 
         mActivity.SelectedDayInPostDetail = 0
@@ -92,7 +93,8 @@ class Community : Fragment()
                             (activity as Activity)!!.changeFragment(11)
                         }
                     }
-                    val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented)
+                    val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented, user_code)
+                    listView.setHasFixedSize(true)
                     listView.adapter = communityadaptor
                     listView.layoutManager = LinearLayoutManager(view.context)
                 }
@@ -140,7 +142,8 @@ class Community : Fragment()
                                     (activity as Activity)!!.changeFragment(11)
                                 }
                             }
-                            val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented)
+                            val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented, user_code)
+                            listView.setHasFixedSize(true)
                             listView.adapter = communityadaptor
                             listView.layoutManager = LinearLayoutManager(view.context)
                         }
@@ -179,7 +182,8 @@ class Community : Fragment()
                                 (activity as Activity)!!.changeFragment(11)
                             }
                         }
-                        val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented)
+                        val communityadaptor = CommunityAdaptor(view.context, returndata!!, Implemented, user_code)
+                        listView.setHasFixedSize(true)
                         listView.adapter = communityadaptor
                         listView.layoutManager = LinearLayoutManager(view.context)
                         postRefresh.setRefreshing(false)

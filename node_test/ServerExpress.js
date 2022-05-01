@@ -254,8 +254,9 @@ app.get('*', (request, response) => {
         }); 
     }
 
-    //
 
+    // @솔빈 2022-04-23 토 
+    // 이달의 인기 게시글을 추출 반환하기 위한 로직
     if(parsedQuery["func"] == "SearchPopularPost"){ 
         var testQuery = "SELECT NOTICEBOARD_NUM, COUNT(LIKE_NUM) FROM LIKE_DB WHERE DATES >= '" + parsedQuery['Start'] + "' and DATES <= '" + parsedQuery['End'] + "' GROUP BY NOTICEBOARD_NUM HAVING COUNT(LIKE_NUM) >= 1 ORDER BY COUNT(LIKE_NUM) DESC;"
         console.log(testQuery)

@@ -1,5 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android"> 
-<item android:state_pressed="true" 
-android:state_window_focused="true" 
-android:drawable="@drawable/rating_false" /> <item android:state_focused="true" android:state_window_focused="true" android:drawable="@drawable/rating_false" /> <item android:state_selected="true" android:state_window_focused="true" android:drawable="@drawable/rating_false" /> <item android:drawable="@drawable/rating_false" /> </selector>
-

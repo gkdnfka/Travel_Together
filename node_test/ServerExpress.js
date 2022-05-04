@@ -38,10 +38,15 @@ app.get('*', (request, response) => {
 
     if(parsedQuery["func"] == "SearchPlace"){ // 장소를 검색하기 위한 쿼리 파싱
         var testQuery = ""
-        if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM test WHERE testname like '%" + parsedQuery["str"] + "%'";
-        else if(parsedQuery["type"] == "ByAddr") testQuery = "SELECT * FROM test WHERE testaddr like '%" + parsedQuery["str"] + "%'";
-        else if(parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM test WHERE " + parsedQuery["str"];
-
+        if(parsedQuery["type"] == "ByName") testQuery = "SELECT * FROM Place WHERE placename like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByAddr") testQuery = "SELECT * FROM Place WHERE addr like '%" + parsedQuery["str"] + "%'";
+        else if(parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM Place WHERE " + parsedQuery["str"];
+        else if(parsedQuery["type"] == "Cafe"){
+            var locationData = parsedQuery["str"].split(']');
+            var myLocationX = locationData[1];
+            var myLocationY = locationData[0];   
+            testQuery = "SELECT *,ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) as distance FROM Place WHERE ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) <= 1000  AND category = 'Cafe'"
+        }
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {

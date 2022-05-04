@@ -28,14 +28,19 @@
         <!-- 2022-03-12 정지원작업
          키보드 레이아웃이 올라올 시 비율 뭉개지는 문제 방지를 위해 해당 기능을 manifest에 추가함-->
         <activity android:name=".Activityset.Activity"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false">
         </activity>
 
 
-        <activity android:name=".Activityset.MainActivity">
+        <activity android:name=".Activityset.MainActivity"
+            android:exported="true"
+           >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
     </application>

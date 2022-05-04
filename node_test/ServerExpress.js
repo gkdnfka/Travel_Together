@@ -235,8 +235,8 @@ app.get('*', (request, response) => {
         connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
             if (err) console.log(err);
    
-            testQuery = "SELECT * FROM test WHERE testnum in (";
-            var addedQuery = "ORDER BY FIELD(testnum,"
+            testQuery = "SELECT * FROM Place WHERE num in (";
+            var addedQuery = "ORDER BY FIELD(num,"
             for(var i = 0; i < ret.length ; i++){
                 testQuery += ret[i]['UNIQUE_NUM'] 
                 addedQuery += ret[i]['UNIQUE_NUM']

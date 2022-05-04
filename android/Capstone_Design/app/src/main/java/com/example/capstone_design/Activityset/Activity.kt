@@ -229,7 +229,7 @@ class Activity : AppCompatActivity() {
     // @솔빈 2022-03-14 (월)
     // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.219.105:8080/")
+        .baseUrl("http://192.168.219.101:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

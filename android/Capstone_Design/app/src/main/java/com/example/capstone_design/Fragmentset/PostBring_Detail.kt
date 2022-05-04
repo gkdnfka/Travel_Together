@@ -2,31 +2,39 @@ package com.example.capstone_design.Fragmentset
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Rect
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Activityset.MainActivity
-import com.example.capstone_design.Dataset.BringPostInfo
-import com.example.capstone_design.Dataset.PlaceInfo
-import com.example.capstone_design.Dataset.ResultPath
+import com.example.capstone_design.Adapterset.PostBringDetailAdapter
+import com.example.capstone_design.Adapterset.SearchPlaceAdaptor
+import com.example.capstone_design.Dataset.*
 import com.example.capstone_design.Interfaceset.GetPlaceInfo
+import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.Interfaceset.NaverAPI
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.PublicRetrofit
 import com.google.android.gms.location.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Align
 
 import java.io.IOException
 import java.lang.Exception
@@ -36,12 +44,20 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import com.nightonke.boommenu.BoomButtons.*
+import com.nightonke.boommenu.BoomMenuButton
+import com.nightonke.boommenu.Piece.PiecePlaceEnum
+import org.checkerframework.checker.units.UnitsTools
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.collections.ArrayList
+import org.checkerframework.checker.units.UnitsTools.deg
+
+
+
 
 
 class PostBringDetail : Fragment(), OnMapReadyCallback {
@@ -55,15 +71,21 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
     lateinit var myNaverMap: NaverMap
     var destinationMarker = Marker()
     lateinit var dtInfo : PlaceInfo
+    lateinit var cafeInfo : PlaceInfo
     var dayIndex = 0
     var courseIndex = 0
+    var cafeMarker = Marker()
     var myLocationX = 0.0
     var myLocationY = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.post_bring_detail,container,false)
-        val mActivity = activity as Activity
+        val bringDrawerLayout = view.findViewById<DrawerLayout>(R.id.bring_drawer_layout)
+        val bringDrawerView = view.findViewById<LinearLayout>(R.id.bring_drawer_view)
 
+        val mActivity = activity as Activity
+        val retrofit = mActivity.retrofit
+        val service = retrofit.create(GetPlaceInfo::class.java)
         travelInfo = mActivity.SelectedBringPostInfo
         dayIndex = mActivity.SelectedBringPostInfo.dayindex.toInt()
         courseIndex = mActivity.SelectedBringPostInfo.courseindex.toInt()
@@ -81,38 +103,145 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             e.printStackTrace()
         }
         val detailDestination = view.findViewById<TextView>(R.id.bringDetailDestination)
-        val detailButton = view.findViewById<Button>(R.id.bringDetailButton)
-        val detailNevigate = view.findViewById<Button>(R.id.bringNavigate)
+        val drawerList = view.findViewById<RecyclerView>(R.id.bring_drawer_List)
+        val store1 = view.findViewById<Button>(R.id.convenienceStore)
+        val store2 = view.findViewById<Button>(R.id.caFe)
+        val bringTool = view.findViewById<BoomMenuButton>(R.id.bringTool)
+
+        bringTool.piecePlaceEnum = PiecePlaceEnum.DOT_3_4
+        bringTool.buttonPlaceEnum = ButtonPlaceEnum.SC_3_4
         dtInfo = coursePlaceList[dayIndex][courseIndex]
         detailDestination.text = dtInfo.name
-        detailButton.setOnClickListener {
-            if(courseList[dayIndex][courseIndex + 1] == ""){
-                if(courseList[dayIndex+1][0] == "")
-                {
-                    detailDestination.text = "여행끝"
-                }
-                else{
-                    dayIndex += 1
-                    courseIndex = 0
-                    dtInfo = coursePlaceList[dayIndex][courseIndex]
-                    destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
-                    detailDestination.text = dtInfo.name
-
-
-                }
+        // 카페 버튼 클릭시 동작
+        store2.setOnClickListener {
+            if(myLocationX == 0.0 && myLocationY == 0.0)
+            {
+                Toast.makeText(view.context,"위치갱신 이후에 진행해 주세요!",Toast.LENGTH_SHORT).show()
             }
-            else{
-                courseIndex += 1
-                dtInfo = coursePlaceList[dayIndex][courseIndex]
-                destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
-                detailDestination.text = dtInfo.name
+            else
+            {
+                val funcName = "SearchPlace"
+                val typeName = "Cafe"
+                val strName = myLocationX.toString() + ']' + myLocationY.toString()
+                service.getplaceinfo(funcName, typeName, strName)
+                    .enqueue(object : Callback<ArrayList<PlaceInfo>> {
+                        override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
+                            Log.d("실패", t.toString())
+                        }
 
+                        override fun onResponse(
+                            call: Call<ArrayList<PlaceInfo>>,
+                            response: Response<ArrayList<PlaceInfo>>
+                        ) {
+                            Log.d("성공", "입출력 성공")
+                            var returndata = response.body()
+                            if (returndata != null) {
+                                val drawerAdapter = PostBringDetailAdapter(view.context,returndata!!)
+                                drawerList.adapter = drawerAdapter
+                                drawerList.layoutManager = LinearLayoutManager(view.context)
+                                drawerAdapter.setItemClickListener(object : PostBringDetailAdapter.OnItemClickListener{
+                                    override fun onClick(v: View, position: Int) {
+                                        cafeInfo = returndata[position]
+                                        cafeMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
+                                        cafeMarker.map = myNaverMap
+                                        cafeMarker.icon = OverlayImage.fromResource(R.drawable.cafe)
+                                        cafeMarker.icon = MarkerIcons.BLACK
+                                        cafeMarker.iconTintColor = Color.YELLOW
+                                        cafeMarker.captionText = "카페"
+                                        cafeMarker.setCaptionAligns(Align.Top)
+                                        cafeMarker.captionTextSize = 16f
+                                        bringDrawerLayout.closeDrawer(bringDrawerView)
+
+                                    }
+                                })
+
+                                bringDrawerLayout.openDrawer(bringDrawerView)
+
+                            }
+                        }
+                    })
+            }
+
+        }
+        // Tool로 버튼 모음
+        for(i in 0..bringTool.piecePlaceEnum.pieceNumber()){
+            // 경로탐색
+            if(i == 0)
+            {
+                val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
+                    drawcourse()
+                }).normalText("경로탐색").normalImageRes(R.drawable.content_write)
+                    .imagePadding(Rect(30,30,30,30)).textSize(15)
+                bringTool.addBuilder(builder)
+            }
+            // 여행지 정보 불러오기
+            if(i == 1)
+            {
+                val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
+                    var tmp = ImageInfoForLoad(dtInfo.num, "PlaceImages")
+                    var serviceImage = PublicRetrofit.retrofit.create(LoadImage::class.java)
+                    lateinit var mbitmap : Bitmap
+                    serviceImage.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
+                        override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
+                            Log.d("ImgLoadingObj", "이미지 출력 성공")
+                            var returndata = response.body()
+                            var byteArry = returndata?.data
+                            var tbitmap = byteArry?.let { it1 -> BitmapFactory.decodeByteArray( byteArry, 0, it1.size) }
+                            mbitmap = tbitmap!!
+                        }
+                        override fun onFailure(call: Call<ImageInfo?>, t: Throwable) {
+                            Log.d("ImgLoadingObj", "이미지 출력 실패")
+                            mbitmap = BitmapFactory.decodeResource(view.context.getResources(), R.drawable.image);
+                            t.printStackTrace()
+                        }
+                    })
+                    changeFragAndInitSelectedPlace(12, dtInfo, mbitmap)
+                }).normalText("목적지 정보").normalImageRes(R.drawable.content_route)
+                    .imagePadding(Rect(30,30,30,30)).textSize(15)
+                bringTool.addBuilder(builder)
+            }
+            // 여행 완료하는 동작
+            if(i == 2)
+            {
+                val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
+                    if(courseList[dayIndex][courseIndex + 1] == ""){
+                        if(courseList[dayIndex+1][0] == "")
+                        {
+                            detailDestination.text = "여행끝"
+                        }
+                        else{
+                            dayIndex += 1
+                            courseIndex = 0
+                            dtInfo = coursePlaceList[dayIndex][courseIndex]
+                            destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
+                            detailDestination.text = dtInfo.name
+
+
+                        }
+                    }
+                    else{
+                        courseIndex += 1
+                        dtInfo = coursePlaceList[dayIndex][courseIndex]
+                        destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
+                        detailDestination.text = dtInfo.name
+
+                    }
+
+                }).normalText("여행완료").normalImageRes(R.drawable.content_route)
+                    .imagePadding(Rect(30,30,30,30)).textSize(15)
+                bringTool.addBuilder(builder)
             }
         }
-        detailNevigate.setOnClickListener {
-            drawcourse()
+        destinationMarker.setOnClickListener {
+            dtInfo = coursePlaceList[dayIndex][courseIndex]
+            detailDestination.text = dtInfo.name
+            true
         }
-
+        cafeMarker.setOnClickListener{
+            dtInfo = cafeInfo
+            detailDestination.text = cafeInfo.name
+            true
+        }
         return view
     }
     // GPS 권한 요청을 위한 함수
@@ -125,7 +254,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                 myNaverMap.locationTrackingMode = LocationTrackingMode.None
             }
             else{
-                myNaverMap.locationTrackingMode = LocationTrackingMode.Follow
+                myNaverMap.locationTrackingMode = LocationTrackingMode.NoFollow
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -146,6 +275,10 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         destinationMarker.map = myNaverMap
         destinationMarker.icon = MarkerIcons.BLACK
         destinationMarker.iconTintColor = Color.RED
+        destinationMarker.captionText = "여행목적지"
+        destinationMarker.captionTextSize = 16f
+        destinationMarker.setCaptionAligns(Align.Top)
+
 
 
 
@@ -226,7 +359,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                 if(courseList[i][j] == ""){
                     break
                 }
-                 tempQuery += "testnum = " + courseList[i][j]
+                 tempQuery += "num = " + courseList[i][j]
                 if(courseList[i][j+1] != ""){
                     tempQuery += " OR "
                 }
@@ -307,6 +440,14 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             }
         })
     }
+    fun changeFragAndInitSelectedPlace(index : Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+        (activity as Activity).SelectedPlace = placeinfo
+        if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+        (activity as Activity)!!.changeFragment(index)
+    }
+
+
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }

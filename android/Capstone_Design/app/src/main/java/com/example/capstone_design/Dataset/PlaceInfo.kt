@@ -3,22 +3,24 @@ package com.example.capstone_design.Dataset
 import com.google.gson.annotations.SerializedName
 
 data class PlaceInfo(
-    @SerializedName("testnum")
+    @SerializedName("num")
     var num : String,
-    @SerializedName("testname")
+    @SerializedName("placename")
     var name : String,
-    @SerializedName("testaddr")
+    @SerializedName("addr")
     var address : String,
-    @SerializedName("testx")
+    @SerializedName("x")
     var PosX : String,
-    @SerializedName("testy")
+    @SerializedName("y")
     var PosY : String,
-    @SerializedName("testdepart")
+    @SerializedName("category")
     var depart : String,
-    @SerializedName("testphone")
+    @SerializedName("tel")
     var phonenumber : String,
-    @SerializedName("testwebsite")
+    @SerializedName("siteaddr")
     var website : String,
-    @SerializedName("testopenhour")
-    var openhour : String
+    @SerializedName("openhour")
+    var openhour : String,
+    @SerializedName("distance")
+    var distance : String
 )

@@ -3,6 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/drawable-v24/colorchange.xml" value="0.143" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/btn_background.xml" value="0.107" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/seekbar_thumb.xml" value="0.143" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/drawable/tag_item_shape.xml" value="0.143" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/detail_item_list.xml" value="0.17806484295845998" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/join_page_investigate.xml" value="0.19384057971014493" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/join_page_investigate_tag.xml" value="0.19384057971014493" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/join_page_select_tag.xml" value="0.33" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/path_result_place_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_bring_item.xml" value="0.33" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_write_detail_item.xml" value="0.17806484295845998" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/search_tourist_spot.xml" value="0.36614583333333334" />
+        <entry key="..\:/Travel_Together/android/Capstone_Design/app/src/main/res/layout/tag_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/Kimwooram/Desktop/Travel_Together/android/Capstone_Design/app/src/main/res/layout/post_detail_fragment.xml" value="0.1" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/drawable-v24/colorchange.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/wldnj/Documents/Travel_Together/android/Capstone_Design/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22291666666666668" />
@@ -97,6 +111,9 @@
         <entry key="..\:/Users/wldnj/StudioProjects/Travel_Together/android/Capstone_Design/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2375" />
       </map>
     </option>
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/capstone_design/Util/GetPlaceNumberFromPlaceList.kt" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

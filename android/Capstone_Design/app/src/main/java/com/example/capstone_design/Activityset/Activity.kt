@@ -43,7 +43,7 @@ class Activity : AppCompatActivity() {
     // SelectedPostPlaceList : 선택된 게시글의 여행 경로를 날짜별로 번호만 저장하는 리스트
     // SelectedPostPlaceInfoList : 날짜별로 저장된 여행지 번호를 바탕으로 PlaceInfo 객체들을 불러와서 날짜별로 PlaceInfo 객체를 담는 변수.
     // SelectedPostDone : SelectedPostPlaceList, SelectedPostPlaceInfoList 의 캐싱 여부를 저장하는 변수. 서버에서 중복 호출 방지하기 위함.
-    lateinit var SelectedPostPlaceList : Array<Array<String>>
+    var SelectedPostPlaceList = ArrayList<ArrayList<String>>()
     var SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
     var SelectedPostDone = 0
 
@@ -161,7 +161,9 @@ class Activity : AppCompatActivity() {
     // 1번 버튼 = Main화면 // 2번버튼 = PostBring화면 // 3번 버튼 = Community화면 // 4번 버튼 = FindPath화면
     // 5번 버튼 = SearchPlace화면 // 6번 버튼 = PostWrite화면 // 7번 버튼 = PostWriteMain 화면 // 8번 버튼 = PostWritePlan 화면
     // 9번 버튼 = PostWriteDetail화면 // 10번 버튼 = SearchPlace_Post화면 // 11번 버튼 = 게시글 세부 화면
-    // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = FindPathResult 화면 // 14번 버튼 = bringDetail 화면
+    // 12번 버튼 = PlaceDetailFragment 화면 // 13번 버튼 = FindPathResult 화면
+    // 14번 버튼 PostBringDetail 화면
+
     fun changeFragment(index: Int){
         when(index){
             1 -> {
@@ -178,7 +180,7 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("Community", Community(), R.id.MainFrameLayout)
             }
             4 -> {
-                ReplaceFragment("FindPath", FindPath(), R.id.MainFrameLayout)
+                ReplaceFragment("Bookmark", Bookmark(), R.id.MainFrameLayout)
             }
             5 -> {
                 ReplaceFragment("SearchPlace", SearchPlace(), R.id.MainFrameLayout)
@@ -206,7 +208,6 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("PlaceDetailFragment",Place_Detail_Fragment(),R.id.MainFrameLayout)
             }
             13->{
-
                 ReplaceFragment("FindPathResult",FindPathResult(),R.id.MainFrameLayout)
             }
             14->{
@@ -227,7 +228,7 @@ class Activity : AppCompatActivity() {
     // @솔빈 2022-03-14 (월)
     // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.219.101:8080/")
+        .baseUrl("http://192.168.219.105:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

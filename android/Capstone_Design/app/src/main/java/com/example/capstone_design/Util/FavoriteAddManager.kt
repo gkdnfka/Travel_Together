@@ -68,25 +68,41 @@ fun parseFavorite(key : String) : ArrayList<String>{
     return numberlist
 }
 
+fun TranslateToString(arr : ArrayList<String>) : String{
+    var tmpstr = ""
+    for (i in 0 until arr.size){
+        tmpstr += arr[i]
+        if(i != arr.size-1) tmpstr += ","
+    }
+    return tmpstr
+}
+
 
 fun addFavorite(key : String, value : String){
     var string = FavoriteAddManager.prefs.getString(key, "")
-    var numberlist = parseFavorite(string)
+    var numberlist = parseFavorite(key)
 
-    var flag = 1
-    for (i in 0 until numberlist.size){
-        if(value == numberlist[i]){
-            flag = 0
-            break
-        }
+    var ret = IsInThisArray(numberlist, value)
+    Log.d("ret 값은", ret.toString())
+    Log.d("numberlist 값은", numberlist.toString())
+
+    if(ret == -1 && string.length == 0) string = value
+    else if(ret == -1 && string.length > 0) string = string + "," + value
+    else if(ret >= 0) {
+        Log.d("중복 테스트", " 도달")
+        numberlist.removeAt(ret)
+        Log.d("삭제 이후", numberlist.toString())
+        string = TranslateToString(numberlist)
     }
-
-    if(flag == 1 && string.length == 0) string = value
-    else if(flag == 1 && string.length > 0) string = string + "," + value
 
     FavoriteAddManager.prefs.setString(key, string)
 }
 
+fun IsInThisArray(arr : ArrayList<String>, str : String) : Int{
+    for (i in 0 until arr.size)
+        if(arr[i] == str) return i
+    return -1
+}
 
 
 

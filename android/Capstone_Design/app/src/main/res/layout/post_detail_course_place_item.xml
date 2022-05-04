@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,10 +12,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         app:cardCornerRadius="15dp"
         >
         <LinearLayout
@@ -41,14 +41,7 @@
                         android:layout_marginLeft="10dp"
                         android:text="1"
                         android:textSize="25dp"
-
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.04"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.454" />
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
@@ -57,66 +50,48 @@
 
 
             <LinearLayout
+                android:id = "@+id/post_detail_course_place_item_Linear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
                 android:gravity="center_vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/post_detail_course_place_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
-                    >
-                    <ImageView
-                        android:id="@+id/post_detail_course_place_image"
-                        android:layout_width="55dp"
-                        android:layout_height="57dp"
-                        android:scaleType="fitXY"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="19dp"
+                    android:text="TextView"
+                    android:textStyle="bold"
+                    android:textSize="19dp"
+                    android:textColor="@color/white" />
 
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.182"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.372"
-                        app:srcCompat="@drawable/first" />
-                </androidx.cardview.widget.CardView>
+
 
                 <LinearLayout
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/post_detail_course_place_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="19dp"
-                        android:text="TextView"
-                        android:textSize="18dp"
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.386"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.197" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
                     >
                     <ImageView
                         android:id="@+id/post_detail_course_place_item_more_info"
                         android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_height="0dp"
                         android:src="@drawable/info"
-                        android:tint="#676161"></ImageView>
+                        android:layout_weight="1"
+                        android:tint="@color/white">
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/post_detail_course_place_item_bookmark"
+                        android:layout_width="20dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bookmark"
+                        >
+                    </ImageView>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -127,4 +102,4 @@
     </androidx.cardview.widget.CardView>
 
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

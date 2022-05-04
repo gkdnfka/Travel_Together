@@ -62,8 +62,9 @@ app.get('*', (request, response) => {
     if(parsedQuery["func"] == "SearchPost"){ // 게시글을 불러오기 위한 쿼리 파싱
         var testQuery = ""
         if(parsedQuery["type"] == "default") testQuery = "SELECT * FROM NOTICEBOARD_DB";
-        else if (parsedQuery["type"] == "ByPostName") testQuery = testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_TITLE like '%" + parsedQuery["content"] + "%'"; 
-        else if (parsedQuery["type"] == "ByUserName") testQuery = testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE USER_NAME like '%" + parsedQuery["content"] + "%'"; 
+        else if (parsedQuery["type"] == "ByPostName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_TITLE like '%" + parsedQuery["content"] + "%'"; 
+        else if (parsedQuery["type"] == "ByUserName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE USER_NAME like '%" + parsedQuery["content"] + "%'"; 
+        else if (parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE " + parsedQuery["content"]; 
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {
@@ -120,7 +121,7 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + result);
         });
     }
-        // @정지원 2022-03-26 토 
+    // @정지원 2022-03-26 토 
     // 게시글 가져오기(불러오기)을 위한 로직
     if(parsedQuery["func"] == "BringPostGet"){
         var testQuery = "";
@@ -136,6 +137,7 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + result)
         }); 
     }
+
     // @솔빈 2022-03-03 목 
     // 로그인을 위한 로직
     if(parsedQuery["func"] == "Login"){ 
@@ -206,8 +208,9 @@ app.get('*', (request, response) => {
     // @솔빈 2022-03-03 목 
     // 댓글을 불러오기 위한 로직
     if(parsedQuery["func"] == "SearchComment"){ 
-        var testQuery = "SELECT * FROM COMMENT_DB WHERE NOTICEBOARD_NUM = '" + parsedQuery['number'] + "'"
+        var testQuery = "SELECT * FROM COMMENT_DB WHERE UNIQUE_NUM = '" + parsedQuery['number'] + "' and COMMENT_TYPE = '" + parsedQuery['CommentType'] + "'"
         var result;
+        console.log(testQuery)
 
         connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
             if (err) {
@@ -220,10 +223,100 @@ app.get('*', (request, response) => {
         }); 
     }
 
+    // @솔빈 2022-04-23 토 
+    // 이달의 인기 여행지를 추출반환하기 위한 로직
+    if(parsedQuery["func"] == "SearchPopularPlace"){ 
+        var testQuery = "SELECT UNIQUE_NUM, COUNT(UNIQUE_NUM) FROM COMMENT_DB WHERE COMMENT_TYPE = 'Place' and DATES >= '" 
+                        + parsedQuery['Start'] + "' and DATES <= '" + parsedQuery['End'] 
+                        + "' and COMMENT_RATING >= 4 GROUP BY UNIQUE_NUM HAVING COUNT(UNIQUE_NUM) >= 1 ORDER BY COUNT(UNIQUE_NUM) desc;"
+
+
+        console.log(testQuery)
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) console.log(err);
+   
+            testQuery = "SELECT * FROM test WHERE testnum in (";
+            var addedQuery = "ORDER BY FIELD(testnum,"
+            for(var i = 0; i < ret.length ; i++){
+                testQuery += ret[i]['UNIQUE_NUM'] 
+                addedQuery += ret[i]['UNIQUE_NUM']
+                if(i != ret.length -1) testQuery += ",", addedQuery += ','
+                else testQuery += ")", addedQuery += ");"
+            }
+            testQuery += addedQuery
+
+            console.log("쿼리문 : " + testQuery);
+            var result;
+            connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+                if (err) {
+                    console.log(err);
+                }
+                console.log(results)
+                result = JSON.stringify(results)
+                response.end(result)
+                console.log("쿼리문 결과 : " + result)
+            }); 
+        }); 
+    }
+
+
+    // @솔빈 2022-04-23 토 
+    // 이달의 인기 게시글을 추출 반환하기 위한 로직
+    if(parsedQuery["func"] == "SearchPopularPost"){ 
+        var testQuery = "SELECT NOTICEBOARD_NUM, COUNT(LIKE_NUM) FROM LIKE_DB WHERE DATES >= '" + parsedQuery['Start'] + "' and DATES <= '" + parsedQuery['End'] + "' GROUP BY NOTICEBOARD_NUM HAVING COUNT(LIKE_NUM) >= 1 ORDER BY COUNT(LIKE_NUM) DESC;"
+        console.log(testQuery)
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) console.log(err);
+   
+            testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_NUM in (";
+            var addedQuery = "ORDER BY FIELD(NOTICEBOARD_NUM,"
+            for(var i = 0; i < ret.length ; i++){
+                testQuery += ret[i]['NOTICEBOARD_NUM'];
+                addedQuery += ret[i]['NOTICEBOARD_NUM'];
+                if(i != ret.length -1) testQuery += ",", addedQuery += ","
+                else testQuery += ") ", addedQuery += ");"
+            }
+            testQuery += addedQuery;
+
+            console.log("쿼리문 : " + testQuery);
+            var result;
+            connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+                if (err) {
+                    console.log(err);
+                }
+                console.log(results)
+                result = JSON.stringify(results)
+                response.end(result)
+                console.log("쿼리문 결과 : " + result)
+            }); 
+
+        }); 
+    }
+
+
+
+    // @솔빈 2022-04-16 목 
+    // 댓글을 카운팅하기 위한 로직
+    if(parsedQuery["func"] == "CountComment"){ 
+        var testQuery = "SELECT count(*) FROM COMMENT_DB WHERE UNIQUE_NUM = '" + parsedQuery['number'] + "' and COMMENT_TYPE = '" + parsedQuery['CommentType'] + "'"
+        var result;
+        console.log(testQuery)
+
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+            }
+            console.log(ret[0])
+            ret = JSON.stringify(ret[0]['count(*)']);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
     // @솔빈 2022-03-03 목 
     // 댓글 수정을 위한 로직
     if(parsedQuery["func"] == "EditComment"){ 
-        var testQuery = "UPDATE COMMENT_DB SET CONTENT = '" + parsedQuery['Content'] + "' , DATES = '" + parsedQuery['Dates'] + "' WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
+        var testQuery = "UPDATE COMMENT_DB SET CONTENT = '" + parsedQuery['Content'] + "' , DATES = '" + parsedQuery['Dates'] + "', COMMENT_RATING = '" +  parsedQuery['Rating'] + "' WHERE COMMENT_NUM = " + parsedQuery['CommentNum']
         var ret = {
             "number" : "1"
         };
@@ -246,8 +339,8 @@ app.get('*', (request, response) => {
     // @솔빈 2022-03-03 목 
     // 댓글 작성을 위한 로직
     if(parsedQuery["func"] == "WriteComment"){ 
-        var testQuery = "INSERT INTO COMMENT_DB VALUES (0, " + parsedQuery['NoticeNum'] + " , " + parsedQuery['UserCode'] + " , '" 
-                                                             + parsedQuery['UserName'] + "' , '" + parsedQuery['Dates'] + "' , '" + parsedQuery['Content'] + "')"
+        var testQuery = "INSERT INTO COMMENT_DB VALUES (0, " + parsedQuery['UniqueNum'] + " , " + parsedQuery['UserCode'] + " , '" 
+                                                             + parsedQuery['UserName'] + "' , '" + parsedQuery['Dates'] + "' , '" + parsedQuery['Content'] + "' , '" + parsedQuery['CommentType'] + "' , '" + parsedQuery['Rating'] +"')"
         var ret = {
             "number" : "1"
         };
@@ -288,12 +381,76 @@ app.get('*', (request, response) => {
      // 취향 불러오기
     if(parsedQuery["func"] == "LoadTaste"){ 
         var testQuery = "SELECT USER_TASTE, USER_GENDER FROM USER_DB WHERE USER_CODE = '" + parsedQuery['code'] + "'"
-        var result;
         connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
             if (err) { console.log(err);}
             ret = JSON.stringify(ret[0]);
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+    
+    //@우람 2022-05-01
+    // tag 출력을 위한 tag get
+    if(parsedQuery["func"] == "GetTagLabel") {
+        var query = "SELECT * FROM TagLabel";
+        var result;
+
+        connection.query(query, function (err, ret, fields) {
+            if(err) { console.log(err)}
+            if (err) { console.log(err);}
+            ret = JSON.stringify(ret[0]);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        });
+    }
+
+     // @솔빈 2022-04-23 일 
+     // 좋아요 갯수를 불러오기 위한 로직
+     if(parsedQuery["func"] == "GetLikeCnt"){ 
+        var testQuery = "SELECT count(*) FROM LIKE_DB WHERE NOTICEBOARD_NUM = " + parsedQuery['NoticeNum'] + ""
+        connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+            if (err) console.log(err);
+            console.log(ret[0])
+            ret = JSON.stringify(ret[0]['count(*)']);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
+
+    // @솔빈 2022-04-23 일 
+    // 좋아요 DB에 추가하기 위한 로직
+    if(parsedQuery["func"] == "AddLike"){ 
+        var testQuery = "SELECT count(*) FROM LIKE_DB WHERE NOTICEBOARD_NUM = " + parsedQuery['NoticeNum'] + " and USER_CODE = " + parsedQuery['UserCode']
+        var returnvalue = ""
+        console.log("쿼리문 : "+testQuery);
+        connection.query(testQuery, function (err, results, fields) { // DB에 좋아요가 존재하는지 여부를 먼저 검사
+            if (err) console.log(err);
+            results = JSON.stringify(results[0]['count(*)'])
+            returnvalue = results
+
+            if(returnvalue == "0"){ // DB에 좋아요가 없는 경우
+                var testQuery = "INSERT INTO LIKE_DB VALUES (0, " + parsedQuery['NoticeNum'] + " , " + parsedQuery['UserCode'] + " , '" + parsedQuery['Dates'] + "')"
+                connection.query(testQuery, function (err, results, fields) { // testQuery 실행
+                    if (err) {
+                        console.log(err);
+                    }
+                    results = JSON.stringify(results);
+                    response.end("1");
+                }); 
+            }
+    
+            else{ // DB에 좋아요가 있는 경우
+                  // 좋아요 DB에서 삭제하기 위한 로직
+                var testQuery = "DELETE FROM LIKE_DB WHERE NOTICEBOARD_NUM = " + parsedQuery['NoticeNum'] + " and USER_CODE = " + parsedQuery['UserCode']
+                connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
+                    if (err) {
+                        console.log(err);
+                        ret.number = "-1"
+                    }
+                    ret = JSON.stringify(ret);
+                    response.end("-1");
+                }); 
+            }
         }); 
     }
 });

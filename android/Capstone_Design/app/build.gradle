@@ -53,6 +53,13 @@ dependencies {
     // 안드로이드 스튜디오 - 구글 MAP api를 연동하기 위한 의존성 추가
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    // @솔빈
+    // gif 파일을 적용시키기 위한 의존성 추가
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    
     // @지원
     // UI개선을 위한 오픈소스
     implementation 'com.nightonke:boommenu:2.1.1'

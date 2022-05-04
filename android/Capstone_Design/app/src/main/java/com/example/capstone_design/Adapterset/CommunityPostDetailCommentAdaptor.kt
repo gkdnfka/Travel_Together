@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Dataset.CommentInfo
 import com.example.capstone_design.Dataset.ImageInfo
 import com.example.capstone_design.Dataset.ImageInfoForLoad
-import com.example.capstone_design.Fragmentset.CommentModifyInterface
+import com.example.capstone_design.Interfaceset.CommentModifyInterface
 import com.example.capstone_design.Interfaceset.LoadImage
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.PublicRetrofit

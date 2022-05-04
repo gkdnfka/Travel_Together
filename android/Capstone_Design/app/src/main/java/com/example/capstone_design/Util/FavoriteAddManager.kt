@@ -81,17 +81,12 @@ fun TranslateToString(arr : ArrayList<String>) : String{
 fun addFavorite(key : String, value : String){
     var string = FavoriteAddManager.prefs.getString(key, "")
     var numberlist = parseFavorite(key)
-
     var ret = IsInThisArray(numberlist, value)
-    Log.d("ret 값은", ret.toString())
-    Log.d("numberlist 값은", numberlist.toString())
 
     if(ret == -1 && string.length == 0) string = value
     else if(ret == -1 && string.length > 0) string = string + "," + value
     else if(ret >= 0) {
-        Log.d("중복 테스트", " 도달")
         numberlist.removeAt(ret)
-        Log.d("삭제 이후", numberlist.toString())
         string = TranslateToString(numberlist)
     }
 

@@ -1,4 +1,5 @@
 package com.example.capstone_design
+import PathBookmarkAdapter
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Interfaceset.GetPostInfo
 import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
+import com.example.capstone_design.Util.FavoriteAddManager
 import com.example.capstone_design.Util.PublicRetrofit
 import com.example.capstone_design.Util.parseFavorite
 import retrofit2.Call
@@ -46,6 +48,7 @@ class Bookmark : Fragment()
         var view = inflater.inflate(R.layout.bookmark, container, false)
         var placetab = view.findViewById<LinearLayout>(R.id.bookmark_placebutton)
         var posttab = view.findViewById<LinearLayout>(R.id.bookmark_postbutton)
+        var pathtab = view.findViewById<LinearLayout>(R.id.bookmark_pathbutton)
         ly = view.findViewById<LinearLayout>(R.id.bookmark_Linear)
 
         //#EEF3E9
@@ -57,19 +60,33 @@ class Bookmark : Fragment()
         addButton()
 
         placetab.setOnClickListener {
+            favoritePlaceListRecycle.adapter = null
             changeToPlaceBookMarkPage()
             if(selectedTab != 1) addButton()
             selectedTab = 1
             posttab.setBackgroundColor(resources.getColor(R.color.bookmark))
             placetab.setBackgroundColor(resources.getColor(R.color.black))
+            pathtab.setBackgroundColor(resources.getColor(R.color.bookmark))
         }
 
         posttab.setOnClickListener {
+            favoritePlaceListRecycle.adapter = null
             changeToPostBookMarkPage()
             ly.removeViewInLayout(btn)
             placetab.setBackgroundColor(resources.getColor(R.color.bookmark))
             posttab.setBackgroundColor(resources.getColor(R.color.black))
+            pathtab.setBackgroundColor(resources.getColor(R.color.bookmark))
             selectedTab = 0
+        }
+
+        pathtab.setOnClickListener {
+            favoritePlaceListRecycle.adapter = null
+            changeToPathBookMarkPage()
+            ly.removeViewInLayout(btn)
+            pathtab.setBackgroundColor(resources.getColor(R.color.black))
+            placetab.setBackgroundColor(resources.getColor(R.color.bookmark))
+            posttab.setBackgroundColor(resources.getColor(R.color.bookmark))
+            selectedTab = 2
         }
 
 
@@ -79,7 +96,6 @@ class Bookmark : Fragment()
 
 
     fun changeToPlaceBookMarkPage(){
-
         var placeNumberList = parseFavorite("FavoritePlaceList")
         var strForQuery = ""
         for(i in 0 until placeNumberList.size){
@@ -142,6 +158,48 @@ class Bookmark : Fragment()
         })
     }
 
+    interface pathbookmarkinterface {
+        fun change(pathnum : String)
+    }
+
+    fun changeToPathBookMarkPage(){
+        var pathNumberList = parseFavorite("FavoritePathList")
+
+        var tmp = object : pathbookmarkinterface{
+            override fun change(pathnum : String) {
+                Log.d("현재 pathlist ", pathNumberList.toString())
+                var placeNumberList = parseFavorite("path"+pathnum)
+                Log.d("현재 platNumberList ", placeNumberList.toString())
+                var strForQuery = ""
+                for(i in 0 until placeNumberList.size){
+                    strForQuery +=  "testnum = " + placeNumberList[i]
+                    if(i+1 < placeNumberList.size) strForQuery += " OR "
+                }
+
+                strForQuery += " ORDER BY FIELD(testnum,"
+                for (i in 0 until placeNumberList.size){
+                    strForQuery += placeNumberList[i]
+                    if(i+1 < placeNumberList.size) strForQuery += ","
+                }
+                strForQuery += ")"
+
+                serviceforplace.getplaceinfo("SearchPlace", "ByIds", strForQuery).enqueue(object: Callback<ArrayList<PlaceInfo>> {
+                    override fun onFailure(call : Call<ArrayList<PlaceInfo>>, t : Throwable){
+                    }
+                    override fun onResponse(call: Call<ArrayList<PlaceInfo>>, response: Response<ArrayList<PlaceInfo>>) {
+                        var returndata = response.body()
+                        if(returndata != null){
+                            (activity as Activity).SelectedPlaceList = returndata
+                            (activity as Activity).SelectedPlaceFlag = 1
+                            (activity as Activity).changeFragment(13)
+                        }
+                    }
+                })
+            }
+        }
+        favoritePlaceListRecycle.adapter = PathBookmarkAdapter(pathNumberList , activity as Activity, tmp)
+    }
+
     fun addButton(){
         btn = Button((activity as Activity))
         var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 5f)
@@ -152,12 +210,11 @@ class Bookmark : Fragment()
         btn.layoutParams = lp
 
         btn.setOnClickListener {
+            (activity as Activity).SelectedPlaceFlag = 0
             (activity as Activity).changeFragment(13)
         }
         ly.addView(btn)
-
     }
-
 }
 
 

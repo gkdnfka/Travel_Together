@@ -160,9 +160,11 @@ class CommunityAdaptor(
         }
 
         var str : String = ""
-        if(PostList[position].tags == "") str = "1박2일,가족,경치,힐링,"
-        //var parsedTAG = ParsingString(str)
-        var parsedTAG  = arrayListOf<String>("1박2일","가족","경치","힐링")
+        if(PostList[position].tags == null) str = "1박2일,가족,경치,힐링,친구,맛집,행복,"
+        else str = PostList[position].tags
+
+        var parsedTAG = ParsingString(str)
+
         Log.d("태그", parsedTAG.toString())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         for (i in 0 until parsedTAG.size){

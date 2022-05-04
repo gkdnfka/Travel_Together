@@ -31,6 +31,7 @@ class Activity : AppCompatActivity() {
     // SelectedPlaceList : 최단 경로 찾기에서 사용되는, 선택한 여행지들을 담는 리스트
     lateinit var SelectedBringPostInfo : BringPostInfo
     var SelectedPlaceList = ArrayList<PlaceInfo>()
+    var SelectedPlaceFlag = 0
 
     // SelectedDayInPostDetail : 게시글 세부정보 페이지의 경로 탭에서 화면 전환시 날짜 선택 정보를 보존하기 위한 변수
     // SelectedTabInPostDetail : 게시글 세부정보 페이지에서 화면 전환시 선택한 탭의 정보(본문, 경로, 댓글 중에서)를 보존하기 위한 변수

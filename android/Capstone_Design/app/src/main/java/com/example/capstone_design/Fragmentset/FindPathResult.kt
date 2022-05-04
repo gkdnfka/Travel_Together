@@ -10,18 +10,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
 import com.example.capstone_design.Dataset.PlaceInfo
-import com.example.capstone_design.Interfaceset.changeDay
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -75,14 +75,13 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
     lateinit var marker_root_view : View
     lateinit var tv_marker : TextView
 
-    interface InterfaceForCourseRecycler{
-        fun changeFragAndInitSelectedPlace(index : Int, placeinfo : PlaceInfo, bitmap : Bitmap?)
-        fun moveCamerato(PosX: Double, PosY: Double, idx : Int)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.path_result, container, false)
         var distanceTextview = view.findViewById<TextView>(R.id.path_result_km)
+        marker_root_view = LayoutInflater.from((activity as Activity)).inflate(R.layout.marker_layout, null)
+        tv_marker = marker_root_view.findViewById<TextView>(R.id.marker_layout_text)
+        var savebtn = view.findViewById<ImageView>(R.id.path_result_save)
 
         var interfaceForCourseRecycler = object : CourseFragment.InterfaceForCourseRecycler {
             override fun changeFragAndInitSelectedPlace(index : Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
@@ -96,15 +95,19 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
             }
         }
 
-        marker_root_view = LayoutInflater.from((activity as Activity)).inflate(R.layout.marker_layout, null)
-        tv_marker = marker_root_view.findViewById<TextView>(R.id.marker_layout_text)
-
         placeinfoList = (activity as Activity).SelectedPlaceList
-        initDP()
-        for (i in 0 until placeinfoList.size) {
-            calcDP(i, initState)
-            resultCourseList.add(calcPath(i, initState))
+
+        if((activity as Activity).SelectedPlaceFlag == 0){
+            initDP()
+            for (i in 0 until placeinfoList.size) {
+                calcDP(i, initState)
+                resultCourseList.add(calcPath(i, initState))
+            }
         }
+        else{
+           resultCourseList.add(placeinfoList)
+        }
+
 
         mView = view.findViewById<MapView>(R.id.path_result_course_map)
         mView.onCreate(savedInstanceState)
@@ -115,12 +118,55 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
         courseRecycle.adapter = CommunityPostDetailPlaceAdaptor(resultCourseList[selectedCourse], (activity as Activity), interfaceForCourseRecycler)
 
 
+        savebtn.setOnClickListener {
+            var nowPathNumber = ArrayList<String>()
+            var nowPathName = ArrayList<String>()
+            for (i in 0 until resultCourseList[selectedCourse].size) {
+                nowPathNumber.add(resultCourseList[selectedCourse][i].num)
+                nowPathName.add(resultCourseList[selectedCourse][i].name)
+            }
+
+            var nowPathNumberStr = TranslateToString(nowPathNumber)
+            var nowPathNameStr = TranslateToString(nowPathName)
+
+            var pathList = parseFavorite("FavoritePathList")
+            Log.d("PathList 출력", pathList.toString())
+            var number = 0
+            while(true){
+                val ret = IsInThisArray(pathList, number.toString())
+                Log.d("ret값 출력 : ", ret.toString())
+                if(ret == -1) break
+                number += 1
+            }
+
+            var flag = 1
+            for (i in 0 until pathList.size){
+                val prevpath = FavoriteAddManager.prefs.getString("path"+pathList[i].toString(), "")
+                if(prevpath == nowPathNumberStr){
+                    flag = 0
+                    break
+                }
+            }
+
+            if(flag == 1){
+                addFavorite("FavoritePathList", number.toString())
+                FavoriteAddManager.prefs.setString("path$number", nowPathNumberStr)
+                FavoriteAddManager.prefs.setString("pathName$number", nowPathNameStr)
+                Toast.makeText((activity as Activity), "해당 경로가 저장되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText((activity as Activity), "이미 존재하는 경로입니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
         var courseNumberList = ArrayList<Int>()
-        for (i in 0 until placeinfoList.size) courseNumberList.add(i+1)
+        if((activity as Activity).SelectedPlaceFlag == 0) for (i in 0 until placeinfoList.size) courseNumberList.add(i+1)
+        else courseNumberList.add(1)
 
         var courseSelectRecycle = view.findViewById<RecyclerView>(R.id.path_result_course_select_RecyclerView)
         courseSelectRecycle.layoutManager = LinearLayoutManager((activity as Activity), LinearLayoutManager.HORIZONTAL, false)
-        distanceTextview.setText("총 이동거리는 " + (round(dp[selectedCourse][initState]/10)/100 ).toString() + " km 입니다.")
+        if((activity as Activity).SelectedPlaceFlag == 0) distanceTextview.setText("총 이동거리는 " + (round(dp[selectedCourse][initState]/10)/100 ).toString() + " km 입니다.")
 
         var Implemented = object : changeCourse {
             override fun change(courseNumber: Int) {

@@ -71,6 +71,28 @@
 
                     android:textSize="18dp" />
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bookmark_pathbutton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:text="경로"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="18dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

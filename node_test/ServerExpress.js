@@ -393,12 +393,11 @@ app.get('*', (request, response) => {
     // tag 출력을 위한 tag get
     if(parsedQuery["func"] == "GetTagLabel") {
         var query = "SELECT * FROM TagLabel";
-        var result;
 
         connection.query(query, function (err, ret, fields) {
             if(err) { console.log(err)}
             if (err) { console.log(err);}
-            ret = JSON.stringify(ret[0]);
+            ret = JSON.stringify(ret);
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
         });

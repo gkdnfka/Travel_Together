@@ -26,30 +26,25 @@
         android:id="@+id/join_page_select_tag_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="선호하는 유형의 태그를 골라주세요."
+        android:text="본인에게 알맞은 태그를 골라주세요\n(최대 5개)."
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/selected_tag_view"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintVertical_bias="0.117"
+        android:textAlignment="center"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/tag_select_view">
+        android:id="@+id/tag_select_view"
+        android:scrollbars="vertical"
+        android:scrollbarFadeDuration="0"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -12,7 +12,9 @@ import com.example.capstone_design.R
 
 class TagSelectAdaptor (
     val context: Context,
-    private val TagList: ArrayList<TagLabelSet>)
+    private val TagList: ArrayList<TagLabelSet>,
+    private val SelectedIdx: ArrayList<Int> = ArrayList<Int>()
+)
     : RecyclerView.Adapter<TagSelectAdaptor.ViewHolder>() {
     class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.tag_item_text)
@@ -28,7 +30,13 @@ class TagSelectAdaptor (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = "#" + TagList[position].name
-
+        if(SelectedIdx.size != 0) {
+            for(i in SelectedIdx) {
+                if(position == i) {
+                    holder.name.setBackgroundColor(Color.parseColor("#A0E7E5"))
+                }
+            }
+        }
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }

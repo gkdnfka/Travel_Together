@@ -1,6 +1,8 @@
 package com.example.capstone_design.Fragmentset
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,16 +12,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Adapterset.CommunityPostDetailPlaceAdaptor
+import com.example.capstone_design.Dataset.BringPostInfo
 import com.example.capstone_design.Dataset.PlaceInfo
+import com.example.capstone_design.Interfaceset.BringPost
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,6 +28,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Math.*
 import kotlin.math.pow
 
@@ -129,34 +133,78 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
             var nowPathNumberStr = TranslateToString(nowPathNumber)
             var nowPathNameStr = TranslateToString(nowPathName)
 
-            var pathList = parseFavorite("FavoritePathList")
-            Log.d("PathList 출력", pathList.toString())
-            var number = 0
-            while(true){
-                val ret = IsInThisArray(pathList, number.toString())
-                Log.d("ret값 출력 : ", ret.toString())
-                if(ret == -1) break
-                number += 1
-            }
 
-            var flag = 1
-            for (i in 0 until pathList.size){
-                val prevpath = FavoriteAddManager.prefs.getString("path"+pathList[i].toString(), "")
-                if(prevpath == nowPathNumberStr){
-                    flag = 0
-                    break
+            if((activity as Activity).SelectedPlaceFlag == 0){
+                var pathList = parseFavorite("FavoritePathList")
+                Log.d("PathList 출력", pathList.toString())
+                var number = 0
+                while(true){
+                    val ret = IsInThisArray(pathList, number.toString())
+                    if(ret == -1) break
+                    number += 1
                 }
+
+                var flag = 1
+                for (i in 0 until pathList.size){
+                    val prevpath = FavoriteAddManager.prefs.getString("path"+pathList[i].toString(), "")
+                    if(prevpath == nowPathNumberStr){
+                        flag = 0
+                        break
+                    }
+                }
+
+                if(flag == 1){
+                    addFavorite("FavoritePathList", number.toString())
+                    FavoriteAddManager.prefs.setString("path$number", nowPathNumberStr)
+                    FavoriteAddManager.prefs.setString("pathName$number", nowPathNameStr)
+                    Toast.makeText((activity as Activity), "해당 경로가 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText((activity as Activity), "이미 존재하는 경로입니다.", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
-            if(flag == 1){
-                addFavorite("FavoritePathList", number.toString())
-                FavoriteAddManager.prefs.setString("path$number", nowPathNumberStr)
-                FavoriteAddManager.prefs.setString("pathName$number", nowPathNameStr)
-                Toast.makeText((activity as Activity), "해당 경로가 저장되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+            // 이미 북마크에 추가 되어있는 경우, 여행지로 추가하는 기능이 수행됨
             else{
-                Toast.makeText((activity as Activity), "이미 존재하는 경로입니다.", Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(view.context)
+                builder.setTitle("여행경로 가져오기")
+                    .setMessage("해당 여행 경로를 가져오시겠습니까?")
+                    .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+                        val builder = AlertDialog.Builder(view.context)
+                        val builderView = inflater.inflate(R.layout.alertdialog_edittext,null)
+
+                        val editText = builderView.findViewById<EditText>(R.id.BringPostedit)
+                        builder.setTitle("포스트 이름을 입력해주세요")
+                            .setView(builderView)
+                            .setNegativeButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                                var funcName = "BringPostPut"
+                                var typeName = "default"
+                                val PostName = editText.text.toString()
+                                val service = (activity as Activity).retrofit.create(BringPost::class.java)
+                                service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE, nowPathNumberStr).enqueue(object:
+                                    Callback<ArrayList<BringPostInfo>> {
+                                    override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                        Log.d("실패", t.toString())
+                                    }
+                                    override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                        Log.d("성공", "입출력 성공")
+                                        Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                            })
+                            .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                            })
+                        builder.show()
+                    })
+                    .setPositiveButton("취소", DialogInterface.OnClickListener { dialogInterface, i ->
+                        Toast.makeText(view.context, "취소했습니다", Toast.LENGTH_SHORT).show()
+                    })
+                builder.show()
             }
+
         }
 
 

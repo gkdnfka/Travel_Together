@@ -99,7 +99,7 @@ class Bookmark : Fragment()
         var placeNumberList = parseFavorite("FavoritePlaceList")
         var strForQuery = ""
         for(i in 0 until placeNumberList.size){
-            strForQuery +=  "testnum = " + placeNumberList[i]
+            strForQuery +=  "num = " + placeNumberList[i]
             if(i+1 < placeNumberList.size) strForQuery += " OR "
         }
 
@@ -172,11 +172,11 @@ class Bookmark : Fragment()
                 Log.d("현재 platNumberList ", placeNumberList.toString())
                 var strForQuery = ""
                 for(i in 0 until placeNumberList.size){
-                    strForQuery +=  "testnum = " + placeNumberList[i]
+                    strForQuery +=  "num = " + placeNumberList[i]
                     if(i+1 < placeNumberList.size) strForQuery += " OR "
                 }
 
-                strForQuery += " ORDER BY FIELD(testnum,"
+                strForQuery += " ORDER BY FIELD(num,"
                 for (i in 0 until placeNumberList.size){
                     strForQuery += placeNumberList[i]
                     if(i+1 < placeNumberList.size) strForQuery += ","

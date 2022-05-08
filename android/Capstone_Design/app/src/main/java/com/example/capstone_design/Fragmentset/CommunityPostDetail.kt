@@ -199,7 +199,7 @@ class CommunityPostDetail : Fragment()
 
             var jsize = mActivity.SelectedPostPlaceList[i].size
             for (j in 0 until jsize){
-                strForQuery +=  "testnum = " + mActivity.SelectedPostPlaceList[i][j]
+                strForQuery +=  "num = " + mActivity.SelectedPostPlaceList[i][j]
                 if(j != jsize-1) strForQuery += " OR "
             }
 

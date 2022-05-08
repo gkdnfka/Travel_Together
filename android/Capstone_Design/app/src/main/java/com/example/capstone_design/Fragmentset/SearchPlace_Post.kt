@@ -66,7 +66,7 @@ class SearchPlace_Post : Fragment()
                 // enqueue 메소드의 인자로 콜백 함수 하나를 선언해서 삽입
                 // 해당 함수는 onResponse 함수와 onFailure 함수를 오버라이드 해야함
                 // onResponse 에 응답 성공시 response 객체가 인자로 전달됨.
-                // onResponse 내의 response.body()를 통해 ArrayList<PostInfo> 최종적으로 형태로 데이터 전달받을 수 있음!
+                // onResponse 내의 response.body()를 통해 최종적으로 ArrayList<PostInfo>  형태로 데이터 전달받을 수 있음!
 
                 val funcName = "SearchPlace"
                 var typeName = ""

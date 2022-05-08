@@ -11,6 +11,7 @@ import com.example.capstone_design.Fragmentset.FirstPage
 import com.example.capstone_design.Interfaceset.SendJoinInfo
 import com.example.capstone_design.Interfaceset.SendLoginInfo
 import com.example.capstone_design.R
+import com.example.capstone_design.Util.PublicRetrofit
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,10 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     // 회원가입, 로그인 기능을 위해 레트로핏 선언
-    val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.219.101:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    val retrofit = PublicRetrofit.retrofit
     val serviceForLogin = retrofit.create(SendLoginInfo::class.java)
     val serviceForJoin = retrofit.create(SendJoinInfo::class.java)
 

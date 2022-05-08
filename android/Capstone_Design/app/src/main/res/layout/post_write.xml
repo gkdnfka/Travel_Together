@@ -6,27 +6,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="100"
     >
 
-    <FrameLayout
-        android:id="@+id/Post_Write_FrameLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_weight="6">
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/post_write_exit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_pressed"
+            android:src="@drawable/left_arrow"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"/>
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/post_write_savebtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_pressed"
+            android:src="@drawable/content_upload"
+            android:tint="@color/black"
+            />
+    </LinearLayout>
 
-        app:layout_constraintVertical_bias="0.095">
-        <com.nightonke.boommenu.BoomMenuButton
-            android:id="@+id/bmb"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        app:cardElevation="10dp"
+        android:layout_marginBottom="5dp"
+        >
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginTop="2dp"
-            android:elevation="20dp"
-            android:visibility="visible"
-            app:bmb_buttonEnum="ham"
-            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
-            app:bmb_normalColor="#AFCB3D"
-            app:bmb_piecePlaceEnum="piecePlace_ham_3" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+
+            >
+
+            <LinearLayout
+                android:id="@+id/post_write_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                android:background="@color/black"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/white"
+                    android:text="본문"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/post_write_path"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_marginTop="2dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:text="경로"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+
+                    android:textSize="18dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <FrameLayout
+        android:layout_weight="88"
+        android:id="@+id/post_write_FrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        >
     </FrameLayout>
 
 

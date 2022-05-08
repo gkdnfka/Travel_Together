@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     app:cardCornerRadius="10dp"
     app:cardPreventCornerOverlap="false"
-    android:layout_height="match_parent"
-    app:cardElevation="5dp"
+    android:layout_height="wrap_content"
+    app:cardElevation="15dp"
     app:cardUseCompatPadding="true"
     android:layout_margin="8dp">
     <FrameLayout
@@ -71,16 +71,18 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:background="?attr/selectableItemBackground"
-                android:padding="5dp">
+                >
 
                 <TextView
                     android:id="@+id/plan_day"
-                    android:layout_width="100dp"
+                    android:layout_width="45dp"
                     android:layout_height="100dp"
+                    android:background="@color/main_theme"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text = "일자"
-                    android:textSize = "20dp"
+                    android:textSize = "15dp"
+                    android:textColor="@color/black"
                     android:layout_marginRight="5dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,6 +97,7 @@
                         android:gravity="center"
                         android:textSize="14sp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="3"/>
                     <TextView

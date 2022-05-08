@@ -32,10 +32,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, selectplace : selectPlace, val placeDetailPageInterface : PlaceDetailPageInterface) : RecyclerView.Adapter<FavoritePlaceAdaptor.ViewHolder>() {
+class FavoritePlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, val selectplace : selectPlace, val placeDetailPageInterface : PlaceDetailPageInterface) : RecyclerView.Adapter<FavoritePlaceAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
-    var selectplace = selectplace
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflatedView = LayoutInflater.from(contexts).inflate(R.layout.path_select_place_item, parent, false)

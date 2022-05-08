@@ -2,6 +2,7 @@ package com.example.capstone_design.Fragmentset
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,9 +22,12 @@ import com.example.capstone_design.Adapterset.Post_Plan_Adapter_Update
 import com.example.capstone_design.Util.ItemTouchHelperCallback
 import com.example.capstone_design.Adapterset.Post_Plan_Detail_Adapter
 import com.example.capstone_design.Adapterset.Post_Plan_Detail_Adapter_Update
+import com.example.capstone_design.Dataset.PlaceInfo
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.Interfaceset.update_list_interface
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.SwipeHelperCallback
+import com.example.capstone_design.selectPlace
 import com.nightonke.boommenu.BoomButtons.HamButton
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener
 import com.nightonke.boommenu.BoomMenuButton
@@ -41,7 +45,21 @@ class Community_Post_Write_Plan_Detail : Fragment(), update_list_interface {
 
         var detail_list = tmp_plan.findViewById<RecyclerView>(R.id.post_write_plan_detail_list)
         // 리사이클러뷰 어댑터 달기
-        val detail_list_adapter = Post_Plan_Detail_Adapter_Update(tmp_plan.context,mActivity.place_list,this)
+        // Implemented1 -> 게시글 세부 페이지 조회를 위해 activity 상에 선택된 여행지 정보를 저장하는 인터페이스
+        var Implemented1 = object : selectPlace {
+            override fun selectplace(element : PlaceInfo) : Int {
+                return (activity as Activity).AddSelectedPlace(element)
+            }
+        }
+        // Implemented2 -> 게시글 세부 페이지 조회를 위해 bitmap을 불러오기 위한 인터페이스
+        var Implemented2 = object : PlaceDetailPageInterface {
+            override fun change(index: Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+                (activity as Activity).SelectedPlace = placeinfo
+                if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+                (activity as Activity)!!.changeFragment(index)
+            }
+        }
+        val detail_list_adapter = Post_Plan_Detail_Adapter_Update(tmp_plan.context,mActivity.place_list,this, Implemented1, Implemented2)
 
         // 리사이클러뷰에 스와이프, 드래그 기능 달기
         val callback = SwipeHelperCallback(detail_list_adapter).apply{
@@ -115,7 +133,7 @@ class Community_Post_Write_Plan_Detail : Fragment(), update_list_interface {
         * */
         detail_backspace.setOnClickListener{
             // postwrite_plan으로 이동
-         mActivity.changeFragment(8)
+            mActivity.changeFragment(8)
         }
         return tmp_plan
     }

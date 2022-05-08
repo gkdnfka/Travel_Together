@@ -42,7 +42,7 @@ class Community_Post_Write_Plan : Fragment(), remove_list_interface {
         val touchHelper =  ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(post_plan_list)
         plan_add_button.setOnClickListener {
-            planlist.add(PlanInfo(planlist.size + 1, "",ArrayList()))
+            planlist.add(PlanInfo(planlist.size + 1, "", ArrayList()))
             plan_list_adapter.notifyDataSetChanged()
             mActivity.postplanlist = planlist
         }

@@ -7,6 +7,6 @@ import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface GetTagLabel {
-    @GET("func = {func}")
-    fun getTagLabel(@Path("func") func : String): Call<TagLabelSet>
+    @GET("func={func}")
+    fun getTagLabel(@Path("func") func : String): Call<ArrayList<TagLabelSet>>
 }

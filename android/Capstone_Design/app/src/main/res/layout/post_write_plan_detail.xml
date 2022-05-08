@@ -8,6 +8,7 @@
 
     android:weightSum="20">
     <LinearLayout
+        android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -17,9 +18,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:tint = "@color/black"
             android:scaleType="centerInside"
             android:background="@drawable/button_pressed"
-            android:src="@drawable/undo_button"/>
+            android:src="@drawable/left_arrow"/>
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -29,8 +31,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:scaleType="centerInside"
             android:background="@drawable/button_pressed"
+            android:tint="@color/black"
             android:src="@drawable/search_button"/>
 
         <ImageButton
@@ -38,9 +42,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="centerInside"
+            android:layout_margin="2dp"
             android:background="@drawable/button_pressed"
-            android:src="@drawable/check_button"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/check_button"
+            android:tint="@color/black"
+            />
 
     </LinearLayout>
 
@@ -52,8 +59,8 @@
             android:textAlignment="center"
             android:text="TextView"
             android:textSize="30dp"
-            android:textColor="#bee9c4"
-            android:layout_weight="2"
+            android:textColor="@color/black"
+            android:layout_weight="1.5"
             />
 
 
@@ -63,7 +70,6 @@
         android:id="@+id/post_write_plan_detail_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#BEE9B4"
         android:layout_margin="20dp"
         ></androidx.recyclerview.widget.RecyclerView>
 

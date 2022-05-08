@@ -45,8 +45,7 @@ class Recommend : Fragment()
                     string +=  nameArray[i] + "의 점수 : "+ returndata!!.taste[i] + "\n"
                     dataArray[i] = returndata!!.taste[i].toInt()
                 }
-                if(returndata!!.gender == "남성") dataArray[7] = 1
-
+                dataArray[7] = 0
                 string += "성별 값 : " + dataArray[7]
                 textviews.text = string
             }

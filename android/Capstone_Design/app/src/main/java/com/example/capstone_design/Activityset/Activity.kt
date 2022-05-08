@@ -14,6 +14,7 @@ import com.example.capstone_design.Fragmentset.*
 import com.example.capstone_design.Interfaceset.BringPost
 import com.example.capstone_design.Interfaceset.SetSelectedBringPost
 import com.example.capstone_design.Util.FavoriteAddManager
+import com.example.capstone_design.Util.PublicRetrofit
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -214,16 +215,16 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("PostWrite", Community_Post_Write(),R.id.MainFrameLayout)
             }
             7 ->{
-                ReplaceFragment("PostWriteMain", Community_Post_Write_Main(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("PostWriteMain", Community_Post_Write_Main(),R.id.post_write_FrameLayout)
             }
             8 ->{
-                ReplaceFragment("PostWritePlan", Community_Post_Write_Plan(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("PostWritePlan", Community_Post_Write_Plan(),R.id.post_write_FrameLayout)
             }
             9 ->{
-                ReplaceFragment("PostWritePlanDetail",Community_Post_Write_Plan_Detail(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("PostWritePlanDetail",Community_Post_Write_Plan_Detail(),R.id.post_write_FrameLayout)
             }
             10->{
-                ReplaceFragment("SearchPlacePost",SearchPlace_Post(),R.id.Post_Write_FrameLayout)
+                ReplaceFragment("SearchPlacePost",SearchPlace_Post(),R.id.post_write_FrameLayout)
             }
             11->{
                 ReplaceFragment("CommunityPostDetail",CommunityPostDetail(),R.id.MainFrameLayout)
@@ -238,6 +239,9 @@ class Activity : AppCompatActivity() {
                 ReplaceFragment("PostBringDetail",PostBringDetail(),R.id.MainFrameLayout)
             }
 
+            15->{
+                ReplaceFragment("TagUpdate",TagUpdate(),R.id.MainFrameLayout)
+            }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가
         }
@@ -251,9 +255,6 @@ class Activity : AppCompatActivity() {
 
     // @솔빈 2022-03-14 (월)
     // 프래그먼트들에서 사용할 레트로핏 객체 Activity에 선언
-    var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.219.101:8080/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    var retrofit   = PublicRetrofit.retrofit
 
 }

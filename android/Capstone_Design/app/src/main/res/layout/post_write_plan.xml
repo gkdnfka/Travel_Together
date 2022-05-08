@@ -6,38 +6,48 @@
     android:layout_height="match_parent"
     android:weightSum="10"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:text="여행경로 수정"
-        android:textSize="30dp"
-        android:textColor="#bee9c4"
-        android:layout_weight="1"
-        />
-    <ImageButton
 
-        android:id="@+id/post_write_plan_add"
-        android:layout_width="70dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:scaleType="centerInside"
-        android:background="@drawable/button_pressed"
-        android:src="@drawable/add_icon_new"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="경로를 추가하세요"
+            android:textSize="19dp"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="textEnd"
+            android:layout_marginRight="10dp"
+            >
+
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/post_write_plan_add"
+            android:layout_width="55dp"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_pressed"
+            android:scaleType="centerInside"
+            android:src="@drawable/add_icon_new"
+            android:tint="#353131" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_write_plan_ListView"
-        android:background="#BEE9B4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="10"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_margin="20dp"
-        app:layout_constraintVertical_bias="0.036"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        ></androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>

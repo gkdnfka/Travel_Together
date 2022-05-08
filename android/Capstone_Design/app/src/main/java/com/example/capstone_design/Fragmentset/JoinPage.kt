@@ -56,7 +56,7 @@ class JoinPage : Fragment()
                 Toast.makeText((activity as MainActivity), "회원 정보를 모두 입력해주세요. ", Toast.LENGTH_SHORT).show()
             }
             else{
-                (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, JoinInvestigatingPage(join_name.text.toString(), join_id.text.toString(), join_password.text.toString(), gender, join_address.text.toString()) ).commit()
+                (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, JoinTagSelect(join_name.text.toString(), join_id.text.toString(), join_password.text.toString(), gender, join_address.text.toString()) ).commit()
             }
 
         }

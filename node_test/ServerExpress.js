@@ -420,8 +420,10 @@ app.get('*', (request, response) => {
 
      // @솔빈 2022-03-13 일 
      // 취향 불러오기
+     // @우람 2022-05-08 일
+     // 취향이 tag만 불러옴에 따라 약간의 수정.
     if(parsedQuery["func"] == "LoadTaste"){ 
-        var testQuery = "SELECT USER_TASTE, USER_GENDER FROM USER_DB WHERE USER_CODE = '" + parsedQuery['code'] + "'"
+        var testQuery = "SELECT USER_TASTE FROM USER_DB WHERE USER_CODE = '" + parsedQuery['code'] + "'"
         connection.query(testQuery, function (err, ret, fields) { // testQuery 실행
             if (err) { console.log(err);}
             ret = JSON.stringify(ret[0]);
@@ -434,17 +436,33 @@ app.get('*', (request, response) => {
     // tag 출력을 위한 tag get
     if(parsedQuery["func"] == "GetTagLabel") {
         var query = "SELECT * FROM TagLabel";
-        var result;
 
         connection.query(query, function (err, ret, fields) {
             if(err) { console.log(err)}
             if (err) { console.log(err);}
-            ret = JSON.stringify(ret[0]);
+            ret = JSON.stringify(ret);
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
         });
     }
 
+    if(parsedQuery["func"] == "UserTagUpdate") {
+        var query = "UPDATE USER_DB SET USER_TASTE = '" + parsedQuery['usertaste'] + "' WHERE USER_CODE = '" + parsedQuery['usercode'] + "'"
+        var ret = {
+            "number" : "1"
+        };
+
+        connection.query(query, function (err, result, fields) { // testQuery 실행
+            if (err) {
+                console.log(err);
+                ret.number = "-1"
+            }
+
+            ret = JSON.stringify(ret);
+            response.end(ret);
+            console.log("쿼리문 결과 : " + ret);
+        }); 
+    }
      // @솔빈 2022-04-23 일 
      // 좋아요 갯수를 불러오기 위한 로직
      if(parsedQuery["func"] == "GetLikeCnt"){ 

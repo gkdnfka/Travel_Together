@@ -16,7 +16,11 @@ import com.example.capstone_design.Activityset.MainActivity
 import com.example.capstone_design.Adapterset.TagSelectAdaptor
 import com.example.capstone_design.Dataset.JoinSuccess
 import com.example.capstone_design.Dataset.TagLabelSet
+import com.example.capstone_design.Dataset.TagUpdateSuccess
+import com.example.capstone_design.Dataset.TasteInfo
 import com.example.capstone_design.Interfaceset.GetTagLabel
+import com.example.capstone_design.Interfaceset.LoadUserTaste
+import com.example.capstone_design.Interfaceset.UserTagUpdate
 import com.example.capstone_design.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,22 +30,48 @@ import retrofit2.http.Path
 import java.text.FieldPosition
 
 
-class JoinTagSelect(val join_name : String, val join_id : String, val join_password : String, val gender : String, val join_address : String) : Fragment()
+class TagUpdate() : Fragment()
 {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.join_page_select_tag, container, false)
 
         val joinBtn = view.findViewById<Button>(R.id.join_page_select_tag_join_btn)
+        joinBtn.text = "수정하기"
         val backBtn = view.findViewById<ImageView>(R.id.join_page_select_tag_back_btn)
 
         val selectTagView = view.findViewById<RecyclerView>(R.id.tag_select_view)
 
-        //TagLabel 데이터 불러오기
-        val funcName = "GetTagLabel"
-
-        var mActivity = (activity as MainActivity)
+        var mActivity = (activity as Activity)
         val retrofit = mActivity.retrofit
-        val service = retrofit.create(GetTagLabel::class.java)
+
+        //UserTaste 불러오기
+        val funcName1 = "LoadTaste"
+        val service1 = retrofit.create(LoadUserTaste::class.java)
+        var SelectedIdx = ArrayList<Int>()
+        var taste : List<String> = emptyList()
+        service1.loadUserTaste(funcName1, mActivity.USER_CODE)
+            .enqueue(object : Callback<TasteInfo> {
+                override fun onFailure(call: Call<TasteInfo>, t: Throwable) {
+                    Log.d("실패", t.toString())
+                }
+
+                override fun onResponse(call: Call<TasteInfo>, response: Response<TasteInfo>) {
+                    Log.d("성공", "Taste Load")
+
+                    var returndata = response.body()
+                    if(returndata != null) {
+                        taste = returndata.taste.split(",")
+                        Log.d("Taste", taste.toString())
+                        for(idx in taste) {
+                            SelectedIdx.add(idx.toInt())
+                        }
+                    }
+                }
+            })
+
+        //TagLabel 데이터 불러오기
+        var funcName = "GetTagLabel"
+        var service = retrofit.create(GetTagLabel::class.java)
 
         var selectCnt = 0
         val isTagClicked = ArrayList<Int>()
@@ -56,18 +86,23 @@ class JoinTagSelect(val join_name : String, val join_id : String, val join_passw
                     response: Response<ArrayList<TagLabelSet>>
                 ) {
                     Log.d("성공", "Tag Load")
+
                     var returndata = response.body()
                     if(returndata != null) {
 
-                        Log.d("성공", isTagClicked.size.toString())
                         for(i in 0..returndata.size) {
                             isTagClicked.add(0)
                         }
 
-                        val SelectViewAdapter =
-                            TagSelectAdaptor((activity as MainActivity), returndata!! )
+                        for(idx in SelectedIdx) {
+                            isTagClicked[idx] = 1
+                        }
 
-                        var manager = GridLayoutManager((activity as MainActivity),
+                        selectCnt = SelectedIdx.size
+                        val SelectViewAdapter =
+                            TagSelectAdaptor(mActivity, returndata!!, SelectedIdx)
+
+                        var manager = GridLayoutManager(mActivity,
                         3)
 
                         selectTagView.apply {
@@ -104,7 +139,7 @@ class JoinTagSelect(val join_name : String, val join_id : String, val join_passw
 
 
         backBtn.setOnClickListener{
-            (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, FirstPage()).commit()
+            (activity as Activity).changeFragment(3)
         }
 
         joinBtn.setOnClickListener {
@@ -122,50 +157,39 @@ class JoinTagSelect(val join_name : String, val join_id : String, val join_passw
                     }
                 }
                 str = str.dropLast(1)
+                var funcName2 = "UserTagUpdate"
+                var service2 = retrofit.create(UserTagUpdate::class.java)
 
-                (activity as MainActivity).serviceForJoin.sendJoinInfo(
-                    "Join",
-                    join_id,
-                    join_password,
-                    join_name,
-                    gender,
-                    join_address,
-                    str
-                ).enqueue(object : Callback<JoinSuccess> {
-                    override fun onFailure(call: Call<JoinSuccess>, t: Throwable) {
-                        Log.d("실패", t.toString())
-                    }
+                service2.userTagUpdate(funcName2, mActivity.USER_CODE, str)
+                    .enqueue(object:Callback<TagUpdateSuccess>{
+                        override fun onFailure(call: Call<TagUpdateSuccess>, t: Throwable) {
+                            Log.d("service2 실패", t.toString())
+                        }
 
-                    override fun onResponse(
-                        call: Call<JoinSuccess>,
-                        response: Response<JoinSuccess>
-                    ) {
-                        Log.d("성공", "DB 입출력 성공")
-                        var returndata = response.body()
+                        override fun onResponse(
+                            call: Call<TagUpdateSuccess>,
+                            response: Response<TagUpdateSuccess>
+                        ) {
+                            var returndata = response.body()
+                            if(returndata!!.number == "1") {
+                                Toast.makeText(mActivity, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                                (activity as Activity).changeFragment(3)
+                            }
 
-                        // @솔빈 2022-02-21 월
-                        // 회원가입에 성공한 경우 success 객체의 변수 number 에  1이 반환되고
-                        // 회원가입에 실패한 경우 success 객체의 변수 number 에  0보다 작은 값이 반환된다.
-                        if (returndata!!.number == "1") {
-                            (activity as MainActivity).supportFragmentManager.beginTransaction()
-                                .replace(R.id.login_and_join_frameLayout, FirstPage()).commit()
-                            Toast.makeText(
-                                (activity as MainActivity),
-                                "회원가입 완료.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if (returndata!!.number == "-1") Toast.makeText(
-                            (activity as MainActivity),
-                            "이미 존재하는 아이디입니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                            else if (returndata!!.number == "-1") {
+                                Toast.makeText(mActivity, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+
             }
 
             else {
-                Toast.makeText((activity as MainActivity), "1개 이상의 태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mActivity, "1개 이상의 태그를 선택해주세요.", Toast.LENGTH_SHORT).show()
             }
+
+
+
         }
 
         return view

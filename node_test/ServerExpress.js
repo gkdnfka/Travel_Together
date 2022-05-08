@@ -47,6 +47,24 @@ app.get('*', (request, response) => {
             var myLocationY = locationData[0];   
             testQuery = "SELECT *,ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) as distance FROM Place WHERE ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) <= 1000  AND category = 'Cafe'"
         }
+        else if(parsedQuery["type"] == "Convenience"){
+            var locationData = parsedQuery["str"].split(']');
+            var myLocationX = locationData[1];
+            var myLocationY = locationData[0];   
+            testQuery = "SELECT *,ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) as distance FROM Place WHERE ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) <= 1000  AND category = 'Convenience'"
+        }
+        else if(parsedQuery["type"] == "Sleep"){
+            var locationData = parsedQuery["str"].split(']');
+            var myLocationX = locationData[1];
+            var myLocationY = locationData[0];   
+            testQuery = "SELECT *,ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) as distance FROM Place WHERE ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) <= 5000  AND category = 'Sleep'"
+        }
+        else if(parsedQuery["type"] == "Restaurant"){
+            var locationData = parsedQuery["str"].split(']');
+            var myLocationX = locationData[1];
+            var myLocationY = locationData[0];   
+            testQuery = "SELECT *,ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) as distance FROM Place WHERE ST_DISTANCE_SPHERE(POINT(" + myLocationX +  "- 90, " + myLocationY + " - 90), POINT(x-90,y-90)) <= 1000  AND category = 'Restaurant'"
+        }
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {
@@ -108,18 +126,41 @@ app.get('*', (request, response) => {
         var testQuery = "";
         var postname = parsedQuery["postname"]
         var usercode = parsedQuery["usercode"]
-        var course = parsedQuery["coursedata"];
-        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO UserTravel_DB (POST_NAME,USER_CODE,COURSE,DAY_INDEX,COURSE_INDEX) VALUES (?,?,?,?,?)";
-        var params = [postname,usercode,course,0,0];
-        connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
-            console.log(err);
-            if (err) {
+        var course = parsedQuery["coursedata"]
+        var percent = parsedQuery["percent"]
+        var courseindex = parsedQuery["courseindex"]
+        var dayindex = parsedQuery["dayindex"]
+        var seq = parsedQuery["seq"]
+        var completenum = parsedQuery["coursecurrent"]
+        if(parsedQuery["type"] == "default"){
+            testQuery = "INSERT INTO UserTravel_DB (POST_NAME,USER_CODE,COURSE,DAY_INDEX,COURSE_INDEX,COMPLETE_PERCENT,COMPLETE_NUM) VALUES (?,?,?,?,?,?,?)";
+            var params = [postname,usercode,course,0,0,0,0];
+            connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
                 console.log(err);
-            }
-            console.log(results);
-            result = JSON.stringify(results);
-            console.log("쿼리문 결과 : " + result);
-        });
+                if (err) {
+                    console.log(err);
+                }
+                console.log(results);
+                result = JSON.stringify(results);
+                console.log("쿼리문 결과 : " + result);
+            });
+        } 
+        if(parsedQuery["type"] == "update"){
+            testQuery = "UPDATE UserTravel_DB SET DAY_INDEX=?,COURSE_INDEX=?,COMPLETE_PERCENT=?,COMPLETE_NUM=?  WHERE seq = " + seq;
+            var params = [dayindex,courseindex,percent,completenum];
+            console.log(completenum)
+            connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
+                console.log(err);
+                if (err) {
+                    console.log(err);
+                }
+                console.log(results);
+                result = JSON.stringify(results);
+                console.log("쿼리문 결과 : " + result);
+            });
+        }
+       
+        
     }
     // @정지원 2022-03-26 토 
     // 게시글 가져오기(불러오기)을 위한 로직

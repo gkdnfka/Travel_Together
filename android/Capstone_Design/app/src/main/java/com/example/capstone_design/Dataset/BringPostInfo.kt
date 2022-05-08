@@ -14,5 +14,9 @@ data class BringPostInfo(
     @SerializedName("DAY_INDEX")
     var dayindex : String,
     @SerializedName("COURSE_INDEX")
-    var courseindex : String
+    var courseindex : String,
+    @SerializedName("COMPLETE_PERCENT")
+    var percent : String,
+    @SerializedName("COMPLETE_NUM")
+    var completeNum : String
 )

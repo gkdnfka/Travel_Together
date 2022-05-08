@@ -9,6 +9,8 @@ import com.example.capstone_design.R
 
 
 import android.content.Context;
+import android.util.Log
+import android.widget.ProgressBar
 
 import com.example.capstone_design.Dataset.BringPostInfo;
 import com.example.capstone_design.Interfaceset.SetSelectedBringPost;
@@ -23,6 +25,8 @@ class PostBringAdapter(val context :Context, private val BringPostList:ArrayList
 
     class ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val postname = view.findViewById<TextView>(R.id.bringPostName)
+        val bringProgress = view.findViewById<ProgressBar>(R.id.bringProgressBar)
+        val bringpercent = view.findViewById<TextView>(R.id.bringProgressBarPercent)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
@@ -32,6 +36,8 @@ class PostBringAdapter(val context :Context, private val BringPostList:ArrayList
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.postname.text = BringPostList[position].postname
+        holder.bringpercent.text = BringPostList[position].percent + "% " + "완료"
+        holder.bringProgress.progress = BringPostList[position].percent.toInt()
         holder.itemView.setOnClickListener {
             implemented.SetSelectedBringPost(BringPostList[position])
         }

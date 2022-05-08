@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,8 +42,9 @@ class PostBring : Fragment() {
         val mActivity = activity as Activity
         val retrofit = mActivity.retrofit
         val bringList = view.findViewById<RecyclerView>(R.id.post_bring_list)
+
         val service = retrofit.create(BringPost::class.java)
-        service.bringPost(funcName,typeName,"",mActivity.USER_CODE,"").enqueue(object : Callback<ArrayList<BringPostInfo>>{
+        service.bringPost(funcName,typeName,"",mActivity.USER_CODE,"","","","0","0","").enqueue(object : Callback<ArrayList<BringPostInfo>>{
             override fun onFailure(call: Call<ArrayList<BringPostInfo>>, t: Throwable) {
                 Log.d("실패", t.toString())
             }

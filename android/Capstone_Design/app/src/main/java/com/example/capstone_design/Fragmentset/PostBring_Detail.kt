@@ -23,12 +23,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Activityset.MainActivity
+import com.example.capstone_design.Adapterset.PostBringAdapter
 import com.example.capstone_design.Adapterset.PostBringDetailAdapter
 import com.example.capstone_design.Adapterset.SearchPlaceAdaptor
 import com.example.capstone_design.Dataset.*
-import com.example.capstone_design.Interfaceset.GetPlaceInfo
-import com.example.capstone_design.Interfaceset.LoadImage
-import com.example.capstone_design.Interfaceset.NaverAPI
+import com.example.capstone_design.Interfaceset.*
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.PublicRetrofit
 import com.google.android.gms.location.*
@@ -69,12 +68,16 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     val path = PathOverlay()
     lateinit var myNaverMap: NaverMap
-    var destinationMarker = Marker()
+
     lateinit var dtInfo : PlaceInfo
-    lateinit var cafeInfo : PlaceInfo
+
     var dayIndex = 0
     var courseIndex = 0
-    var cafeMarker = Marker()
+
+
+    var destinationMarker = Marker()
+
+
     var myLocationX = 0.0
     var myLocationY = 0.0
 
@@ -106,12 +109,73 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         val drawerList = view.findViewById<RecyclerView>(R.id.bring_drawer_List)
         val store1 = view.findViewById<Button>(R.id.convenienceStore)
         val store2 = view.findViewById<Button>(R.id.caFe)
+        val store3 = view.findViewById<Button>(R.id.sleep)
+        val store4 = view.findViewById<Button>(R.id.foodstore)
         val bringTool = view.findViewById<BoomMenuButton>(R.id.bringTool)
 
         bringTool.piecePlaceEnum = PiecePlaceEnum.DOT_3_4
         bringTool.buttonPlaceEnum = ButtonPlaceEnum.SC_3_4
-        dtInfo = coursePlaceList[dayIndex][courseIndex]
-        detailDestination.text = dtInfo.name
+
+        if(coursePlaceList[dayIndex][courseIndex].name != ""){
+            dtInfo = coursePlaceList[dayIndex][courseIndex]
+            detailDestination.text = dtInfo.name
+        }
+        else {
+            detailDestination.text = "여행끝"
+        }
+        // 편의점 버튼 클릭시 동작
+        store1.setOnClickListener {
+            if(myLocationX == 0.0 && myLocationY == 0.0)
+            {
+                Toast.makeText(view.context,"위치갱신 이후에 진행해 주세요!",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                val funcName = "SearchPlace"
+                val typeName = "Convenience"
+                val strName = myLocationX.toString() + ']' + myLocationY.toString()
+                service.getplaceinfo(funcName, typeName, strName)
+                    .enqueue(object : Callback<ArrayList<PlaceInfo>> {
+                        override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
+                            Log.d("실패", t.toString())
+                            Toast.makeText(mActivity,"검색결과가 없습니다",Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onResponse(
+                            call: Call<ArrayList<PlaceInfo>>,
+                            response: Response<ArrayList<PlaceInfo>>
+                        ) {
+                            Log.d("성공", "입출력 성공")
+                            var returndata = response.body()
+                            if (returndata != null) {
+                                val drawerAdapter = PostBringDetailAdapter(view.context,returndata!!)
+                                drawerList.adapter = drawerAdapter
+                                drawerList.layoutManager = LinearLayoutManager(view.context)
+                                drawerAdapter.setItemClickListener(object : PostBringDetailAdapter.OnItemClickListener{
+                                    override fun onClick(v: View, position: Int) {
+                                        mActivity.convenienceInfo = returndata[position]
+                                        mActivity.convenienceMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
+                                        mActivity.convenienceMarker.map = myNaverMap
+                                        mActivity.convenienceMarker.icon = OverlayImage.fromResource(R.drawable.foodstore)
+                                        mActivity.convenienceMarker.icon = MarkerIcons.BLACK
+                                        mActivity.convenienceMarker.iconTintColor = Color.GREEN
+                                        mActivity.convenienceMarker.captionText = "편의점"
+                                        mActivity.convenienceMarker.setCaptionAligns(Align.Top)
+                                        mActivity.convenienceMarker.captionTextSize = 16f
+                                        (activity as Activity).convenienceFlag = 1
+                                        bringDrawerLayout.closeDrawer(bringDrawerView)
+
+                                    }
+                                })
+
+                                bringDrawerLayout.openDrawer(bringDrawerView)
+
+                            }
+                        }
+                    })
+            }
+
+        }
         // 카페 버튼 클릭시 동작
         store2.setOnClickListener {
             if(myLocationX == 0.0 && myLocationY == 0.0)
@@ -127,6 +191,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                     .enqueue(object : Callback<ArrayList<PlaceInfo>> {
                         override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
                             Log.d("실패", t.toString())
+                            Toast.makeText(mActivity,"검색결과가 없습니다",Toast.LENGTH_SHORT).show()
                         }
 
                         override fun onResponse(
@@ -141,17 +206,124 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                                 drawerList.layoutManager = LinearLayoutManager(view.context)
                                 drawerAdapter.setItemClickListener(object : PostBringDetailAdapter.OnItemClickListener{
                                     override fun onClick(v: View, position: Int) {
-                                        cafeInfo = returndata[position]
-                                        cafeMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
-                                        cafeMarker.map = myNaverMap
-                                        cafeMarker.icon = OverlayImage.fromResource(R.drawable.cafe)
-                                        cafeMarker.icon = MarkerIcons.BLACK
-                                        cafeMarker.iconTintColor = Color.YELLOW
-                                        cafeMarker.captionText = "카페"
-                                        cafeMarker.setCaptionAligns(Align.Top)
-                                        cafeMarker.captionTextSize = 16f
+                                        mActivity. cafeInfo = returndata[position]
+                                        mActivity.cafeMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
+                                        mActivity. cafeMarker.map = myNaverMap
+                                        mActivity. cafeMarker.icon = OverlayImage.fromResource(R.drawable.cafe)
+                                        mActivity.cafeMarker.icon = MarkerIcons.BLACK
+                                        mActivity. cafeMarker.iconTintColor = Color.YELLOW
+                                        mActivity. cafeMarker.captionText = "카페"
+                                        mActivity. cafeMarker.setCaptionAligns(Align.Top)
+                                        mActivity. cafeMarker.captionTextSize = 16f
+                                        (activity as Activity).cafeFlag = 1
                                         bringDrawerLayout.closeDrawer(bringDrawerView)
 
+                                    }
+                                })
+
+                                bringDrawerLayout.openDrawer(bringDrawerView)
+
+                            }
+                        }
+                    })
+            }
+
+        }
+        // 숙소 버튼 클릭시 동작
+        store3.setOnClickListener {
+            if(myLocationX == 0.0 && myLocationY == 0.0)
+            {
+                Toast.makeText(view.context,"위치갱신 이후에 진행해 주세요!",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+
+                val funcName = "SearchPlace"
+                val typeName = "Sleep"
+                val strName = myLocationX.toString() + ']' + myLocationY.toString()
+                service.getplaceinfo(funcName, typeName, strName)
+                    .enqueue(object : Callback<ArrayList<PlaceInfo>> {
+                        override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
+                            Log.d("실패", t.toString())
+                            Toast.makeText(mActivity,"검색결과가 없습니다",Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onResponse(
+                            call: Call<ArrayList<PlaceInfo>>,
+                            response: Response<ArrayList<PlaceInfo>>
+                        ) {
+                            Log.d("성공", "입출력 성공")
+                            var returndata = response.body()
+                            if (returndata != null) {
+                                val drawerAdapter = PostBringDetailAdapter(view.context,returndata!!)
+                                drawerList.adapter = drawerAdapter
+                                drawerList.layoutManager = LinearLayoutManager(view.context)
+                                drawerAdapter.setItemClickListener(object : PostBringDetailAdapter.OnItemClickListener{
+                                    override fun onClick(v: View, position: Int) {
+                                        mActivity. sleepInfo = returndata[position]
+                                        mActivity. sleepMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
+                                        mActivity.  sleepMarker.map = myNaverMap
+                                        mActivity.  sleepMarker.icon = OverlayImage.fromResource(R.drawable.sleep)
+                                        mActivity.  sleepMarker.icon = MarkerIcons.BLACK
+                                        mActivity.  sleepMarker.iconTintColor = Color.GRAY
+                                        mActivity.  sleepMarker.captionText = "숙소"
+                                        mActivity.  sleepMarker.setCaptionAligns(Align.Top)
+                                        mActivity.  sleepMarker.captionTextSize = 16f
+                                        (activity as Activity).sleepFlag = 1
+                                        bringDrawerLayout.closeDrawer(bringDrawerView)
+
+                                    }
+                                })
+
+                                bringDrawerLayout.openDrawer(bringDrawerView)
+
+                            }
+                        }
+                    })
+            }
+
+        }
+        // 음식점 버튼 클릭시 동작
+        store4.setOnClickListener {
+            if(myLocationX == 0.0 && myLocationY == 0.0)
+            {
+                Toast.makeText(view.context,"위치갱신 이후에 진행해 주세요!",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                val funcName = "SearchPlace"
+                val typeName = "Restaurant"
+                val strName = myLocationX.toString() + ']' + myLocationY.toString()
+                service.getplaceinfo(funcName, typeName, strName)
+                    .enqueue(object : Callback<ArrayList<PlaceInfo>> {
+                        override fun onFailure(call: Call<ArrayList<PlaceInfo>>, t: Throwable) {
+                            Log.d("실패", t.toString())
+                            Toast.makeText(mActivity,"검색결과가 없습니다",Toast.LENGTH_SHORT).show()
+                        }
+
+                        override fun onResponse(
+                            call: Call<ArrayList<PlaceInfo>>,
+                            response: Response<ArrayList<PlaceInfo>>
+                        ) {
+                            Log.d("성공", "입출력 성공")
+                            var returndata = response.body()
+                            if (returndata != null) {
+                                val drawerAdapter = PostBringDetailAdapter(view.context,returndata!!)
+                                drawerList.adapter = drawerAdapter
+                                drawerList.layoutManager = LinearLayoutManager(view.context)
+                                drawerAdapter.setItemClickListener(object : PostBringDetailAdapter.OnItemClickListener{
+                                    override fun onClick(v: View, position: Int) {
+                                        mActivity. restaurantInfo = returndata[position]
+                                        mActivity. restaurantMarker.position = LatLng(returndata[position].PosY.toDouble(),returndata[position].PosX.toDouble())
+                                        mActivity.  restaurantMarker.map = myNaverMap
+                                        mActivity.  restaurantMarker.icon = OverlayImage.fromResource(R.drawable.sleep)
+                                        mActivity.  restaurantMarker.icon = MarkerIcons.BLACK
+                                        mActivity.  restaurantMarker.iconTintColor = Color.MAGENTA
+                                        mActivity.  restaurantMarker.captionText = "음식점"
+                                        mActivity.  restaurantMarker.setCaptionAligns(Align.Top)
+                                        mActivity.  restaurantMarker.captionTextSize = 16f
+                                        (activity as Activity).restaurantFlag = 1
+                                        bringDrawerLayout.closeDrawer(bringDrawerView)
                                     }
                                 })
 
@@ -170,7 +342,7 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             {
                 val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
                     drawcourse()
-                }).normalText("경로탐색").normalImageRes(R.drawable.content_write)
+                }).normalText("경로탐색").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(15)
                 bringTool.addBuilder(builder)
             }
@@ -198,18 +370,34 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                         }
                     })
 
-                }).normalText("목적지 정보").normalImageRes(R.drawable.content_route)
+                }).normalText("목적지 정보").normalImageRes(R.drawable.infomation)
                     .imagePadding(Rect(30,30,30,30)).textSize(15)
                 bringTool.addBuilder(builder)
             }
             // 여행 완료하는 동작
             if(i == 2)
             {
+                val service2 = retrofit.create(BringPost::class.java)
                 val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
                     if(courseList[dayIndex][courseIndex + 1] == ""){
                         if(courseList[dayIndex+1][0] == "")
                         {
+                            courseIndex += 1
                             detailDestination.text = "여행끝"
+                            val funcName = "BringPostPut"
+                            val typeName = "update"
+                            bringCurrentCount += 1
+                            var bringpercent = (bringCurrentCount.toFloat()/bringOverallPlace.toFloat()) * 100
+                            Log.d("update1", bringOverallPlace.toString()+" "+bringCurrentCount.toString() +" "+ bringpercent.toString())
+                            service2.bringPost(funcName, typeName,travelInfo.postname,travelInfo.usercode,travelInfo.course,travelInfo.seq,Math.round(bringpercent).toString(),dayIndex.toString(),courseIndex.toString(),bringCurrentCount.toString()).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                                override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                    Log.d("실패", t.toString())
+                                }
+                                override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                    Log.d("성공", "입출력 성공")
+                                    Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                                }
+                            })
                         }
                         else{
                             dayIndex += 1
@@ -217,6 +405,20 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                             dtInfo = coursePlaceList[dayIndex][courseIndex]
                             destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
                             detailDestination.text = dtInfo.name
+                            val funcName = "BringPostPut"
+                            val typeName = "update"
+                            bringCurrentCount += 1
+                            var bringpercent = (bringCurrentCount.toFloat()/bringOverallPlace.toFloat()) * 100
+                            Log.d("update1", bringOverallPlace.toString()+" "+bringCurrentCount.toString() +" "+ bringpercent.toString())
+                            service2.bringPost(funcName, typeName,travelInfo.postname,travelInfo.usercode,travelInfo.course,travelInfo.seq,Math.round(bringpercent).toString(),dayIndex.toString(),courseIndex.toString(),bringCurrentCount.toString()).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                                override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                    Log.d("실패", t.toString())
+                                }
+                                override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                    Log.d("성공", "입출력 성공")
+                                    Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                                }
+                            })
 
 
                         }
@@ -226,10 +428,25 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                         dtInfo = coursePlaceList[dayIndex][courseIndex]
                         destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
                         detailDestination.text = dtInfo.name
+                        val funcName = "BringPostPut"
+                        val typeName = "update"
+                        bringCurrentCount += 1
+                        var bringpercent = (bringCurrentCount.toFloat()/bringOverallPlace.toFloat()) * 100
+                        Log.d("update1", bringOverallPlace.toString()+" "+bringCurrentCount.toString() +" "+ bringpercent.toString())
+                        service2.bringPost(funcName, typeName,travelInfo.postname,travelInfo.usercode,travelInfo.course,travelInfo.seq,Math.round(bringpercent).toString(),dayIndex.toString(),courseIndex.toString(),bringCurrentCount.toString()).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                            override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                Log.d("실패", t.toString())
+                            }
+                            override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                Log.d("성공", "입출력 성공")
+                                Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                            }
+                        })
 
                     }
 
-                }).normalText("여행완료").normalImageRes(R.drawable.content_route)
+
+                }).normalText("여행완료").normalImageRes(R.drawable.destination)
                     .imagePadding(Rect(30,30,30,30)).textSize(15)
                 bringTool.addBuilder(builder)
             }
@@ -239,11 +456,22 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             detailDestination.text = dtInfo.name
             true
         }
-        cafeMarker.setOnClickListener{
-            dtInfo = cafeInfo
-            detailDestination.text = cafeInfo.name
+        mActivity.cafeMarker.setOnClickListener{
+            dtInfo =mActivity. cafeInfo
+            detailDestination.text = mActivity.cafeInfo.name
             true
         }
+        mActivity.convenienceMarker.setOnClickListener {
+            dtInfo = mActivity.convenienceInfo
+            detailDestination.text = mActivity.convenienceInfo.name
+            true
+        }
+        mActivity.sleepMarker.setOnClickListener {
+            dtInfo = mActivity.sleepInfo
+            detailDestination.text = mActivity.sleepInfo.name
+            true
+        }
+
         return view
     }
     // GPS 권한 요청을 위한 함수
@@ -268,6 +496,8 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             LOCATION_PERMISSION_REQUEST_CODE)
         val uiSettings = naverMap.uiSettings
         uiSettings.setLocationButtonEnabled(true)
+        uiSettings.isCompassEnabled = true
+        uiSettings.isZoomControlEnabled = false
         naverMap.addOnLocationChangeListener {
             myLocationX = it.latitude
             myLocationY = it.longitude
@@ -280,6 +510,19 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         destinationMarker.captionText = "여행목적지"
         destinationMarker.captionTextSize = 16f
         destinationMarker.setCaptionAligns(Align.Top)
+        if((activity as Activity).convenienceFlag== 1){
+            (activity as Activity).convenienceMarker.map = myNaverMap
+        }
+        if((activity as Activity).cafeFlag == 1){
+            (activity as Activity).cafeMarker.map = myNaverMap
+        }
+        if((activity as Activity).sleepFlag == 1){
+            (activity as Activity).sleepMarker.map = myNaverMap
+        }
+        if((activity as Activity).restaurantFlag == 1){
+            (activity as Activity).restaurantMarker.map = myNaverMap
+        }
+
 
 
 
@@ -322,6 +565,8 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
     var coursePlaceList = ArrayList<ArrayList<PlaceInfo>>()
     private val maxDay = 30
     private val maxString = 60
+    var bringOverallPlace = 0
+    var bringCurrentCount = 0
     var dayCount = 0
     // 코스를 배열화 시킨다.
     private fun divideCourse(){
@@ -329,13 +574,14 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         courseList = Array(maxDay,{Array(maxString,{""})})
         var stringTemp : String = ""
         var courseCount = 0
-
+        bringCurrentCount = travelInfo.completeNum.toInt()
         for (i in 0 .. course.length - 1){
             if(course[i] != '/' && course[i] != ','){
                 stringTemp += course[i]
             }
             else{
                 courseList[dayCount][courseCount] += stringTemp
+                bringOverallPlace += 1
                 courseCount += 1
                 stringTemp = ""
                 if(course[i] == '/')
@@ -347,10 +593,14 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             }
             if(i == course.length - 1){
                 courseList[dayCount][courseCount] += stringTemp
+                bringOverallPlace += 1
                 dayCount += 1
             }
+
+
         }
     }
+
 
     private fun searchPlaceData(){
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)

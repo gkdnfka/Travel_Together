@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface BringPost {
-    @GET("func={func}/type={type}/postname={postname}/usercode={usercode}/coursedata={coursedata}")
-    fun bringPost(@Path("func") func : String, @Path("type") type : String,@Path("postname") postname: String,@Path("usercode") usercode: String,@Path("coursedata") coursedata : String ): Call<ArrayList<BringPostInfo>>
+    @GET("func={func}/type={type}/postname={postname}/usercode={usercode}/coursedata={coursedata}/seq={seq}/percent={percent}/dayindex={dayindex}/courseindex={courseindex}/coursecurrent={coursecurrent}")
+    fun bringPost(@Path("func") func : String, @Path("type") type : String,@Path("postname") postname: String,@Path("usercode") usercode: String,@Path("coursedata") coursedata : String,
+    @Path("seq") seq : String, @Path("percent") percent : String,@Path("dayindex") dayindex : String,@Path("courseindex") courseindex : String,@Path("coursecurrent")coursecurrent:String): Call<ArrayList<BringPostInfo>>
 }

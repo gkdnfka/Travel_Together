@@ -17,6 +17,7 @@ import com.example.capstone_design.Util.FavoriteAddManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.naver.maps.map.overlay.Marker
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -90,11 +91,24 @@ class Activity : AppCompatActivity() {
     var day = 1
     var postplanlist: MutableList<PlanInfo> = ArrayList()
     var place_list : MutableList<PlaceInfo> = ArrayList()
+    // 마커 저장을 위한 변수
+    lateinit var cafeInfo : PlaceInfo
+    lateinit var convenienceInfo : PlaceInfo
+    lateinit var sleepInfo : PlaceInfo
+    lateinit var restaurantInfo : PlaceInfo
+    var convenienceFlag = 0
+    var cafeFlag = 0
+    var sleepFlag = 0
+    var restaurantFlag = 0
+    var convenienceMarker = Marker()
+    var cafeMarker = Marker()
+    var sleepMarker = Marker()
+    var restaurantMarker = Marker()
+
 
 
     // @솔빈 2022-02-25 금
     // InitLoginInfo() -> SharedPreference에서 로그인 정보를 불러와서 로그인 변수들에 삽입하는 함수
-
     fun InitLoginInfo(){
         USER_ID = FavoriteAddManager.prefs.getString("ID", "")
         USER_NAME = FavoriteAddManager.prefs.getString("NAME", "")
@@ -112,6 +126,15 @@ class Activity : AppCompatActivity() {
     // SetSelectedPostInfo -> SelectedPostInfo를 change
     fun SetSelectedBringPost(element : BringPostInfo) {
         SelectedBringPostInfo = element
+        convenienceMarker.map = null
+        cafeMarker.map = null
+        sleepMarker.map = null
+        restaurantMarker.map = null
+        convenienceFlag = 0
+        cafeFlag = 0
+        sleepFlag = 0
+        restaurantFlag = 0
+
     }
     // @솔빈 2022-02-08 (화)
     // SelectedPalceList에 원소를 추가하는 함수

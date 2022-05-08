@@ -110,7 +110,7 @@ class CommunityPostDetail : Fragment()
                             var funcName = "BringPostPut"
                             var typeName = "default"
                             val PostName = editText.text.toString()
-                            service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE,course).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                            service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE,(activity as Activity).SelectedPostInfo.course,"","","","","").enqueue(object:Callback<ArrayList<BringPostInfo>> {
                                 override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
                                     Log.d("실패", t.toString())
                                 }
@@ -199,7 +199,7 @@ class CommunityPostDetail : Fragment()
 
             var jsize = mActivity.SelectedPostPlaceList[i].size
             for (j in 0 until jsize){
-                strForQuery +=  "testnum = " + mActivity.SelectedPostPlaceList[i][j]
+                strForQuery +=  "num = " + mActivity.SelectedPostPlaceList[i][j]
                 if(j != jsize-1) strForQuery += " OR "
             }
 

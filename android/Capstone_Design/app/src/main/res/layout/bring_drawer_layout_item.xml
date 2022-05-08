@@ -29,6 +29,7 @@
                 android:orientation="vertical"
                 android:weightSum="3">
                 <TextView
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -38,6 +39,7 @@
                     android:gravity="center|left"
                     android:id="@+id/bring_drawer_placename"/>
                 <TextView
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -46,6 +48,7 @@
                     android:gravity="center|left"
                     android:id="@+id/bring_drawer_placeaddr"/>
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -53,12 +56,13 @@
                     android:weightSum="10"
                     android:orientation="horizontal">
                     <TextView
+                        android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:text="남은거리"
                         android:textSize="13dp"
-                        android:gravity="center"/>
+                        android:gravity="center|left"/>
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -76,14 +80,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2">
+
                 <ImageButton
+                    android:id="@+id/drawerDestination"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/btn_background"
-                    android:layout_gravity="center|left"
-                    android:id="@+id/drawerDestination"
+
+                    android:layout_gravity="center|right"
+                    android:background="#FFFFFF"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/path_icon"/>
+                    android:src="@drawable/route_check" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

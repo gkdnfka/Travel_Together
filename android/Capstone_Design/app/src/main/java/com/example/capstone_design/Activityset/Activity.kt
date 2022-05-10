@@ -242,6 +242,10 @@ class Activity : AppCompatActivity() {
             15->{
                 ReplaceFragment("TagUpdate",TagUpdate(),R.id.MainFrameLayout)
             }
+
+            16->{
+                ReplaceFragment("Recommend", Recommend(), R.id.MainFrameLayout)
+            }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가
         }

@@ -208,9 +208,9 @@ class Community : Fragment()
             if(i == 1)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
-                    mActivity.changeFragment(15)
+                    mActivity.changeFragment(16)
                     mActivity.reset_value()
-                }).normalText("취향 태그 수정하기ㅁ").normalImageRes(R.drawable.content_route)
+                }).normalText("게시물 추천").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)
                 communityTool.addBuilder(builder)
             }

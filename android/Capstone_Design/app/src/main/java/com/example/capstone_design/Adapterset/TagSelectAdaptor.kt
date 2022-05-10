@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Dataset.TagLabelSet
 import com.example.capstone_design.R
 
-class TagSelectAdaptor (
+class TagSelectAdaptor(
     val context: Context,
     private val TagList: ArrayList<TagLabelSet>,
     private val SelectedIdx: ArrayList<Int> = ArrayList<Int>()
-)
-    : RecyclerView.Adapter<TagSelectAdaptor.ViewHolder>() {
-    class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
+) : RecyclerView.Adapter<TagSelectAdaptor.ViewHolder>() {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.tag_item_text)
     }
 
     override fun getItemCount(): Int {
         return TagList.size
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.tag_item, parent, false)
         return ViewHolder(view)
@@ -30,9 +30,9 @@ class TagSelectAdaptor (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = "#" + TagList[position].name
-        if(SelectedIdx.size != 0) {
-            for(i in SelectedIdx) {
-                if(position == i) {
+        if (SelectedIdx.size != 0) {
+            for (i in SelectedIdx) {
+                if (position == i) {
                     holder.name.setBackgroundColor(Color.parseColor("#A0E7E5"))
                 }
             }

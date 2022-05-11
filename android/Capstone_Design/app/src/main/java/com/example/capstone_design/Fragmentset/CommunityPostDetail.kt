@@ -92,7 +92,7 @@ class CommunityPostDetail : Fragment()
         }
 
         BackButton.setOnClickListener {
-            (activity as Activity).changeFragment(3)
+            mActivity.onBackPressed()
         }
         AddButton.setOnClickListener{
             val builder = AlertDialog.Builder(view.context)

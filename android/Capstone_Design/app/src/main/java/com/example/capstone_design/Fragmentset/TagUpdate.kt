@@ -120,15 +120,15 @@ class TagUpdate() : Fragment() {
                                 Log.d("tag pos check", position.toString())
                                 val itemText = v.findViewById<TextView>(R.id.tag_item_text)
 
-                                if (isTagClicked[position] == 0) {
+                                if (isTagClicked[position-1] == 0) {
                                     if (selectCnt >= 5) {
                                         return
                                     }
-                                    isTagClicked[position] = 1
+                                    isTagClicked[position-1] = 1
                                     itemText.setBackgroundColor(Color.parseColor("#A0E7E5"))
                                     selectCnt++
                                 } else {
-                                    isTagClicked[position] = 0
+                                    isTagClicked[position-1] = 0
                                     itemText.setBackgroundColor(Color.parseColor("#D5E6C4"))
                                     selectCnt--
                                 }
@@ -144,7 +144,7 @@ class TagUpdate() : Fragment() {
 
 
         backBtn.setOnClickListener {
-            (activity as Activity).changeFragment(16)
+            mActivity.onBackPressed()
         }
 
         joinBtn.setOnClickListener {

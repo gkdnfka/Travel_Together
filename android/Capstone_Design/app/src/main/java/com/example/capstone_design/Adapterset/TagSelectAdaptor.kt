@@ -38,7 +38,7 @@ class TagSelectAdaptor(
             }
         }
         holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it, position)
+            itemClickListener.onClick(it, TagList[position].num.toInt())
         }
     }
 

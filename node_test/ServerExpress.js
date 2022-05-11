@@ -83,6 +83,7 @@ app.get('*', (request, response) => {
         else if (parsedQuery["type"] == "ByPostName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_TITLE like '%" + parsedQuery["content"] + "%'";
         else if (parsedQuery["type"] == "ByUserName") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE USER_NAME like '%" + parsedQuery["content"] + "%'";
         else if (parsedQuery["type"] == "ByIds") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE " + parsedQuery["content"];
+        else if (parsedQuery["type"] == "ByTag") testQuery = "SELECT * FROM NOTICEBOARD_DB WHERE LABELS like '%" + parsedQuery["content"] + "%'";
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {
@@ -94,6 +95,8 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + result)
         });
     }
+
+    
 
     // @정지원 2022-02-22 화
     // 게시글 작성을 위한 로직
@@ -334,7 +337,53 @@ app.get('*', (request, response) => {
         });
     }
 
+    if (parsedQuery["func"] == "SearchPostByLike") { // 추천 게시글 로직
+       
+        var result;
+        var getLikeQuery = "SELECT NOTICEBOARD_NUM FROM LIKE_DB WHERE USER_CODE = '" + parsedQuery["content"] + "'"
+        connection.query(getLikeQuery, function (err, ret, fields) { // 유저 Like 추출
+            if (err) {
+                console.log(err);
+            }
+            console.log(ret)
+            
+            var getWhoLikePost = "SELECT USER_CODE FROM LIKE_DB WHERE NOTICEBOARD_NUM IN ("
+            for(var i = 0 ; i < ret.length ; i++) {
+                getWhoLikePost += "'" + ret[i]['NOTICEBOARD_NUM'] + "',"
+            }
+            getWhoLikePost = getWhoLikePost.slice(0, -1)
+            getWhoLikePost += ")"
+            console.log("likepost " + getWhoLikePost)
+            connection.query(getWhoLikePost, function(err, ret, fields) {
+                if(err) {
+                    console.log(err)
+                }
+                console.log("같은 글에 좋아요 누른 user " + ret.length)
+                getUserLikeNotice = "SELECT * FROM NOTICEBOARD_DB WHERE \
+                NOTICEBOARD_NUM IN (SELECT NOTICEBOARD_NUM FROM LIKE_DB WHERE USER_CODE IN("
 
+                for(var i = 0 ; i < ret.length ; i++) {
+                    getUserLikeNotice += "'" + ret[i]["USER_CODE"] + "',"
+                }
+                getUserLikeNotice = getUserLikeNotice.slice(0, -1)
+                getUserLikeNotice += "))"
+                
+                console.log(getUserLikeNotice)
+                connection.query(getUserLikeNotice, function(err, ret, fields) {
+                    if(err) {
+                        console.log(err)
+                    }
+                    console.log(ret)
+                    console.log("게시물 개수 " + ret.length)
+                    result = JSON.stringify(ret)
+                    response.end(result)
+                    console.log("쿼리문 결과 : " + result)
+
+                })
+            })
+            console.log("쿼리문 결과 : " + result)
+        });
+    }
 
     // @솔빈 2022-04-16 목 
     // 댓글을 카운팅하기 위한 로직
@@ -439,7 +488,6 @@ app.get('*', (request, response) => {
 
         connection.query(query, function (err, ret, fields) {
             if (err) { console.log(err) }
-            if (err) { console.log(err); }
             ret = JSON.stringify(ret);
             response.end(ret);
             console.log("쿼리문 결과 : " + ret);
@@ -478,12 +526,7 @@ app.get('*', (request, response) => {
             }
 
             taste = JSON.stringify(result).split(":")[1].replace('}', '').replace(']', '').replaceAll('"', '').replace(' ', '')
-            console.log("쿼리문 결과 : " + taste);
-            console.log("before split : " + taste)
             taste = taste.split(',')
-
-            console.log("split : " + taste);
-            console.log("type : " + typeof taste)
 
             var returnTasteLabel = "SELECT * FROM TagLabel WHERE "
 
@@ -494,7 +537,6 @@ app.get('*', (request, response) => {
                 }
                 returnTasteLabel += "OR "
             }
-            console.log("query : " + returnTasteLabel)
             var ret;
             connection.query(returnTasteLabel, function (err, result, fields) { // userTasteQuery 실행
                 if (err) {

@@ -112,15 +112,11 @@ app.get('*', (request, response) => {
         var course = parsedQuery["coursedata"];
         var tags = parsedQuery["tags"]
         console.log(post_date[1])
-<<<<<<< HEAD
+
         if(parsedQuery["type"] == "default") testQuery = "INSERT INTO NOTICEBOARD_DB (USER_CODE,USER_NAME,RATE,DATES,COURSE,CONTENT,NOTICEBOARD_TITLE,TAGS) VALUES (?,?,?,?,?,?,?,?)";
         var params = [user_code,user_name,'0.0',post_date[0],course,post_content,post_title,tags];
         connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
-=======
-        if (parsedQuery["type"] == "default") testQuery = "INSERT INTO NOTICEBOARD_DB (USER_CODE,USER_NAME,RATE,DATES,COURSE,CONTENT,NOTICEBOARD_TITLE) VALUES (?,?,?,?,?,?,?)";
-        var params = [user_code, user_name, '0.0', post_date[0], course, post_content, post_title];
-        connection.query(testQuery, params, function (err, results, fields) { // testQuery 실행
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
+
             console.log(err);
             if (err) {
                 console.log(err);
@@ -176,11 +172,8 @@ app.get('*', (request, response) => {
     // 게시글 가져오기(불러오기)을 위한 로직
     if (parsedQuery["func"] == "BringPostGet") {
         var testQuery = "";
-<<<<<<< HEAD
         if(parsedQuery["type"] == "default") testQuery = "SELECT * FROM  UserTravel_DB Where USER_CODE =" + parsedQuery["usercode"];
-=======
-        if (parsedQuery["type"] == "default") testQuery = "SELECT * FROM  UserTravel_DB Where USER_CODE like'%" + parsedQuery["usercode"] + "%'";
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
+
         var result;
         connection.query(testQuery, function (err, results, fields) { // testQuery 실행
             if (err) {
@@ -529,7 +522,6 @@ app.get('*', (request, response) => {
             console.log("쿼리문 결과 : " + ret);
         });
     }
-<<<<<<< HEAD
 
     // @ 솔빈 2022-05-12
     // tag 출력을 위한 tag get
@@ -547,12 +539,9 @@ app.get('*', (request, response) => {
         });
     }
 
-    if(parsedQuery["func"] == "UserTagUpdate") {
-=======
     //@우람
     //User Tag Update를 위한 로직
     if (parsedQuery["func"] == "UserTagUpdate") {
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
         var query = "UPDATE USER_DB SET USER_TASTE = '" + parsedQuery['usertaste'] + "' WHERE USER_CODE = '" + parsedQuery['usercode'] + "'"
         var ret = {
             "number": "1"
@@ -669,7 +658,6 @@ var bodyParser = require('body-parser')
 var fs = require('fs');
 
 const storage = multer.diskStorage({
-<<<<<<< HEAD
 	destination: (req, file, cb) => {  // 파일이 업로드될 경로 설정
 		cb(null, './ProfileImages')
 	},
@@ -677,15 +665,6 @@ const storage = multer.diskStorage({
 		let newFileName = file.originalname
 		cb(null, newFileName)
 	},
-=======
-    destination: (req, file, cb) => {  // 파일이 업로드될 경로 설정
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {	// timestamp를 이용해 새로운 파일명 설정
-        let newFileName = file.originalname
-        cb(null, newFileName)
-    },
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
 })
 const upload = multer({ storage: storage })
 

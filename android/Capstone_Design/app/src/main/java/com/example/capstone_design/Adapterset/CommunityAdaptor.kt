@@ -55,6 +55,7 @@ class CommunityAdaptor(
         holder.content.text = PostList[position].content
         holder.title.text = PostList[position].title
         holder.date.text = PostList[position].dates
+        holder.tagLinear.removeAllViews()
 
         GetBookmarkImage("FavoritePostList", holder.bookmark, PostList[position].number)
         holder.bookmark.setOnClickListener {
@@ -63,7 +64,7 @@ class CommunityAdaptor(
         }
 
         var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
-        var tmp = ImageInfoForLoad(PostList[position].number, "ProfileImages")
+        var tmp = ImageInfoForLoad(PostList[position].usercode, "ProfileImages")
         service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
             override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
                 Log.d("ImgLoadingObj", "이미지 출력 성공")
@@ -160,10 +161,10 @@ class CommunityAdaptor(
         }
 
         var str : String = ""
-        if(PostList[position].tags == null) str = "1박2일,가족,경치,힐링,친구,맛집,행복,"
+        if(PostList[position].tags == null) str = "1박2일,가족,경치,힐링,친구,맛집,행복"
         else str = PostList[position].tags
 
-        var parsedTAG = ParsingString(str)
+        var parsedTAG = str.split(",")
 
         Log.d("태그", parsedTAG.toString())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

@@ -19,6 +19,7 @@ import com.example.capstone_design.Dataset.ImageInfo
 import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Interfaceset.LoadImage
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.GetBookmarkImage
 import com.example.capstone_design.Util.PublicRetrofit
@@ -28,7 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor_Post.ViewHolder>() {
+class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val context : Context, val placeDetailPageInterface : PlaceDetailPageInterface) : RecyclerView.Adapter<SearchPlaceAdaptor_Post.ViewHolder>() {
     override fun getItemCount(): Int {
         return items.size
     }
@@ -72,12 +73,17 @@ class SearchPlaceAdaptor_Post(private val items: ArrayList<PlaceInfo>, val conte
                 t.printStackTrace()
             }
         })
+
+        holder.more.setOnClickListener{
+            placeDetailPageInterface.change(12, items[position], mbitmap)
+        }
     }
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var tag: TextView = itemView.findViewById<TextView>(R.id.tourist_spot_item_post_tag)
         var nametext: TextView = itemView.findViewById<TextView>(R.id.tourist_spot_item_post_placename)
         var Linear = itemView.findViewById<LinearLayout>(R.id.tourist_spot_item_post_Linear)
         var btn = itemView.findViewById<ImageView>(R.id.tourist_spot_item_post_favorite)
+        var more = itemView.findViewById<ImageView>(R.id.tourist_spot_item_post_more)
     }
 
     interface OnItemClickListener {

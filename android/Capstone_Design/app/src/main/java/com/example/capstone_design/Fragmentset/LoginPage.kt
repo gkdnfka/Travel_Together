@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.capstone_design.Activityset.MainActivity
 import com.example.capstone_design.Dataset.LoginSuccess
@@ -31,12 +28,19 @@ class LoginPage : Fragment()
         // 로그인 페이지의 뷰 선언 모음
         val login_id =  view.findViewById<EditText>(R.id.login_page_id_edit)
         val login_password =  view.findViewById<EditText>(R.id.login_page_password_edit)
-        val loginBtn = view.findViewById<Button>(R.id.login_page_login_btn)
+        val loginBtn = view.findViewById<TextView>(R.id.login_page_login_btn)
         val backBtn = view.findViewById<ImageView>(R.id.login_page_back)
-
+        var joinBtn = view.findViewById<TextView>(R.id.login_page_text_to_join)
 
         backBtn.setOnClickListener{
             (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, FirstPage()).commit()
+        }
+
+        joinBtn.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.beginTransaction().replace(
+                R.id.login_and_join_frameLayout,
+                JoinPage()
+            ).commit()
         }
 
         loginBtn.setOnClickListener {

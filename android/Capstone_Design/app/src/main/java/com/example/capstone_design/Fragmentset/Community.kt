@@ -30,6 +30,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import android.text.Editable
 import com.dinuscxj.refresh.RecyclerRefreshLayout
+import com.example.capstone_design.Dataset.TagDictSet
 import com.nightonke.boommenu.BoomButtons.HamButton
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener
 import com.nightonke.boommenu.BoomMenuButton
@@ -198,6 +199,8 @@ class Community : Fragment()
         for(i in 0..communityTool.piecePlaceEnum.pieceNumber()){
             if(i == 0)
             {
+                mActivity.isSelectedDetailTagClicked = ArrayList<ArrayList<Int>>()
+                mActivity.tagDictList = ArrayList<ArrayList<TagDictSet>>()
                 val builder = HamButton.Builder().listener(OnBMClickListener {
                     mActivity.changeFragment(6)
                     mActivity.reset_value()

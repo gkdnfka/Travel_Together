@@ -18,13 +18,14 @@ import com.example.capstone_design.Dataset.ImageInfo
 import com.example.capstone_design.Dataset.ImageInfoForLoad
 import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.Interfaceset.LoadImage
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context) : RecyclerView.Adapter<SearchPlaceAdaptor.ViewHolder>() {
+class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Context, val placeDetailPageInterface : PlaceDetailPageInterface) : RecyclerView.Adapter<SearchPlaceAdaptor.ViewHolder>() {
     override fun getItemCount(): Int = items.size
     var contexts = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -65,6 +66,10 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
                 t.printStackTrace()
             }
         })
+
+        holder.more.setOnClickListener{
+            placeDetailPageInterface.change(12, items[position], mbitmap)
+        }
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -73,6 +78,7 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
         var nametext: TextView = view.findViewById<TextView>(R.id.PlaceNameText)
         var Linear : LinearLayout = view.findViewById<LinearLayout>(R.id.tourist_spot_item_Linear)
         var btn : ImageView = view.findViewById<ImageView>(R.id.search_tourist_spot_item_favorite)
+        var more = view.findViewById<ImageView>(R.id.tourist_spot_item_more)
     }
     interface OnItemClickListener {
         fun onClick(v: View, position: Int)

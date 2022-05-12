@@ -59,6 +59,7 @@
             android:weightSum="100"
             >
             <ImageView
+                android:id="@+id/post_write_main_tag_add"
                 android:padding="15dp"
                 android:layout_weight="15"
                 android:layout_width="0dp"
@@ -68,14 +69,23 @@
                 >
             </ImageView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/post_write_main_tag_recycler"
+            <HorizontalScrollView
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="85"
-                android:text ="태그를 추가하면 더 좋아요"
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                >
+                <LinearLayout
+                    android:id="@+id/post_write_main_tag_Linear"
+                    android:text ="태그를 추가하면 더 좋아요"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent">
+                </LinearLayout>
+            </HorizontalScrollView>
 
-            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

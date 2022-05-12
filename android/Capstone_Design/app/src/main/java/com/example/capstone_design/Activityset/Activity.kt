@@ -242,11 +242,10 @@ class Activity : AppCompatActivity() {
             }
 
             16->{
-<<<<<<< HEAD
                 ReplaceFragment("TagSelect",TagSelect(),R.id.MainFrameLayout)
-=======
+            }
+            17->{
                 ReplaceFragment("Recommend", Recommend_Post(), R.id.MainFrameLayout)
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
             }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가

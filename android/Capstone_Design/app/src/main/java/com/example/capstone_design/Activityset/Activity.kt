@@ -8,16 +8,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.capstone_design.*
 import com.example.capstone_design.Dataset.*
 import com.example.capstone_design.Fragmentset.*
-import com.example.capstone_design.Interfaceset.BringPost
-import com.example.capstone_design.Interfaceset.SetSelectedBringPost
 import com.example.capstone_design.Util.FavoriteAddManager
 import com.example.capstone_design.Util.PublicRetrofit
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.naver.maps.map.overlay.Marker
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class Activity : AppCompatActivity() {
 
@@ -248,7 +242,11 @@ class Activity : AppCompatActivity() {
             }
 
             16->{
+<<<<<<< HEAD
                 ReplaceFragment("TagSelect",TagSelect(),R.id.MainFrameLayout)
+=======
+                ReplaceFragment("Recommend", Recommend_Post(), R.id.MainFrameLayout)
+>>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
             }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가

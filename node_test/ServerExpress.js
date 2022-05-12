@@ -539,9 +539,11 @@ app.get('*', (request, response) => {
         });
     }
 
+
     //@우람
     //User Tag Update를 위한 로직
-    if (parsedQuery["func"] == "UserTagUpdate") {
+    if(parsedQuery["func"] == "UserTagUpdate") {
+
         var query = "UPDATE USER_DB SET USER_TASTE = '" + parsedQuery['usertaste'] + "' WHERE USER_CODE = '" + parsedQuery['usercode'] + "'"
         var ret = {
             "number": "1"

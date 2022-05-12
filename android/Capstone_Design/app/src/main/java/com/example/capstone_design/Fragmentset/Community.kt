@@ -211,7 +211,7 @@ class Community : Fragment()
             if(i == 1)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
-                    mActivity.changeFragment(16)
+                    mActivity.changeFragment(17)
                     mActivity.reset_value()
                 }).normalText("게시글 추천").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)

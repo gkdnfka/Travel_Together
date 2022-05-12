@@ -32,28 +32,11 @@ class TagSelectAdaptor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = "#" + TagList[position].name
-<<<<<<< HEAD
 
         if(SelectedIdx.size > 0 && SelectedIdx[position] == 1) holder.name.setBackgroundColor(Color.parseColor("#A0E7E5"))
         else if(SelectedIdx.size > 0) holder.name.setBackgroundColor(Color.parseColor("#D5E6C4"))
-
-        /*
-        if(SelectedIdx.size != 0) {
-            for(i in SelectedIdx) {
-                if(position == i) {
-=======
-        if (SelectedIdx.size != 0) {
-            for (i in SelectedIdx) {
-                if (position == i) {
->>>>>>> 505ea54ab03fb5aec335b48b9906172c043edf5e
-                    holder.name.setBackgroundColor(Color.parseColor("#A0E7E5"))
-                }
-            }
-        }*/
-
-
         holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it, position)
+            itemClickListener.onClick(it, TagList[position].num.toInt())
         }
     }
 

@@ -337,51 +337,76 @@ app.get('*', (request, response) => {
         });
     }
 
+    //@우람
+    //게시글 추천
     if (parsedQuery["func"] == "SearchPostByLike") { // 추천 게시글 로직
        
         var result;
-        var getLikeQuery = "SELECT NOTICEBOARD_NUM FROM LIKE_DB WHERE USER_CODE = '" + parsedQuery["content"] + "'"
-        connection.query(getLikeQuery, function (err, ret, fields) { // 유저 Like 추출
+        var getUserTaste = "SELECT USER_CODE, USER_TASTE FROM USER_DB WHERE USER_CODE = '" + parsedQuery["content"] + "'"
+        connection.query(getUserTaste, function (err, ret, fields) { 
             if (err) {
                 console.log(err);
             }
-            console.log(ret)
             
-            var getWhoLikePost = "SELECT USER_CODE FROM LIKE_DB WHERE NOTICEBOARD_NUM IN ("
-            for(var i = 0 ; i < ret.length ; i++) {
-                getWhoLikePost += "'" + ret[i]['NOTICEBOARD_NUM'] + "',"
-            }
-            getWhoLikePost = getWhoLikePost.slice(0, -1)
-            getWhoLikePost += ")"
-            console.log("likepost " + getWhoLikePost)
-            connection.query(getWhoLikePost, function(err, ret, fields) {
-                if(err) {
-                    console.log(err)
+            var getPostLabel = "SELECT NOTICEBOARD_NUM, LABELS FROM NOTICEBOARD_DB"
+            connection.query(getPostLabel, function (post_err, labeldata, fields2) {
+                if(post_err) {
+                    console.log(post_err);
                 }
-                console.log("같은 글에 좋아요 누른 user " + ret.length)
-                getUserLikeNotice = "SELECT * FROM NOTICEBOARD_DB WHERE \
-                NOTICEBOARD_NUM IN (SELECT NOTICEBOARD_NUM FROM LIKE_DB WHERE USER_CODE IN("
-
-                for(var i = 0 ; i < ret.length ; i++) {
-                    getUserLikeNotice += "'" + ret[i]["USER_CODE"] + "',"
-                }
-                getUserLikeNotice = getUserLikeNotice.slice(0, -1)
-                getUserLikeNotice += "))"
+                userTaste = JSON.stringify(ret)
+                postLabels = JSON.stringify(labeldata)
                 
-                console.log(getUserLikeNotice)
-                connection.query(getUserLikeNotice, function(err, ret, fields) {
+                var moduleName = './node_test/recommend_module.py'
+                var pythonShell = require('python-shell');
+                var options = {
+                    mode: 'text',
+                    pythonPath: '',
+                    pythonOptions: ['-u'],
+                    scriptPath: '',
+                    args: [userTaste, postLabels]
+                };
+
+                pythonShell.PythonShell.run(moduleName, options, function (err, results) {
                     if(err) {
-                        console.log(err)
+                        throw err
                     }
-                    console.log(ret)
-                    console.log("게시물 개수 " + ret.length)
-                    result = JSON.stringify(ret)
-                    response.end(result)
-                    console.log("쿼리문 결과 : " + result)
+                    var getPostQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_NUM IN ("    
+                    var isAllZero = true
+                    console.log("result data : ", results[1])
+                    datas = JSON.parse(results[1])
+                    console.log("parse to json : ", datas["data"])
+                    for(var i = 0 ; i < datas["data"][0].length ; i++) {
+                        if(datas["data"][0][i] >= 0.5) {
+                            getPostQuery += String(datas["columns"][i])+ ","
+                            isAllZero = false
+                        }
+                    }
+                    if(isAllZero) {
+                        result = ""
+                        response.end(result)
+                        console.log("쿼리문 결과 : " + result)
+                    }
+
+                    else {
+                        getPostQuery = getPostQuery.slice(0, -1)
+                        getPostQuery += ')'
+                        connection.query(getPostQuery, function(errGetPost, post, fields3) {
+                            if(errGetPost) {
+                                console.log(errGetPost);
+                            }
+
+                            result = JSON.stringify(post)
+                            response.end(result)
+                            console.log("쿼리문 결과 : " + result)
+                        })
+                    }
 
                 })
+
+                console.log("쿼리문 결과 : " + result)    
             })
-            console.log("쿼리문 결과 : " + result)
+
+           
         });
     }
 

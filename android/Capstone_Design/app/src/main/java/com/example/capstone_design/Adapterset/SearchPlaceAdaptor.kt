@@ -36,7 +36,7 @@ class SearchPlaceAdaptor(private val items: ArrayList<PlaceInfo>, context : Cont
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         GetBookmarkImage("FavoritePlaceList", holder.btn, items[position].num)
 
-        holder.tag.text = TranslateTagName(items[position].name)
+        holder.tag.text = TranslateTagName(items[position].depart)
         holder.nametext.text = items[position].name
         holder.btn.setOnClickListener {
             addFavorite("FavoritePlaceList", items[position].num)

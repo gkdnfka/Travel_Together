@@ -13,9 +13,9 @@
 
     <item
         android:id="@+id/RecommendButton"
-        android:title="여행지 추천"
+        android:title="여행하기"
         android:checked="true"
-        android:icon = "@drawable/recommend_icon"
+        android:icon = "@drawable/compass"
         android:textColor="#252222"
         android:enabled="true">
     </item>

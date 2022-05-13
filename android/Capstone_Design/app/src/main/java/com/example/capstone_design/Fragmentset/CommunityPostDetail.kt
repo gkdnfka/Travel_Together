@@ -187,7 +187,7 @@ class CommunityPostDetail : Fragment()
     // DB에 쿼리문을 날려서 각각의 여행지의 좌표를 불러오고, placeinfoList에 저장한다.
     private fun loadPosList(){
         var mActivity = (activity as Activity)
-        mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
+        //mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)
 
         var isize = mActivity.SelectedPostPlaceList.size

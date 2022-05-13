@@ -360,7 +360,7 @@ app.get('*', (request, response) => {
                 userTaste = JSON.stringify(ret)
                 postLabels = JSON.stringify(labeldata)
                 
-                var moduleName = './node_test/recommend_module.py'
+                var moduleName = 'recommend_module.py'
                 var pythonShell = require('python-shell');
                 var options = {
                     mode: 'text',
@@ -682,7 +682,7 @@ app.post('/load*', upload.single('load'), (req, res) => {
 
 
     console.log(req.method)
-    var filepath = type + "/" + number
+    var filepath = type + "\\" + number
     if (type == "ProfileImages") filepath += '_Profile.jpeg'
     else if (type == "PlaceImages") filepath += '.jpeg'
 

@@ -360,7 +360,7 @@ app.get('*', (request, response) => {
                 userTaste = JSON.stringify(ret)
                 postLabels = JSON.stringify(labeldata)
                 
-                var moduleName = './node_test/recommend_module.py'
+                var moduleName = 'recommend_module.py'
                 var pythonShell = require('python-shell');
                 var options = {
                     mode: 'text',
@@ -528,8 +528,8 @@ app.get('*', (request, response) => {
     if(parsedQuery["func"] == "GetTagDict") {
         var query = "";
         if(parsedQuery["type"] == "ByLabel") query = "SELECT * FROM TagDict WHERE labelnum = " + parsedQuery["number"];
-        else query = "SELECT * FROM TagDict";
-
+        else query = "SELECT * FROM TagDict" + parsedQuery["number"];
+        console.log("쿼리문은 : ", query)
         connection.query(query, function (err, ret, fields) {
             if(err) { console.log(err)}
             if (err) { console.log(err);}
@@ -683,6 +683,7 @@ app.post('/load*', upload.single('load'), (req, res) => {
 
     console.log(req.method)
     var filepath = type + "/" + number
+    //var filepath = ".node_test\\" + type + "\\" + number
     if (type == "ProfileImages") filepath += '_Profile.jpeg'
     else if (type == "PlaceImages") filepath += '.jpeg'
 

@@ -86,7 +86,7 @@ class TagSelectAdaptorForDict (
 
 
         holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it, TagList[position].num.toInt())
+            itemClickListener.onClick(it, position)
         }
     }
 

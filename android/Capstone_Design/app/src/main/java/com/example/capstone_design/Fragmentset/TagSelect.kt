@@ -106,10 +106,10 @@ class TagSelect() : Fragment()
                                             Log.d("tag pos check", position.toString())
                                             val itemText = v.findViewById<TextView>(R.id.tag_item_text)
 
-                                            if(isTagClicked[position] == 0) {
+                                            if(isTagClicked[position-1] == 0) {
                                                 isTagClicked[selectedIndex] = 0
-                                                selectedIndex = position
-                                                isTagClicked[position] = 1
+                                                selectedIndex = position-1
+                                                isTagClicked[position-1] = 1
                                                 itemText.setBackgroundColor(Color.parseColor("#A0E7E5"))
                                                 SelectViewAdapter.notifyDataSetChanged()
 

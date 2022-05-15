@@ -22,11 +22,11 @@ import com.example.capstone_design.Adapterset.SearchPlaceAdaptor_Post
 import com.example.capstone_design.Dataset.PostInfo
 import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
+import com.example.capstone_design.Util.PublicRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 // 2022-03-03 정지원 작업
 // SearchPlace 사용 중첩으로 인한 Post로 분기를 하나 했음. 기존의 listview 방식에서 recyclerview 방식으로 바꿨음
 class SearchPlace_Post : Fragment()

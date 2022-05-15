@@ -20,10 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     // 회원가입, 로그인 기능을 위해 레트로핏 선언
     val retrofit = PublicRetrofit.retrofit
-<<<<<<< HEAD
-
-=======
->>>>>>> 603ec1b5a5b4411a49604ce33fbe48d7a28a6b4b
     val serviceForLogin = retrofit.create(SendLoginInfo::class.java)
     val serviceForJoin = retrofit.create(SendJoinInfo::class.java)
     var USER_ID = ""

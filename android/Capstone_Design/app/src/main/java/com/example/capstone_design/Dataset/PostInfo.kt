@@ -20,5 +20,7 @@ data class PostInfo(
     @SerializedName("NOTICEBOARD_TITLE")
     var title : String,
     @SerializedName("TAGS")
-    var tags: String
+    var tags: String,
+    @SerializedName("LABELS")
+    var labels: String
 )

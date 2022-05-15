@@ -111,10 +111,11 @@ app.get('*', (request, response) => {
         var post_date = new Date().toISOString().split('T');
         var course = parsedQuery["coursedata"];
         var tags = parsedQuery["tags"]
+        var labels = parsedQuery["labels"]
         console.log(post_date[1])
 
-        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO NOTICEBOARD_DB (USER_CODE,USER_NAME,RATE,DATES,COURSE,CONTENT,NOTICEBOARD_TITLE,TAGS) VALUES (?,?,?,?,?,?,?,?)";
-        var params = [user_code,user_name,'0.0',post_date[0],course,post_content,post_title,tags];
+        if(parsedQuery["type"] == "default") testQuery = "INSERT INTO NOTICEBOARD_DB (USER_CODE,USER_NAME,RATE,DATES,COURSE,CONTENT,NOTICEBOARD_TITLE,TAGS,LABELS) VALUES (?,?,?,?,?,?,?,?,?)";
+        var params = [user_code,user_name,'0.0',post_date[0],course,post_content,post_title,tags,labels];
         connection.query(testQuery,params,function (err, results, fields) { // testQuery 실행
 
             console.log(err);
@@ -682,12 +683,7 @@ app.post('/load*', upload.single('load'), (req, res) => {
 
 
     console.log(req.method)
-<<<<<<< HEAD
     var filepath = type + "\\" + number
-=======
-    var filepath = type + "/" + number
-    //var filepath = ".node_test\\" + type + "\\" + number
->>>>>>> cc05bdc3b285b7c27ad0488b4d808bff001efa4e
     if (type == "ProfileImages") filepath += '_Profile.jpeg'
     else if (type == "PlaceImages") filepath += '.jpeg'
 

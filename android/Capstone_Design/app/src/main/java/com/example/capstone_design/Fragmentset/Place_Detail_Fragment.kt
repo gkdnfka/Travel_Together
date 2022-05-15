@@ -199,7 +199,6 @@ class Place_Detail_Fragment : Fragment()
 
         backbutton.setOnClickListener {
             mActivity.onBackPressed()
-            //mActivity.changeFragment(11)
         }
 
         if(mActivity.SelectedBitmap != null) placeImage.setImageBitmap(mActivity.SelectedBitmap)

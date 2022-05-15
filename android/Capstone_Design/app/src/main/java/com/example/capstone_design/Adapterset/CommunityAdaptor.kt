@@ -10,12 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Dataset.*
-import com.example.capstone_design.Interfaceset.CommentInterface
-import com.example.capstone_design.Interfaceset.LikeOperation
-import com.example.capstone_design.Interfaceset.LoadImage
-import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
+import com.example.capstone_design.Interfaceset.*
 import com.example.capstone_design.R
 import com.example.capstone_design.Util.*
+import com.example.capstone_design.Util.PublicRetrofit.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,6 +53,7 @@ class CommunityAdaptor(
         holder.content.text = PostList[position].content
         holder.title.text = PostList[position].title
         holder.date.text = PostList[position].dates
+        holder.tagLinear.removeAllViews()
 
         GetBookmarkImage("FavoritePostList", holder.bookmark, PostList[position].number)
         holder.bookmark.setOnClickListener {
@@ -63,7 +62,7 @@ class CommunityAdaptor(
         }
 
         var service = PublicRetrofit.retrofit.create(LoadImage::class.java)
-        var tmp = ImageInfoForLoad(PostList[position].number, "ProfileImages")
+        var tmp = ImageInfoForLoad(PostList[position].usercode, "ProfileImages")
         service.loadImage(tmp).enqueue(object : Callback<ImageInfo?> {
             override fun onResponse(call: Call<ImageInfo?>, response: Response<ImageInfo?>) {
                 Log.d("ImgLoadingObj", "이미지 출력 성공")
@@ -160,18 +159,42 @@ class CommunityAdaptor(
         }
 
         var str : String = ""
-        if(PostList[position].tags == null) str = "1박2일,가족,경치,힐링,친구,맛집,행복,"
+        if(PostList[position].tags == null) str = "100,200,152,142,123"
         else str = PostList[position].tags
 
-        var parsedTAG = ParsingString(str)
+        var parsedTAG = str.split(",")
 
-        Log.d("태그", parsedTAG.toString())
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        var queryString = " WHERE "
         for (i in 0 until parsedTAG.size){
-            var view = inflater.inflate(R.layout.tag_item, holder.tagLinear, false)
-            view.findViewById<TextView>(R.id.tag_item_text).text =  "#"+ parsedTAG[i]
-            holder.tagLinear.addView(view)
+            queryString += " num=" + parsedTAG[i]
+            if(i != parsedTAG.size-1) queryString += " or "
         }
+
+        val serviceForTagDict = retrofit.create(GetTagDict::class.java)
+        serviceForTagDict.getTagDict("GetTagDict", "load", queryString)
+            .enqueue(object : Callback<ArrayList<TagDictSet>> {
+                override fun onFailure(call: Call<ArrayList<TagDictSet>>, t: Throwable) {
+                    Log.d("실패", t.toString())
+                }
+
+                override fun onResponse(
+                    call: Call<ArrayList<TagDictSet>>,
+                    response: Response<ArrayList<TagDictSet>>
+                ) {
+
+                    var returndata = response.body()
+                    if(returndata != null){
+                        Log.d("태그", parsedTAG.toString())
+                        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                        if(returndata.size != 0)
+                            for (i in 0 until returndata!!.size){
+                                var view = inflater.inflate(R.layout.tag_item, holder.tagLinear, false)
+                                view.findViewById<TextView>(R.id.tag_item_text).text =  "#"+ returndata!![i].name
+                                holder.tagLinear.addView(view)
+                            }
+                    }
+                }
+            })
 
         holder.itemView.setOnClickListener {
             implemented.setSelectedPostInfo("ComminityPostDetail", PostList[position])

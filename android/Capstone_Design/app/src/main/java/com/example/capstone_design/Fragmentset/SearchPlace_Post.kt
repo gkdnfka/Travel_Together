@@ -2,6 +2,7 @@ package com.example.capstone_design.Fragmentset
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -19,6 +20,7 @@ import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.R
 import com.example.capstone_design.Adapterset.SearchPlaceAdaptor_Post
 import com.example.capstone_design.Dataset.PostInfo
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import com.example.capstone_design.Interfaceset.SetSeletedPostInfo
 import retrofit2.Call
 import retrofit2.Callback
@@ -87,7 +89,15 @@ class SearchPlace_Post : Fragment()
                         Log.d("성공", "입출력 성공")
                         place_list = response.body()!!
                         if (place_list != null) {
-                            var SearchAdapter_Post = SearchPlaceAdaptor_Post(place_list, tmp.context)
+                            var Implemented = object : PlaceDetailPageInterface {
+                                override fun change(index: Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+                                    (activity as Activity).SelectedPlace = placeinfo
+                                    if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+                                    (activity as Activity)!!.changeFragment(index)
+                                }
+                            }
+
+                            var SearchAdapter_Post = SearchPlaceAdaptor_Post(place_list, tmp.context, Implemented)
                             listView.adapter = SearchAdapter_Post
                             SearchAdapter_Post.setItemClickListener(object : SearchPlaceAdaptor_Post.OnItemClickListener {
                                 override fun onClick(v: View, position: Int) {

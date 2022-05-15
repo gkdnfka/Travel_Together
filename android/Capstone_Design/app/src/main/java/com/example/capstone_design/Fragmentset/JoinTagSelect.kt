@@ -148,12 +148,16 @@ class JoinTagSelect(val join_name : String, val join_id : String, val join_passw
                         // 회원가입에 실패한 경우 success 객체의 변수 number 에  0보다 작은 값이 반환된다.
                         if (returndata!!.number == "1") {
                             (activity as MainActivity).supportFragmentManager.beginTransaction()
-                                .replace(R.id.login_and_join_frameLayout, FirstPage()).commit()
+                                .replace(R.id.login_and_join_frameLayout, SettingFragment()).commit()
                             Toast.makeText(
                                 (activity as MainActivity),
                                 "회원가입 완료.",
                                 Toast.LENGTH_SHORT
                             ).show()
+
+
+                            (activity as MainActivity).USER_PASSWORD = join_password
+                            (activity as MainActivity).USER_ID = join_id
                         } else if (returndata!!.number == "-1") Toast.makeText(
                             (activity as MainActivity),
                             "이미 존재하는 아이디입니다.",

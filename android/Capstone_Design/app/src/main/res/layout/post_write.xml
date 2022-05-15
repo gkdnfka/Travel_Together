@@ -15,16 +15,16 @@
         android:orientation="horizontal"
         android:weightSum="10"
         android:layout_weight="6">
+
         <ImageView
-            android:padding="5dp"
             android:id="@+id/post_write_exit"
-            android:layout_width="0dp"
+            android:layout_width="29dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="centerInside"
             android:background="@drawable/button_pressed"
-            android:src="@drawable/left_arrow"
-            />
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/left_arrow" />
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"

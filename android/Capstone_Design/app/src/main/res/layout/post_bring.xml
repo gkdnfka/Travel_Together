@@ -12,7 +12,7 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:gravity="center"
-        android:text="나의 여행 경로"
+        android:text="나의 여행 계획"
         android:textSize="30dp"
         android:textColor="#bee9c4"
         android:layout_weight="1"

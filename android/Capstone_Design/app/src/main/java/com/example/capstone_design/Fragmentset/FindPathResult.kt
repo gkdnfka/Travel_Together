@@ -183,7 +183,11 @@ class FindPathResult : Fragment(), OnMapReadyCallback, GoogleMap.OnPolylineClick
                                 var typeName = "default"
                                 val PostName = editText.text.toString()
                                 val service = (activity as Activity).retrofit.create(BringPost::class.java)
+<<<<<<< HEAD
                                 service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE, nowPathNumberStr,"","","","","").enqueue(object:
+=======
+                                service.bringPost(funcName, typeName,PostName,(activity as Activity).USER_CODE, nowPathNumberStr, "", "", "", "", "").enqueue(object:
+>>>>>>> 603ec1b5a5b4411a49604ce33fbe48d7a28a6b4b
                                     Callback<ArrayList<BringPostInfo>> {
                                     override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
                                         Log.d("실패", t.toString())

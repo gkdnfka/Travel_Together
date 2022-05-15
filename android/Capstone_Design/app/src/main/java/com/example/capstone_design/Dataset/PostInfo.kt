@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class PostInfo(
     @SerializedName("NOTICEBOARD_NUM")
     var number : String,
+    @SerializedName("USER_CODE")
+    var usercode : String,
     @SerializedName("USER_NAME")
     var username : String,
     @SerializedName("RATE")

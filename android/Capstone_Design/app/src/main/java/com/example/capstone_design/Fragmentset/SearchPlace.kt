@@ -1,6 +1,7 @@
 package com.example.capstone_design.Fragmentset
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -17,6 +18,7 @@ import com.example.capstone_design.Dataset.PlaceInfo
 import com.example.capstone_design.R
 import com.example.capstone_design.Adapterset.SearchPlaceAdaptor
 import com.example.capstone_design.Adapterset.SearchPlaceAdaptor_Post
+import com.example.capstone_design.Interfaceset.PlaceDetailPageInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -97,8 +99,15 @@ class SearchPlace : Fragment() {
                             Log.d("성공", "입출력 성공")
                             var returndata = response.body()
                             if (returndata != null) {
+                                var Implemented = object : PlaceDetailPageInterface {
+                                    override fun change(index: Int, placeinfo: PlaceInfo, bitmap: Bitmap?) {
+                                        (activity as Activity).SelectedPlace = placeinfo
+                                        if(bitmap != null) (activity as Activity).SelectedBitmap = bitmap
+                                        (activity as Activity)!!.changeFragment(index)
+                                    }
+                                }
                                 val SearchAdapter =
-                                    SearchPlaceAdaptor(returndata!!, (activity as Activity))
+                                    SearchPlaceAdaptor(returndata!!, (activity as Activity), Implemented)
 
                                 var manager = LinearLayoutManager(
                                     (activity as Activity),
@@ -112,7 +121,6 @@ class SearchPlace : Fragment() {
                                 }
                                 place_list = response.body()!!
                                 if (place_list != null) {
-                                    val SearchAdapter = SearchPlaceAdaptor(place_list, tmp.context)
                                     listView.adapter = SearchAdapter
                                 }
                             }

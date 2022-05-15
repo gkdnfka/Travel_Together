@@ -31,7 +31,6 @@ class JoinPage : Fragment()
         val join_id =  view.findViewById<EditText>(R.id.join_page_id_edit)
         val join_password =  view.findViewById<EditText>(R.id.join_page_password_edit)
         val join_gender =  view.findViewById<RadioGroup>(R.id.join_page_gender_select)
-        val join_address =  view.findViewById<EditText>(R.id.join_page_address_edit)
         val joinBtn = view.findViewById<Button>(R.id.join_page_join_btn)
         val backBtn = view.findViewById<ImageView>(R.id.join_page_back)
 
@@ -52,11 +51,11 @@ class JoinPage : Fragment()
             // @솔빈 2022-03-12 월
             // 취향 조사 페이지로 넘어가는 동작 구현
             if(join_name.text.toString() == "" || join_id.text.toString() == "" || join_password.text.toString() == ""
-                || gender == "" || join_address.text.toString() == ""){
+                || gender == ""){
                 Toast.makeText((activity as MainActivity), "회원 정보를 모두 입력해주세요. ", Toast.LENGTH_SHORT).show()
             }
             else{
-                (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, JoinTagSelect(join_name.text.toString(), join_id.text.toString(), join_password.text.toString(), gender, join_address.text.toString()) ).commit()
+                (activity as MainActivity).supportFragmentManager.beginTransaction().replace(R.id.login_and_join_frameLayout, JoinTagSelect(join_name.text.toString(), join_id.text.toString(), join_password.text.toString(), gender, "") ).commit()
             }
 
         }

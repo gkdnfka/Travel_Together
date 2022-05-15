@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
 import com.example.capstone_design.Dataset.PostInfo
+import com.example.capstone_design.Dataset.TagDictSet
 import com.example.capstone_design.Interfaceset.PostWriteInfo
 import com.example.capstone_design.R
 import com.nightonke.boommenu.BoomButtons.HamButton
@@ -39,7 +41,12 @@ class Community_Post_Write : Fragment()
         var pathtab = view.findViewById<LinearLayout>(R.id.post_write_path)
         var texttab = view.findViewById<LinearLayout>(R.id.post_write_text)
         var savebtn = view.findViewById<ImageView>(R.id.post_write_savebtn)
+        var backbtn = view.findViewById<ImageView>(R.id.post_write_exit)
 
+
+        backbtn.setOnClickListener {
+            mActivity.onBackPressed()
+        }
 
         pathtab.setOnClickListener {
             mActivity.changeFragment(8)
@@ -81,12 +88,22 @@ class Community_Post_Write : Fragment()
                 }
                 Course_insert += "/"
             }
+
+
+            var tagstr = ""
+            for (i in 0 until mActivity.sendingList.size){
+                tagstr += mActivity.sendingList[i].num
+                if(i != mActivity.sendingList.size-1){
+                    tagstr += ","
+                }
+            }
+
             // 2022-02-20 정지원 작업
             // postmain 부분은 str_title + str_content로 묶어서 데이터 전송
             // userdata 부분은 User_ID + User_NAME + User_CODE 로 묶어서 데이터 전송 이때 서버단계에서 ']'로 스플릿해서 사용
             // 2022-02-21 정지원 작업
             // Course_insert 삽입을 추가했음
-            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME,Course_insert).enqueue(object:Callback<ArrayList<PostInfo>> {
+            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME,Course_insert, tagstr).enqueue(object:Callback<ArrayList<PostInfo>> {
                 override fun onFailure(call : Call<ArrayList<PostInfo>>, t : Throwable){
                     Log.d("실패", t.toString())
                 }

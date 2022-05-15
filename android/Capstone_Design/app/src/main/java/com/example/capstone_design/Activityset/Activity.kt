@@ -6,21 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.capstone_design.*
-import com.example.capstone_design.Dataset.BringPostInfo
-import com.example.capstone_design.Dataset.PlaceInfo
-import com.example.capstone_design.Dataset.PlanInfo
-import com.example.capstone_design.Dataset.PostInfo
+import com.example.capstone_design.Dataset.*
 import com.example.capstone_design.Fragmentset.*
-import com.example.capstone_design.Interfaceset.BringPost
-import com.example.capstone_design.Interfaceset.SetSelectedBringPost
 import com.example.capstone_design.Util.FavoriteAddManager
 import com.example.capstone_design.Util.PublicRetrofit
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.naver.maps.map.overlay.Marker
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class Activity : AppCompatActivity() {
 
@@ -49,6 +40,13 @@ class Activity : AppCompatActivity() {
     var SelectedPostPlaceList = ArrayList<ArrayList<String>>()
     var SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
     var SelectedPostDone = 0
+
+
+    // isSelectedDetailTagClicked : 게시글 작성에서 사용되는 태그 체그 배열. 행은 Labelnum을 의미함. 각각의 원소는 0,1 둘 중 하나로 선택 여부 표현
+    // tagDictList :게시글 작성에서 사용되는 태그 체그 배열. 행은 Labelnum을 의미하고 각각의 원소는 TagDict 데이터 클래스 자체
+    var isSelectedDetailTagClicked = ArrayList<ArrayList<Int>>()
+    var tagDictList = ArrayList<ArrayList<TagDictSet>>()
+    var sendingList = ArrayList<TagDictSet>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -241,6 +239,13 @@ class Activity : AppCompatActivity() {
 
             15->{
                 ReplaceFragment("TagUpdate",TagUpdate(),R.id.MainFrameLayout)
+            }
+
+            16->{
+                ReplaceFragment("TagSelect",TagSelect(),R.id.MainFrameLayout)
+            }
+            17->{
+                ReplaceFragment("Recommend", Recommend_Post(), R.id.MainFrameLayout)
             }
             // 2022-02-20 정지원 작업
             // 프래그먼트 매니저 탐색해서 프래그먼트 스택을 전부 삭제시켜주는 기능추가

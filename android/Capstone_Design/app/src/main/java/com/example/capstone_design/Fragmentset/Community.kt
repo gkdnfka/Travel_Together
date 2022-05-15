@@ -30,6 +30,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import android.text.Editable
 import com.dinuscxj.refresh.RecyclerRefreshLayout
+import com.example.capstone_design.Dataset.TagDictSet
 import com.nightonke.boommenu.BoomButtons.HamButton
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener
 import com.nightonke.boommenu.BoomMenuButton
@@ -198,6 +199,8 @@ class Community : Fragment()
         for(i in 0..communityTool.piecePlaceEnum.pieceNumber()){
             if(i == 0)
             {
+                mActivity.isSelectedDetailTagClicked = ArrayList<ArrayList<Int>>()
+                mActivity.tagDictList = ArrayList<ArrayList<TagDictSet>>()
                 val builder = HamButton.Builder().listener(OnBMClickListener {
                     mActivity.changeFragment(6)
                     mActivity.reset_value()
@@ -208,9 +211,17 @@ class Community : Fragment()
             if(i == 1)
             {
                 val builder = HamButton.Builder().listener(OnBMClickListener {
-                    mActivity.changeFragment(15)
+                    mActivity.changeFragment(17)
                     mActivity.reset_value()
-                }).normalText("취향 태그 수정하기ㅁ").normalImageRes(R.drawable.content_route)
+                }).normalText("게시글 추천").normalImageRes(R.drawable.content_route)
+                    .imagePadding(Rect(30,30,30,30)).textSize(17)
+                communityTool.addBuilder(builder)
+            }
+            if(i == 2)
+            {
+                val builder = HamButton.Builder().listener(OnBMClickListener {
+                    mActivity.reset_value()
+                }).normalText("여행지 추천").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)
                 communityTool.addBuilder(builder)
             }

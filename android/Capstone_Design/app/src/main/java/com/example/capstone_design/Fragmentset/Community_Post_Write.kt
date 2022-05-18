@@ -91,7 +91,15 @@ class Community_Post_Write : Fragment()
 
 
             var tagstr = ""
+            var labelstr = ""
+            var LabelChk = ArrayList<String>()
             for (i in 0 until mActivity.sendingList.size){
+                if(LabelChk.contains(mActivity.sendingList[i].labelnum) == false) {
+                    LabelChk.add(mActivity.sendingList[i].labelnum)
+                    var tstr = ""
+                    if(LabelChk.size != 1) tstr += ","
+                    labelstr += tstr + mActivity.sendingList[i].labelnum
+                }
                 tagstr += mActivity.sendingList[i].num
                 if(i != mActivity.sendingList.size-1){
                     tagstr += ","
@@ -103,7 +111,7 @@ class Community_Post_Write : Fragment()
             // userdata 부분은 User_ID + User_NAME + User_CODE 로 묶어서 데이터 전송 이때 서버단계에서 ']'로 스플릿해서 사용
             // 2022-02-21 정지원 작업
             // Course_insert 삽입을 추가했음
-            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME,Course_insert, tagstr).enqueue(object:Callback<ArrayList<PostInfo>> {
+            service.postwriteinfo(funcName, typeName, str_Title+']'+str_Content, User_CODE.toString()+']'+User_NAME,Course_insert, tagstr , labelstr).enqueue(object:Callback<ArrayList<PostInfo>> {
                 override fun onFailure(call : Call<ArrayList<PostInfo>>, t : Throwable){
                     Log.d("실패", t.toString())
                 }

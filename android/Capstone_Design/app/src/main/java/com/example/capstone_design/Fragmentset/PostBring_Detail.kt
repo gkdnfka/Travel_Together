@@ -68,9 +68,9 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     val path = PathOverlay()
     lateinit var myNaverMap: NaverMap
-
     lateinit var dtInfo : PlaceInfo
 
+    var endFlag = 0
     var dayIndex = 0
     var courseIndex = 0
 
@@ -116,12 +116,13 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
         bringTool.piecePlaceEnum = PiecePlaceEnum.DOT_3_4
         bringTool.buttonPlaceEnum = ButtonPlaceEnum.SC_3_4
 
-        if(coursePlaceList[dayIndex][courseIndex].name != ""){
+        if(coursePlaceList[dayIndex].size > courseIndex){
             dtInfo = coursePlaceList[dayIndex][courseIndex]
             detailDestination.text = dtInfo.name
         }
         else {
             detailDestination.text = "여행끝"
+            endFlag = 1
         }
         // 편의점 버튼 클릭시 동작
         store1.setOnClickListener {
@@ -382,22 +383,26 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                     if(courseList[dayIndex][courseIndex + 1] == ""){
                         if(courseList[dayIndex+1][0] == "")
                         {
-                            courseIndex += 1
-                            detailDestination.text = "여행끝"
-                            val funcName = "BringPostPut"
-                            val typeName = "update"
-                            bringCurrentCount += 1
-                            var bringpercent = (bringCurrentCount.toFloat()/bringOverallPlace.toFloat()) * 100
-                            Log.d("update1", bringOverallPlace.toString()+" "+bringCurrentCount.toString() +" "+ bringpercent.toString())
-                            service2.bringPost(funcName, typeName,travelInfo.postname,travelInfo.usercode,travelInfo.course,travelInfo.seq,Math.round(bringpercent).toString(),dayIndex.toString(),courseIndex.toString(),bringCurrentCount.toString()).enqueue(object:Callback<ArrayList<BringPostInfo>> {
-                                override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
-                                    Log.d("실패", t.toString())
-                                }
-                                override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
-                                    Log.d("성공", "입출력 성공")
-                                    Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
-                                }
-                            })
+                            if(detailDestination.text != "여행끝")
+                            {
+                                courseIndex += 1
+                                detailDestination.text = "여행끝"
+                                val funcName = "BringPostPut"
+                                val typeName = "update"
+                                bringCurrentCount += 1
+                                var bringpercent = (bringCurrentCount.toFloat()/bringOverallPlace.toFloat()) * 100
+                                Log.d("update1", bringOverallPlace.toString()+" "+bringCurrentCount.toString() +" "+ bringpercent.toString())
+                                service2.bringPost(funcName, typeName,travelInfo.postname,travelInfo.usercode,travelInfo.course,travelInfo.seq,Math.round(bringpercent).toString(),dayIndex.toString(),courseIndex.toString(),bringCurrentCount.toString()).enqueue(object:Callback<ArrayList<BringPostInfo>> {
+                                    override fun onFailure(call : Call<ArrayList<BringPostInfo>>, t : Throwable){
+                                        Log.d("실패", t.toString())
+                                    }
+                                    override fun onResponse(call: Call<ArrayList<BringPostInfo>>, response: Response<ArrayList<BringPostInfo>>) {
+                                        Log.d("성공", "입출력 성공")
+                                        Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                            }
+
                         }
                         else{
                             dayIndex += 1
@@ -503,13 +508,16 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             myLocationY = it.longitude
             Log.d("Log",myLocationX.toString() + " " + myLocationY.toString())
         }
-        destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
-        destinationMarker.map = myNaverMap
-        destinationMarker.icon = MarkerIcons.BLACK
-        destinationMarker.iconTintColor = Color.RED
-        destinationMarker.captionText = "여행목적지"
-        destinationMarker.captionTextSize = 16f
-        destinationMarker.setCaptionAligns(Align.Top)
+        if(endFlag != 1){
+            destinationMarker.position = LatLng(dtInfo.PosY.toDouble(),dtInfo.PosX.toDouble())
+            destinationMarker.map = myNaverMap
+            destinationMarker.icon = MarkerIcons.BLACK
+            destinationMarker.iconTintColor = Color.RED
+            destinationMarker.captionText = "여행목적지"
+            destinationMarker.captionTextSize = 16f
+            destinationMarker.setCaptionAligns(Align.Top)
+        }
+
         if((activity as Activity).convenienceFlag== 1){
             (activity as Activity).convenienceMarker.map = myNaverMap
         }

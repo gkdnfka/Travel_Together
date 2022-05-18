@@ -361,7 +361,9 @@ app.get('*', (request, response) => {
                 postLabels = JSON.stringify(labeldata)
                 
                 var moduleName = 'recommend_module.py'
+                
                 var pythonShell = require('python-shell');
+                console.log(pythonShell)
                 var options = {
                     mode: 'text',
                     pythonPath: '',
@@ -369,10 +371,10 @@ app.get('*', (request, response) => {
                     scriptPath: '',
                     args: [userTaste, postLabels]
                 };
-
+             
                 pythonShell.PythonShell.run(moduleName, options, function (err, results) {
                     if(err) {
-                        throw err
+                        console.log(err)
                     }
                     var getPostQuery = "SELECT * FROM NOTICEBOARD_DB WHERE NOTICEBOARD_NUM IN ("    
                     var isAllZero = true
@@ -682,12 +684,11 @@ app.post('/load*', upload.single('load'), (req, res) => {
 
 
     console.log(req.method)
-<<<<<<< HEAD
     var filepath = type + "\\" + number
-=======
+
     var filepath = type + "/" + number
     //var filepath = ".node_test\\" + type + "\\" + number
->>>>>>> cc05bdc3b285b7c27ad0488b4d808bff001efa4e
+
     if (type == "ProfileImages") filepath += '_Profile.jpeg'
     else if (type == "PlaceImages") filepath += '.jpeg'
 

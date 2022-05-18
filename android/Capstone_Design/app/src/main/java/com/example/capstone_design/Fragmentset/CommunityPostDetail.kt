@@ -134,18 +134,6 @@ class CommunityPostDetail : Fragment()
     }
 
     // @솔빈  2022-01-29 (토)
-    // ---변수 ---
-    // course -> 이동 경로 문자열을 저장하는 변수
-    // courseList -> 행이 일(day)차, 열이 경로를 나타내는 2차원 배열
-    // posList -> 각각의 여행지의 x,y 좌표를 저장하는 3차원 배열
-    // dayCount -> 여행 일수
-
-    private var course : String = ""
-    private val maxDayLength = 20
-    private val maxPlaceLength = 50
-    var daycount : Int = 0
-
-    // @솔빈  2022-01-29 (토)
     // ---함수 설명---
     // ParseCourseList -> 자세히 보기 기능이 선택된 게시글의 이동경로 문자열을 파싱하는 함수.
     // 결과적으로 courseList 에 (행 : 날짜, 열 : 여행지 번호)로 값이 초기화됨.
@@ -187,7 +175,7 @@ class CommunityPostDetail : Fragment()
     // DB에 쿼리문을 날려서 각각의 여행지의 좌표를 불러오고, placeinfoList에 저장한다.
     private fun loadPosList(){
         var mActivity = (activity as Activity)
-        //mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
+        mActivity.SelectedPostPlaceInfoList = ArrayList<ArrayList<PlaceInfo>>()
         val service = (activity as Activity).retrofit.create(GetPlaceInfo::class.java)
 
         var isize = mActivity.SelectedPostPlaceList.size

@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Design"
         android:name=".Util.FavoriteAddManager"
+
         >
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

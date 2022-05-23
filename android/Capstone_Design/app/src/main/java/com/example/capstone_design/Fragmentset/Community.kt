@@ -206,6 +206,7 @@ class Community : Fragment()
                     mActivity.reset_value()
                 }).normalText("게시글 작성").normalImageRes(R.drawable.content_write)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)
+                    .normalColorRes(R.color.main_theme)
                 communityTool.addBuilder(builder)
             }
             if(i == 1)
@@ -215,16 +216,10 @@ class Community : Fragment()
                     mActivity.reset_value()
                 }).normalText("게시글 추천").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(17)
+                    .normalColorRes(R.color.main_default)
                 communityTool.addBuilder(builder)
             }
-            if(i == 2)
-            {
-                val builder = HamButton.Builder().listener(OnBMClickListener {
-                    mActivity.reset_value()
-                }).normalText("여행지 추천").normalImageRes(R.drawable.content_route)
-                    .imagePadding(Rect(30,30,30,30)).textSize(17)
-                communityTool.addBuilder(builder)
-            }
+
         }
         return view
     }

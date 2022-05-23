@@ -87,9 +87,9 @@
             android:layout_weight="1.5"
             android:layout_gravity="right|bottom"
             app:bmb_buttonEnum="ham"
-            app:bmb_buttonPlaceEnum="buttonPlace_ham_3"
+            app:bmb_buttonPlaceEnum="buttonPlace_ham_2"
             app:bmb_normalColor="#AFCB3D"
-            app:bmb_piecePlaceEnum="piecePlace_ham_3"/>
+            app:bmb_piecePlaceEnum="piecePlace_ham_2"/>
     </FrameLayout>
 
 

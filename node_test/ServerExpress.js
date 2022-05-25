@@ -686,13 +686,10 @@ app.post('/load*', upload.single('load'), (req, res) => {
 
     console.log(req.method)
     var filepath = type + "\\" + number
-<<<<<<< HEAD
 
     var filepath = type + "/" + number
     //var filepath = ".node_test\\" + type + "\\" + number
 
-=======
->>>>>>> 2462e11cd44c1a493f8167861d22581108247789
     if (type == "ProfileImages") filepath += '_Profile.jpeg'
     else if (type == "PlaceImages") filepath += '.jpeg'
 

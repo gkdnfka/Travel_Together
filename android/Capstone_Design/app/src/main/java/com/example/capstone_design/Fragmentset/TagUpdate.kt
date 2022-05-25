@@ -103,7 +103,7 @@ class TagUpdate() : Fragment() {
 
                         selectCnt = SelectedIdx.size
                         val SelectViewAdapter =
-                            TagSelectAdaptor(mActivity, returndata!!, SelectedIdx)
+                            TagSelectAdaptor(mActivity, returndata!!, isTagClicked)
 
                         var manager = GridLayoutManager(
                             mActivity,

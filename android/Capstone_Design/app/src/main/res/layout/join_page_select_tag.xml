@@ -7,11 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:layout_weight="100"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         >
         <ImageView
             android:layout_marginLeft="50dp"
@@ -25,8 +27,9 @@
     <TextView
         android:id="@+id/join_page_select_tag_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="본인에게 알맞은 태그를 골라주세요\n(최대 5개)."
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:text="선호하시는 태그를 골라주세요\n(최대 5개)."
         android:textColor="@color/black"
         android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +42,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="70"
         android:layout_marginTop="20dp"
         android:id="@+id/tag_select_view"
         android:scrollbars="vertical"
@@ -50,9 +54,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="50dp"
+        android:layout_weight="10"
         app:cardCornerRadius="15dp"
+        android:layout_marginBottom="35dp"
         >
 
         <androidx.appcompat.widget.AppCompatButton
@@ -61,14 +67,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:background="#BEE9B4"
-
             android:text="회원가입"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.831" />
+            android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 

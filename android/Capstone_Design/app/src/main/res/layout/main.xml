@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:weightSum="100"
             android:orientation="vertical"
             >
 
@@ -33,7 +34,8 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="27"
                 android:layout_margin="5dp"
                 app:cardElevation="50dp"
                 app:cardCornerRadius="5dp"
@@ -52,7 +54,7 @@
                         android:layout_height="20dp"
                         android:textStyle="bold"
                         android:textSize="17dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/myblack"
                         android:text="이달의 인기 여행지" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -70,7 +72,8 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="80"
                 android:layout_margin="5dp"
                 app:cardElevation="50dp"
                 app:cardCornerRadius="5dp"
@@ -81,21 +84,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
+
                     <TextView
-                        android:layout_margin="3dp"
                         android:id="@+id/main_test_recent_post"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:textStyle="bold"
+                        android:layout_margin="3dp"
+                        android:text="이달의 인기 여행계획"
+                        android:textColor="@color/myblack"
                         android:textSize="17dp"
-                        android:textColor="@color/black"
-                        android:text="이달의 인기 여행계획" />
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_margin="3dp"
                         android:id = "@+id/main_monthly_post_recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal"
                         >
                     </androidx.recyclerview.widget.RecyclerView>

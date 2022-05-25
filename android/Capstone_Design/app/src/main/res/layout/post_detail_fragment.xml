@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerInside"
+            android:backgroundTint="@color/myblack"
             android:background="@drawable/button_pressed"
             android:src="@drawable/left_arrow"
             />
@@ -34,7 +35,7 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:background="@drawable/button_pressed"
-            android:tint="@color/black"
+            android:tint="@color/myblack"
             android:src="@drawable/add_icon_new"
             />
     </LinearLayout>

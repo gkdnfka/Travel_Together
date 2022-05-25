@@ -120,14 +120,16 @@ class TagSelect() : Fragment()
                                                     override fun onClick(v: View, position: Int) {
                                                         if(isSelectedDetailTagClicked[selectedIndex+1][position] == 0) {
                                                             isSelectedDetailTagClicked[selectedIndex+1][position] = 1
-                                                            tmp.notifyDataSetChanged()
+                                                            v.findViewById<TextView>(R.id.tag_item_text).setBackgroundColor(Color.parseColor("#A0E7E5"))
                                                         }
                                                         else {
                                                             isSelectedDetailTagClicked[selectedIndex+1][position] = 0
-                                                            tmp.notifyDataSetChanged()
+                                                            v.findViewById<TextView>(R.id.tag_item_text).setBackgroundColor(Color.parseColor("#D5E6C4"))
                                                         }
                                                     }
                                                 })
+
+
 
                                                 var manager = GridLayoutManager((activity as Activity),
                                                     3)

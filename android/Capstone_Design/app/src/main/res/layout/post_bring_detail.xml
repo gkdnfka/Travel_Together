@@ -126,28 +126,7 @@
                         android:textSize="13dp"
                         android:minHeight="0dp"
                         android:text="음식점" />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="70dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/btn_background"
-                        android:drawableStart="@drawable/cafe"
-                        android:id="@+id/caFe4"
-                        android:minWidth="0dp"
-                        android:layout_marginLeft="8dp"
-                        android:textSize="13dp"
-                        android:minHeight="0dp"
-                        android:text="임시" />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="70dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/btn_background"
-                        android:drawableStart="@drawable/cafe"
-                        android:id="@+id/caFe5"
-                        android:minWidth="0dp"
-                        android:layout_marginLeft="8dp"
-                        android:textSize="13dp"
-                        android:minHeight="0dp"
-                        android:text="임시" />
+
 
                 </LinearLayout>
 

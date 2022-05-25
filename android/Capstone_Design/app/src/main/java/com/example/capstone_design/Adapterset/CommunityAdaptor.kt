@@ -159,7 +159,7 @@ class CommunityAdaptor(
         }
 
         var str : String = ""
-        if(PostList[position].tags == null) str = "100,200,152,142,123"
+        if(PostList[position].tags == null) str = ""
         else str = PostList[position].tags
 
         var parsedTAG = str.split(",")

@@ -18,8 +18,7 @@ object PublicRetrofit {
     // 서버 주소로 바꾸려면
     // -> baseUrl을 http://ec2-13-124-93-31.ap-northeast-2.compute.amazonaws.com:8080/
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://192.168.252.247:8080/")
-        //.baseUrl("http://ec2-13-124-93-31.ap-northeast-2.compute.amazonaws.com:8080/")
+        .baseUrl("http://ec2-13-124-93-31.ap-northeast-2.compute.amazonaws.com:8080/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

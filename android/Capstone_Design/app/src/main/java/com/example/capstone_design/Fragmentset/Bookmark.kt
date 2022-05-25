@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstone_design.Activityset.Activity
@@ -210,8 +211,13 @@ class Bookmark : Fragment()
         btn.layoutParams = lp
 
         btn.setOnClickListener {
-            (activity as Activity).SelectedPlaceFlag = 0
-            (activity as Activity).changeFragment(13)
+            if((activity as Activity).SelectedPlaceList.size != 0){
+                (activity as Activity).SelectedPlaceFlag = 0
+                (activity as Activity).changeFragment(13)
+            }
+            else{
+                Toast.makeText((activity as Activity), "여행지를 먼저 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
         ly.addView(btn)
     }

@@ -45,7 +45,7 @@ class Community_Post_Write : Fragment()
 
 
         backbtn.setOnClickListener {
-            mActivity.onBackPressed()
+            mActivity.changeFragment(3)
         }
 
         pathtab.setOnClickListener {

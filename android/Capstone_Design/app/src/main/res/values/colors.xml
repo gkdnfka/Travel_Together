@@ -14,6 +14,7 @@
     <color name="bookmark"> #EEF3E9 </color>
     <color name="myblue"> #FF556DF4 </color>
     <color name="orange"> #BBBBE454 </color>
+    <color name="myblack"> #53504E</color>
 
 
 </resources>

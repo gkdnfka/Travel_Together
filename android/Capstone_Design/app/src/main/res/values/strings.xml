@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Capstone_Design</string>
+    <string name="app_name">Travel_Together</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="address">http://192.168.219.105:8080/</string>

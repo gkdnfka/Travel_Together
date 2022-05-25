@@ -177,7 +177,7 @@ class TagUpdate() : Fragment() {
                             var returndata = response.body()
                             if (returndata!!.number == "1") {
                                 Toast.makeText(mActivity, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                                (activity as Activity).changeFragment(16)
+                                (activity as Activity).onBackPressed()
                             } else if (returndata!!.number == "-1") {
                                 Toast.makeText(mActivity, "수정에 실패했습니다.", Toast.LENGTH_SHORT).show()
                             }

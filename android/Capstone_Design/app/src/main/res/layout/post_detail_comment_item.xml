@@ -33,7 +33,7 @@
             android:layout_margin="15dp"
             android:layout_weight="6"
             android:background="@drawable/send"
-            android:backgroundTint="@color/black" />
+            android:backgroundTint="@color/myblack" />
 
 
     </LinearLayout>

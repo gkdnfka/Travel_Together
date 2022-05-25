@@ -342,7 +342,19 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             if(i == 0)
             {
                 val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
-                    drawcourse()
+                    if(coursePlaceList[dayIndex].size > courseIndex){
+                        if(myLocationX == 0.0 && myLocationY == 0.0)
+                        {
+                            Toast.makeText(view.context,"위치갱신 이후에 진행해 주세요!",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            drawcourse()
+                        }
+
+                    }
+                    else{
+                        Toast.makeText(view.context, "여행이 종료되었기에 경로탐색이 불가능합니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }).normalText("경로탐색").normalImageRes(R.drawable.content_route)
                     .imagePadding(Rect(30,30,30,30)).textSize(15)
                 bringTool.addBuilder(builder)
@@ -379,7 +391,9 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
             if(i == 2)
             {
                 val service2 = retrofit.create(BringPost::class.java)
+
                 val builder = TextOutsideCircleButton.Builder().listener(OnBMClickListener {
+                    path.map = null
                     if(courseList[dayIndex][courseIndex + 1] == ""){
                         if(courseList[dayIndex+1][0] == "")
                         {
@@ -401,6 +415,9 @@ class PostBringDetail : Fragment(), OnMapReadyCallback {
                                         Toast.makeText(view.context, "포스트 추가 완료", Toast.LENGTH_SHORT).show()
                                     }
                                 })
+                            }
+                            else{
+                                Toast.makeText(view.context,"여행이 종료되었습니다.",Toast.LENGTH_SHORT).show()
                             }
 
                         }

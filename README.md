@@ -1,4 +1,13 @@
 # Travel_Together
+## 0. 테스트 환경
+<pre><code>{
+    object PublicRetrofit {
+    var retrofit   = Retrofit.Builder()
+        //TODO .baseUrl("Server IP")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+}</code></pre>
+
 ## 1. 개요
 해당 프로젝트는 2021학년도 2학기부터 실시되는 인천대학교 컴퓨터공학부 캡스톤디자인에 해당하는 프로젝트로  
 최종 결과물은 2022학년도 1학기 실시되는 졸업작품 발표회에 출품 될 예정입니다.  
@@ -33,13 +42,28 @@ Data: Python, Anaconda3, TensorFlow, TensorFlow Lite
 12/22 ~ 22/01/01: 실제 개발 전 API/DB/Data/Sever 플랫폼 및 개발 도구 선정  
 AWS/UI Tool/Google Maps
 <br/>
-### 2.2 개발과정
+### 2.2 개발과정(commit history)
 01/02 ~ 01/16: 관광지 API데이터 DB에 저장/모델 Input data(tensor) 규격 확정/DB Table 구축/Google Maps API 적용/node.js 사용해 통신서버 구축  
 01/19 ~ 01/30: 데이터 정형화 완료/App - DB 통신 확인/게시판 구현/App 내 화면 전환을 Fragment(hide/show)를 통해 개발  
 02/06 ~ 02/19: 데이터 모델 튜닝/TensorFlow Lite(TFLite) 모델로 변환/여행지 간 경로 추적 알고리즘 적용  
 02/19 ~ 02/26: TFLite 테스트/댓글 기능 구현/스케쥴 관리 구현  
+03/03: 게시글 작성 기능, 회원가입  로그인 기능, 여행지 간 최단 경로 기능 추가  
+03/07: boomMenu Opensource(repo: https://github.com/Nightonke/BoomMenu) 적용  
+03/10: 내부 Layout의 부모 Layout을 Linear Layout으로 변경 및 UI 대폭 수정.  
+03/10: tf lite 모델 App에 탑재.
+03/11~04/20: 취향-여행지 추천 모델 데이터 수정 및 모델 튜닝.
+03/15: 기존 Node.js 서버 모듈을 express library 기반의 모듈로 수정.  
+03/25: 여행지 이미지 파싱 후 추가, 여행지 세부정보 fragment  
+03/30: 게시글/댓글 Item에 cardview 적용.  
+04/05: UI 개선(북마크, 최단경로, 검색)  
+04/08: 네이버 Map Api를 통한 여행하기 기능 구현.
+04/20: 수업 중 피드백을 통해 기존 TensorFlow모델 폐기 및 새로운 추천 알고리즘 기획  
+05/08: 여행하기 기능 내 주변 편의점/숙소 등 편의시설 찾기 기능 추가.  
+05/08: 사용자 취향 변경 Fragment 구현.  
+05/13: 사용자 취향 Tag 기반의 User-Item 관계 행렬을 통한 추천 방식 구현. (서버 내 Python 모듈 호출)  
+
 ## 3. 데이터 셋 구축
-<https://forms.gle/4Da2Lvkz6UBcEf2E8>   
+~~<https://forms.gle/4Da2Lvkz6UBcEf2E8>  
 해당 설문조사지를 통해 유저의 취향과 관광지 간의 연결성을 찾으려고 합니다.  
 해당 설문은 약 160여 명의 분들이 21/12/22~22/01/13의 기간 동안 참가해주셨습니다. <br/>
 Data Directory의 data_visualization 파일의 경우 설문조사 결과를 구글에서 지원해주는   
@@ -53,4 +77,24 @@ Data Directory의 data_visualization 파일의 경우 설문조사 결과를 구
 위의 두 카테고리는 성별에 따라 큰 차이를 보이진 않았습니다만,   
 ![gender_activity](./markdown_images/gender_activity.png)![gender_perform](./markdown_images/gender_perform.png)  
 이 지표 들은 차이를 보여줌으로서 "성별"이라는 지표가 저희 프로젝트에 효용성이 있다고 판단했습니다.  
-이와 동시에 "맛집"이라는 카테고리는 비 선호 비율이 너무 적어 지표로 쓰기에 어렵다고 판단해 러닝 모델을 학습시키는 요소에서 제외시켰습니다.
+이와 동시에 "맛집"이라는 카테고리는 비 선호 비율이 너무 적어 지표로 쓰기에 어렵다고 판단해 러닝 모델을 학습시키는 요소에서 제외시켰습니다.~~  
+이후 개발 중 해당 데이터가 실효성이 있는가에 대한 피드백과 팀 내 회의에 따라 폐기처분. 해당 repo에는 데이터를 남겨놓음.
+## 4. 추천 시스템
+3의 사용자 데이터를 통해 러닝 모델에 의한 추천은 데이터의 실효성이 불분명 함으로 사용 불가.  
+따라서 새로운 추천 시스템을 구현해야 했습니다.   
+이를 위해, 기존에 사용되던 추천 알고리즘인 협업 필터링(Collaborative filtering) 기법 중 행렬을  
+통한 추천시스템을 고안했고 이를 적용했습니다. 이미지를 통해 예시를 보자면,   
+![user_tag](./markdown_images/usertag.png)
+사용자의 취향은 저희가 임의로 구분한 29가지 취향으로 분석하게 됩니다.  
+위의 이미지는 39번 사용자가 0과 22라고 표현된 취향을 갖고 있음을 의미합니다.  
+유저는 최소 1개에서 5개의 취향을 갖게됩니다.  
+![item_tag](./markdown_images/ItemTag.png)  
+이 이미지는 각 게시물이 갖고 있는 취향을 의미합니다.  
+LABELS라고 표현되어 있으며, 각 게시물은 최소 1개의 취향을 갖게됩니다.
+이를 사용자의 취향 행렬과 곱연산이 가능하도록 변환하면,
+![item_trans](./markdown_images/ItemTag_trans.png)  
+다음과 같은 N*29 (N은 게시물의 개수) 크기의 행렬로 표현됩니다.  
+![result](./markdown_images/Result.png)  
+둘을 곱하게 되면 39번 사용자가 각 게시물과 얼마만큼 취향이 맞는지 수치로 표현됩니다.  
+이미지 중 위쪽은 계산 직후, 아래는 사용자의 취향 갯수(예시는 2)만큼 비율로 환산했습니다.  
+이 수치가 0.5이상일 경우 사용자는 게시글을 추천 받을 수 있습니다.

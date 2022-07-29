@@ -15,10 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 // @ 솔빈 2022-03-19 (토)
 // 이미지 불러오는 객체(싱글톤 방식) 선언
 object PublicRetrofit {
-    // 서버 주소로 바꾸려면
-    // -> baseUrl을 http://ec2-13-124-93-31.ap-northeast-2.compute.amazonaws.com:8080/
     var retrofit   = Retrofit.Builder()
-        .baseUrl("http://ec2-13-124-93-31.ap-northeast-2.compute.amazonaws.com:8080/")
+        //TODO .baseUrl("Server IP")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

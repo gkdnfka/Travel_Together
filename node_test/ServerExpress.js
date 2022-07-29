@@ -6,8 +6,8 @@ var url = require('url');
 var querystring = require('querystring');
 const mysql = require('mysql');  // mysql 모듈 로드
 const conn = {  // mysql 접속 설정
-    host: '13.124.93.31',
-    port: '3306',
+    host: 'DB IP',
+    port: 'DB Port',
     user: 'ID',
     password: '1234',
     database: 'CapDB'

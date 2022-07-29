@@ -18,10 +18,12 @@
         >
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="oa30nfihnk" />
+            android:value="    "/>
+            //TODO You must need Naver Maps Client ID
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBbshQJXIcXtaMpUm9ISV99utjCMFW5BZo" />
+            android:value="" />
+            //TODo You Must need google API_KEY
 
         <meta-data
             android:name="com.google.android.gms.version"
